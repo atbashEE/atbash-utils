@@ -1,0 +1,16 @@
+Atbash utils - A set of utilities for Java SE, CDI, CDI test, JSF, etc ...
+
+Copyright 2018 by Rudy De Busscher
+
+------------------------------------------------------------------------
+See the file LICENSE
+------------------------------------------------------------------------
+
+Some classes or methods of this software were originally based on the following:
+* Apache Shiro
+  https://github.com/apache/shiro.git
+  under Apache License, v2.0
+
+* Nimbus JOSE + JWT
+  https://bitbucket.org/connect2id/nimbus-jose-jwt/src
+  under Apache License, v2.0

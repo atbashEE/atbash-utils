@@ -1,0 +1,188 @@
+= CDI utils
+Rudy De Busscher <rdebusscher@gmail.com>
+v0.9.0, ??/??/2018
+
+== Release notes
+
+=== 0.9.0
+
+* Initial version
+
+
+== Setup
+
+Add the following artifact to your maven project file for using the programmatic CDI utilities.
+
+    <dependency>
+        <groupId>be.atbash.utils</groupId>
+        <artifactId>utils-cdi</artifactId>
+        <version>0.9.0</version>
+    </dependency>
+
+When you want to use the fake CDI provider for testing purposes, you should add the following artifact.
+
+    <dependency>
+        <groupId>be.atbash.utils</groupId>
+        <artifactId>utils-cdi</artifactId>
+        <version>0.9.0</version>
+        <classifier>tests</classifier>
+        <scope>test</scope>
+    </dependency>
+
+== Requirements
+
+These utilities work only with CDI 1.1 (thus Java EE 7+)
+
+== Features
+
+=== Programmatic CDI bean retrieval
+
+Within those areas where you can't use CDI injection, or when you do not like to use the Instance type for injecting multiple or optional dependencies, you can use the _CDI.current()_ construct.
+
+The class **be.atbash.util.CDIUtils** has some handy utility methods using the _CDI.current()_ method.
+
+
+----
+be.atbash.util.CDIUtils#retrieveInstances(Class<T>, Annotation... )
+----
+
+Retrieves all CDI beans which can be assigned to the class **T**. It can be typically used for retrieving all beans which implement a certain interface or abstract parent class.
+The second, optional, argument is/are the _Qualifiers_ to restrict the list of beans.
+
+The method returns an immutable list.
+When no CDI bean matches the criteria, an empty list is returned.
+
+
+----
+be.atbash.util.CDIUtils#retrieveInstance(Class<T>, Annotation... )
+----
+
+This version expects that there is exactly 1 CDI bean which matches the criteria (class type and optionally the qualifiers). It is used to retrieve the CDI bean at a place where no CDI injection is possible.
+
+When there are no or multiple beans matching the parameters, the classic CDI exceptions _UnsatisfiedResolutionException_ and _AmbiguousResolutionException_ are thrown.
+
+
+----
+be.atbash.util.CDIUtils#retrieveOptionalInstance(Class<T>, Annotation... )
+----
+
+This variant of the _retrieveInstance_ method doesn't throw an exception when no matching bean is found but returns **null** instead.
+
+
+----
+be.atbash.util.CDIUtils#retrieveInstanceByName(String, Class<T>)
+----
+
+This method returns the CDI bean with a certain name (typically assigned to it with _@Named_).
+
+Important to know is that the CDI bean must be assignable to the class **T** through the _Class.isAssignableFrom()_ method. This is done in order to prevent a _ClassCastException_ when assigning the result to the generic type _T_.
+
+When the CDI bean is not assignable to the class or the bean name is not found, an _UnsatisfiedResolutionException_ is thrown.
+
+
+----
+be.atbash.util.CDIUtils#fireEvent(Object, Annotation... )
+----
+
+The above method will fire a CDI event programmatically, optionally give it the qualifiers along with it specified in the second parameter.
+
+----
+be.atbash.util.CDIUtils#getBeanManager()
+----
+
+Returns the **BeanManager** so that additional use-cases can be performed, other than the ones defined within the _CDIUtils_ class.
+
+
+=== Fake CDI provider
+
+The Fake CDI provider is created so that you can run unit tests on classes where you are using the **CDIUtils#retrievexxx()** methods described above.
+
+If you would run the unit test, it would try to access the CDI system which is of course not available within the test.  The class **be.atbash.util.BeanManagerFake** can provide these, most of the time fake, instances with the help of the _Mockito framework_.
+
+a typical usage scenario makes this much clearer.
+
+----
+@RunWith(MockitoJUnitRunner.class)
+public class SomeUnitTest {
+
+    @Mock
+    private Dependency dependencyMock;
+
+    private SomeUnit unitUnderTest;
+
+    private BeanManagerFake beanManagerFake;
+
+    @Before
+    public void setup() {
+        beanManagerFake = new BeanManagerFake();
+        // Register dependencies for all tests
+        beanManagerFake.registerBean(dependencyMock, Dependency.class);
+
+        unitUnderTest = new SomeUnit();
+    }
+
+    @After
+    public void tearDown() {
+        beanManagerFake.deregistration();
+    }
+
+    @Test
+    public void testSomething() {
+        // Register dependency for this test case only
+        //beanManagerFake.registerBean();
+
+        // Finish preparation
+        beanManagerFake.endRegistration();
+
+        when(dependencyMock.method()).thenReturn();
+
+        unitUnderTest.doSomething();
+        // Test your assumptions
+    }
+}
+----
+
+The above example is using the _MockitoJUnitRunner_ which is not needed in order to use the **BeanManagerFake** (but the class is using some Mockito methods under the hood). Here we use it to create a _Mock_ class of a dependency which is used by our system under test.
+
+----
+beanManagerFake.registerBean(dependencyMock, Dependency.class);
+----
+
+With the _registerBean()_ method, we can register a CDI bean instance (the _dependencyMock_) and define under which _Class_ (here the Dependency Class) this instance will be registered.
+
+Make sure that you register the instance with the correct Class (just as in a real system). The second parameter is there so that the developer can choose the class to which the instance is bound (the interface, the abstract class etc...). and just as in the real CDI system, an instance can be bound to multiple classes, just add these in the registration call.
+
+----
+beanManagerFake.registerBean(dependencyMock, Dependency.class, Object.class);
+----
+
+The registration of the beans is not enough to have a completely working system. Once all the beans are registered, you have to initialize the system by creating the required mocks for the CDI system. This is done by calling the method _endRegistration()_.
+
+----
+beanManagerFake.endRegistration();
+----
+
+
+In order to keep the different tests independently, that no CDI beans are left from the previous run, you need to reset the system by a call to _deregistration_. an ideal place to do this is the @After annotated method which runs after each test method.
+
+----
+    @After
+    public void tearDown() {
+        beanManagerFake.deregistration();
+    }
+----
+
+== Known issues
+
+The **BeanManagerFake** can't handle qualifiers for the moment.
+
+== Exceptions
+
+=== CDI-DEV-01
+
+When you ask for a named CDI bean (CDIUtils#retrieveInstanceByName), but you specified a null or empty parameter as bean name, this exception is thrown.
+
+=== CDI-DEV-51
+
+When you try to register a CDI bean with the Fake CDI system (BeanManagerFake#registerBean) but didn't specify any type to assign the instance to (the second parameter, actually a vararg forgotten)
+

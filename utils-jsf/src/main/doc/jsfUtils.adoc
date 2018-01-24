@@ -1,0 +1,133 @@
+= JSF utils
+Rudy De Busscher <rdebusscher@gmail.com>
+v0.9.0, ??/??/2018
+
+== Release notes
+
+=== 0.9.0
+
+* Initial version
+
+
+== Setup
+
+Add the following artifact to your maven project file for using the programmatic CDI utilities.
+
+    <dependency>
+        <groupId>be.atbash.utils</groupId>
+        <artifactId>utils-jsf</artifactId>
+        <version>0.9.0</version>
+    </dependency>
+
+
+== Requirements
+
+These utilities work only with JSF 2.x (thus Java EE 6+)
+
+== Features
+
+=== General JSF Utilities
+
+----
+be.atbash.util.JsfUtils#isRenderResponsePhase
+----
+
+verify we are in the render response phase.
+
+
+----
+be.atbash.util.JsfUtils#createMethodExpression(String, Class<?>, Class<?>... )
+----
+
+Creates a method expression (like #{bean.doSomething}) programmatically. The second parameter defines the return type, the last parameter are the parameters of the method.
+
+=== Component utilities
+
+Some utilities related to JSF components.
+
+----
+be.atbash.util.ComponentUtils#getValue(UIComponent, FacesContext)
+----
+
+Return the value of the **value** property. It first checks if there was a _value_ property defined with an EL expression on the component (_value="#{...}"_). If such a ValueExpression is found, it evaluates it. If this is not found and the UIComponent is a **ValueHolder** instance, it returns the 'hardcoded' value of _value_ property.
+
+
+----
+be.atbash.util.ComponentUtils#isRequired(UIComponent, FacesContext)
+----
+
+Returns the value of the **required** property or the default _false_ when such property is not specified for the component. It first checks if there was a _required_ property defined with an EL expression on the component (_required="#{...}"_). If such a ValueExpression is found, it evaluates it. If this is not found and the UIComponent is a **EditableValueHolder** instance, it returns the 'hardcoded' value of _required_ property.
+
+
+----
+be.atbash.util.ComponentUtils#getStyle(UIComponent, FacesContext)
+----
+
+Return the value of the **style** property. It first checks if there was a _style_ property defined with an EL expression on the component (_style="#{...}"_). If such a ValueExpression is found, it evaluates it. If this is not found and the UIComponent is a **HtmlInputText**, **HtmlSelectOneMenu** or **HtmlOutputLabel** instance, it returns the 'hardcoded' value of _style_ property.
+
+
+----
+be.atbash.util.ComponentUtils#getStyleClass(UIComponent, FacesContext)
+----
+
+Return the value of the **styleClass** property. It first checks if there was a _styleClass_ property defined with an EL expression on the component (_styleClass="#{...}"_). If such a ValueExpression is found, it evaluates it. If this is not found and the UIComponent is a **HtmlInputText**, **HtmlSelectOneMenu** or **HtmlOutputLabel** instance, it returns the 'hardcoded' value of _styleClass_ property.
+
+
+----
+be.atbash.util.ComponentUtils#getMaxLength(UIComponent, FacesContext)
+----
+
+Return the value of the **maxLength** property. It first checks if there was a _maxLength_ property defined with an EL expression on the component (_maxLength="#{...}"_). If such a ValueExpression is found, it evaluates it. If this is not found and the UIComponent is a **HtmlInputText** instance, it returns the 'hardcoded' value of _maxLength_ property.
+
+
+----
+be.atbash.util.ComponentUtils#getAttributeValue(UIComponent, String, Class<T>)
+----
+
+Return the attribute value named by the String parameter for custom a component. It looks for a 'fixed' value and an ValueExpression (#{...}). In the latter case the expression is evaluated. The third parameter defines the type of the attribute and is used as the generic type result.
+
+
+----
+be.atbash.util.ComponentUtils#findTargets(UIComponent, String)
+----
+
+Search _UIComponents_ with the JSF component tree. It is an adapted algorithm from the default available one from JSF and allows to search multiple targets (by performing the search multiple times, once for each id)
+
+It is an adapted algorithm in order to find the intended component when there are components with the same id (in different naming containers of course). But be aware that it may result in slower performance if the search starts 'at a not optimal place' within the component tree.
+This is the algorithm
+
+- When the target is empty, it returns the component (specified as parameter) itself.
+- When the target parameter contains multiple ids (separated with , ) the search is performed multiple times, once for each item found in the target parameter
+- The target is search by using the _UIComponent.findComponent()_ method.
+- When no match found, the search is performed again but now with the parent
+- This repeat continue until the root of the component tree is reached or a component is found.
+
+
+----
+be.atbash.util.ComponentUtils#processTargets(UIComponent, String, ComponentCallback)
+----
+// FIXME Review
+
+Search _UIComponents_ with the JSF component tree and for each component the **ComponentCallback** is called. It is an adapted algorithm from the default available one from JSF and allows to search multiple targets (by performing the search multiple times, once for each id)
+
+It is an adapted algorithm in order to find the intended component when there are components with the same id (in different naming containers of course). But be aware that it may result in slower performance if the search starts 'at a not optimal place' within the component tree.
+This is the algorithm
+
+- When the target is empty, it returns the component (specified as parameter) itself.
+- When the target parameter contains multiple ids (separated with , ) the search is performed multiple times, once for each item found in the target parameter
+- The target is search by using the _UIComponent.findComponent()_ method.
+- When no match found, the search is performed again but now with the parent
+- This repeat continue until the root of the component tree is reached or a component is found.
+
+The method **handle** has a custom component parameter flag. When the target is not found, the component itself is used as parameter with the custom componet flag set.
+
+== Exceptions
+
+=== JSF-DEV-01
+
+When using the _ComponentUtils#findTargets_ or _ComponentUtils#processTargets_ with an invalid search id.
+
+Examples of wrong structures are
+
+- Contains spaces within id like _target id_
+- When an intermediate component is specified which is not a _Naming container_. For ex. when _:frm:group:field_ the _group_ component is not a naming container.
