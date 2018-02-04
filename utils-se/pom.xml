@@ -22,7 +22,7 @@
     <parent>
         <groupId>be.atbash.utils</groupId>
         <artifactId>utils-parent</artifactId>
-        <version>0.9.0-SNAPSHOT</version>
+        <version>0.9.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -34,7 +34,7 @@
     <description>
         Some utilities only requiring Java SE for all the Atbash projects
     </description>
-    <url>https://github.com/atbashEE/atbash-utils</url>
+    <url>https://raw.githubusercontent.com/atbashEE/atbash-utils/master/utils-se/src/main/doc/javase.adoc</url>
 
     <dependencies>
         <!-- for the Spock/Groovy based testing -->

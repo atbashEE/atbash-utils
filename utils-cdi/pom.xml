@@ -22,7 +22,7 @@
     <parent>
         <groupId>be.atbash.utils</groupId>
         <artifactId>utils-parent</artifactId>
-        <version>0.9.0-SNAPSHOT</version>
+        <version>0.9.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -34,7 +34,7 @@
     <description>
         Some utilities only requiring CDI 1.1
     </description>
-    <url>https://github.com/atbashEE/atbash-utils</url>
+    <url>https://raw.githubusercontent.com/atbashEE/atbash-utils/master/utils-cdi/src/main/doc/cdiUtils.adoc</url>
 
     <dependencies>
         <dependency>
@@ -47,7 +47,7 @@
         <dependency>
             <groupId>be.atbash.utils</groupId>
             <artifactId>utils-se</artifactId>
-            <version>0.9.0-SNAPSHOT</version>
+            <version>0.9.0</version>
         </dependency>
 
         <!-- test dependencies -->
@@ -60,7 +60,4 @@
 
     </dependencies>
 
-    <build>
-
-    </build>
 </project>

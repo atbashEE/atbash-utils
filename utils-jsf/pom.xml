@@ -22,7 +22,7 @@
     <parent>
         <groupId>be.atbash.utils</groupId>
         <artifactId>utils-parent</artifactId>
-        <version>0.9.0-SNAPSHOT</version>
+        <version>0.9.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -31,10 +31,8 @@
     <artifactId>utils-jsf</artifactId>
     <packaging>jar</packaging>
     <name>Utilities for JSF 2.x</name>
-    <description>
-        Some utilities for JSF 2.x
-    </description>
-    <url>https://github.com/atbashEE/atbash-utils</url>
+    <description>Some utilities for JSF 2.x</description>
+    <url>https://raw.githubusercontent.com/atbashEE/atbash-utils/master/utils-jsf/src/main/doc/jsfUtils.adoc</url>
 
     <dependencies>
         <dependency>
@@ -54,12 +52,9 @@
         <dependency>
             <groupId>be.atbash.utils</groupId>
             <artifactId>utils-se</artifactId>
-            <version>0.9.0-SNAPSHOT</version>
+            <version>0.9.0</version>
         </dependency>
 
     </dependencies>
 
-    <build>
-
-    </build>
 </project>
