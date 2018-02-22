@@ -1,8 +1,10 @@
 = JSF utils
 Rudy De Busscher <rdebusscher@gmail.com>
-v0.9.0, 04/02/2018
+v0.9.1, ??/??/2018
 
 == Release notes
+
+=== 0.9.1
 
 === 0.9.0
 
@@ -16,7 +18,7 @@ Add the following artifact to your maven project file for using the programmatic
     <dependency>
         <groupId>be.atbash.utils</groupId>
         <artifactId>utils-jsf</artifactId>
-        <version>0.9.0</version>
+        <version>0.9.1</version>
     </dependency>
 
 
