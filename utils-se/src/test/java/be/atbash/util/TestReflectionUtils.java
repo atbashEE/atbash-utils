@@ -16,6 +16,7 @@
 package be.atbash.util;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 /**
  *
@@ -41,7 +42,7 @@ public final class TestReflectionUtils {
             for (Field field : targetClass.getDeclaredFields()) {
                 field.setAccessible(true);
                 for (Object dependency : dependencies) {
-                    if (field.getType().isAssignableFrom(dependency.getClass())) {
+                    if (!Modifier.isFinal(field.getModifiers()) && field.getType().isAssignableFrom(dependency.getClass())) {
                         field.set(target, dependency);
                     }
                 }
@@ -66,6 +67,7 @@ public final class TestReflectionUtils {
         return field.get(target);
     }
 
+    // TODO align resetOf and setFieldValue
     public static void resetOf(Object instance, String fieldName) throws NoSuchFieldException, IllegalAccessException {
         Object target;
         Class<?> targetClass;
