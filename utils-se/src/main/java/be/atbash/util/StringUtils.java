@@ -173,45 +173,84 @@ public final class StringUtils {
      * @param array the array whose contents will be converted to a string.
      * @return the array's contents as a comma-delimited (',') string.
      */
-    public static String toString(Object[] array) {
-        return toDelimitedString(array, ",");
+    public static String toDelimitedString(Object[] array) {
+        return toDelimitedString(",", array);
     }
 
     /**
      * Returns the array's contents as a string, with each element delimited by the specified
      * {@code delimiter} argument.  Useful for {@code toString()} implementations and log messages.
      *
-     * @param array     the array whose contents will be converted to a string
      * @param delimiter the delimiter to use between each element
+     * @param array     the array whose contents will be converted to a string
      * @return a single string, delimited by the specified {@code delimiter}.
      */
-    public static String toDelimitedString(Object[] array, String delimiter) {
+    public static String toDelimitedString(String delimiter, Object... array) {
         if (array == null || array.length == 0) {
             return EMPTY_STRING;
         }
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < array.length; i++) {
-            if (i > 0) {
-                sb.append(delimiter);
-            }
-            sb.append(array[i]);
-        }
-        return sb.toString();
+        return toDelimitedString(delimiter, Arrays.asList(array));
     }
 
     /**
      * Returns the collection's contents as a string, with each element delimited by the specified
      * {@code delimiter} argument.  Useful for {@code toString()} implementations and log messages.
      *
-     * @param c         the collection whose contents will be converted to a string
-     * @param delimiter the delimiter to use between each element
+     * @param delimiter  the delimiter to use between each element
+     * @param collection the collection whose contents will be converted to a string
      * @return a single string, delimited by the specified {@code delimiter}.
      */
-    public static String toDelimitedString(Collection c, String delimiter) {
-        if (c == null || c.isEmpty()) {
+    public static String toDelimitedString(String delimiter, Collection<?> collection) {
+        if (collection == null || collection.isEmpty()) {
             return EMPTY_STRING;
         }
-        return join(c.iterator(), delimiter);
+        return toDelimitedString(delimiter, collection.iterator());
+    }
+
+    /**
+     * Joins the elements of the provided {@code Iterator} into
+     * a single String containing the provided elements.</p>
+     * <p/>
+     * No delimiter is added before or after the list.
+     * A {@code null} separator is the same as an empty String ("").</p>
+     * <p/>
+     * Copied from Commons Lang, version 3 (r1138702).</p>
+     *
+     * @param iterator  the {@code Iterator} of values to join together, may be null
+     * @param separator the separator character to use, null treated as ""
+     * @return the joined String, {@code null} if null iterator input
+     */
+    public static String toDelimitedString(String separator, Iterator<?> iterator) {
+        String empty = "";
+
+        // handle null, zero and one elements before building a buffer
+        if (iterator == null) {
+            return null;
+        }
+        if (!iterator.hasNext()) {
+            return empty;
+        }
+        Object first = iterator.next();
+        if (!iterator.hasNext()) {
+            return first == null ? empty : first.toString();
+        }
+
+        // two or more elements
+        StringBuilder buf = new StringBuilder(256); // Java default is 16, probably too small
+        if (first != null) {
+            buf.append(first);
+        }
+
+        while (iterator.hasNext()) {
+            if (separator != null) {
+                buf.append(separator);
+            }
+            Object obj = iterator.next();
+            if (obj != null) {
+                buf.append(obj);
+            }
+        }
+        return buf.toString();
     }
 
     /**
@@ -411,52 +450,6 @@ public final class StringUtils {
         }
         tokens.add(s);
         return tokens.toArray(new String[tokens.size()]);
-    }
-
-    /**
-     * Joins the elements of the provided {@code Iterator} into
-     * a single String containing the provided elements.</p>
-     * <p/>
-     * No delimiter is added before or after the list.
-     * A {@code null} separator is the same as an empty String ("").</p>
-     * <p/>
-     * Copied from Commons Lang, version 3 (r1138702).</p>
-     *
-     * @param iterator  the {@code Iterator} of values to join together, may be null
-     * @param separator the separator character to use, null treated as ""
-     * @return the joined String, {@code null} if null iterator input
-     */
-    public static String join(Iterator<?> iterator, String separator) {
-        String empty = "";
-
-        // handle null, zero and one elements before building a buffer
-        if (iterator == null) {
-            return null;
-        }
-        if (!iterator.hasNext()) {
-            return empty;
-        }
-        Object first = iterator.next();
-        if (!iterator.hasNext()) {
-            return first == null ? empty : first.toString();
-        }
-
-        // two or more elements
-        StringBuilder buf = new StringBuilder(256); // Java default is 16, probably too small
-        if (first != null) {
-            buf.append(first);
-        }
-
-        while (iterator.hasNext()) {
-            if (separator != null) {
-                buf.append(separator);
-            }
-            Object obj = iterator.next();
-            if (obj != null) {
-                buf.append(obj);
-            }
-        }
-        return buf.toString();
     }
 
     /**
