@@ -8,6 +8,7 @@ v0.9.1, ??/??/2018
 
 * Renamed StringUtils#join to StringUtils.toDelimitedString
 * Added TestReflectionUtils#injectDependencies
+* Added CDICheck.withinContainer
 
 === 0.9.0
 
@@ -252,6 +253,16 @@ be.atbash.util.CollectionUtils.size(Map)
 
 Returns the size of the _Collection_ or _Map_ but handles null argument correctly.
 
+=== CDICheck
+
+Probably only useable in advanced use cases where you create a library which must be able to run within plain Java SE and within a CDI container.
+
+----
+be.atbash.util.reflection.CDICheck.withinContainer
+----
+
+This methods return true or false depending on the context and library can select code path accordingly (like retrieving beans through CDI or ServiceLoader)
+
 === TestReflectionUtil
 
 Utility class for unit tests to help with injection and setting values of instances used during the test.
@@ -284,16 +295,18 @@ The injection is done based on the compatible type assignments. So you can also 
 
 However you should always consider the default supported functionality from Mockito for example.
 
-    @RunWith(MockitoJUnitRunner.class)
-    public class FooTest {
+----
+@RunWith(MockitoJUnitRunner.class)
+public class FooTest {
 
-       @Mock
-       private Bar barMock;
+   @Mock
+   private Bar barMock;
 
-       @InjectMocks
-       private Foo foo;
+   @InjectMocks
+   private Foo foo;
 
-    }
+}
+----
 
 Other useful methods in the class _TestReflectionUtils_
 
