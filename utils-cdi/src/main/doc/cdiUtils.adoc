@@ -6,6 +6,7 @@ v0.9.1, ??/??/2018
 
 === 0.9.1
 
+* CDI Producer for SLF4J
 
 === 0.9.0
 
@@ -173,6 +174,17 @@ In order to keep the different tests independently, that no CDI beans are left f
     public void tearDown() {
         beanManagerFake.deregistration();
     }
+----
+
+=== SLF4J LogProducer
+
+There isa CDI producer defined which creates a SLF4J Logger. It takes the class information from the injection for the creation information.
+
+----
+
+   @Inject
+   private Logger logger;
+
 ----
 
 == Known issues
