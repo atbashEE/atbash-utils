@@ -52,7 +52,7 @@ public final class TestReflectionUtils {
         }
     }
 
-    public static Object getValueOf(Object instance, String fieldName) throws NoSuchFieldException, IllegalAccessException {
+    public static <T> T getValueOf(Object instance, String fieldName) throws NoSuchFieldException, IllegalAccessException {
         Object target;
         Class<?> targetClass;
         if (instance instanceof Class<?>) {
@@ -64,7 +64,7 @@ public final class TestReflectionUtils {
         }
         Field field = targetClass.getDeclaredField(fieldName);
         field.setAccessible(true);
-        return field.get(target);
+        return (T) field.get(target);
     }
 
     // TODO align resetOf and setFieldValue
