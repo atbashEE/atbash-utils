@@ -54,6 +54,9 @@ public class BeanManagerFake {
         if (typesToRegister == null || typesToRegister.length == 0) {
             throw new AtbashIllegalActionException("(CDI-DEV-51) typesToRegister is required to have at least 1 Class type.");
         }
+        if (instance == null) {
+            throw new AtbashIllegalActionException("(CDI-DEV-52) Can't register a null instance");
+        }
         // TODO should we test that instance can be assigned to typesToRegister?
         for (Class<?> typeToRegister : typesToRegister) {
             List<Object> objects = registeredObjects.get(typeToRegister);

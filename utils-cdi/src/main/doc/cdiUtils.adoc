@@ -7,6 +7,7 @@ v0.9.1, ??/??/2018
 === 0.9.1
 
 * CDI Producer for SLF4J
+* Bug Fixing
 
 === 0.9.0
 
@@ -201,3 +202,6 @@ When you ask for a named CDI bean (CDIUtils#retrieveInstanceByName), but you spe
 
 When you try to register a CDI bean with the Fake CDI system (BeanManagerFake#registerBean) but didn't specify any type to assign the instance to (the second parameter, actually a vararg forgotten)
 
+=== CDI-DEV-52
+
+When you try to register a CDI bean with the Fake CDI system (BeanManagerFake#registerBean) but did try to register a null instance (first method parameter is null)
