@@ -16,7 +16,10 @@
 package be.atbash.util;
 
 import be.atbash.util.exception.AtbashIllegalActionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.UnsatisfiedResolutionException;
@@ -24,15 +27,21 @@ import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.CDI;
 import java.lang.annotation.Annotation;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.*;
 
 /**
  * Utility methods usable in a CDI 1.1 environment (Java EE 7+)
  */
 public final class CDIUtils {
+
+    // All the CDI Bena producer methods for a certain type.
+    private static final Map<Class<?>, Method> OPTIONAL_BEAN_INFO = new HashMap<>();
+    //
+    private static final Map<Class<?>, Object> OPTIONAL_BEAN = new HashMap<>();
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CDIUtils.class);
 
     /**
      * Singleton style class.
@@ -79,6 +88,7 @@ public final class CDIUtils {
     /**
      * Retrieve the Single CDI instance which has the classType in the bean definition or null when no CDI beans found.
      * When there are multiple matching beans, the standard CDI AmbiguousResolutionException is thrown.
+     * Method also tries to find the bean when created by a Producer method and bean has generic type information.
      *
      * @param classType  a {@link java.lang.Class} representing the required type
      * @param qualifiers the additional required qualifiers.
@@ -88,7 +98,7 @@ public final class CDIUtils {
      */
     public static <T> T retrieveOptionalInstance(Class<T> classType, Annotation... qualifiers) {
         Instance<T> instance = CDI.current().select(classType, qualifiers);
-        return instance.isUnsatisfied() ? null : instance.get();
+        return instance.isUnsatisfied() ? getBeanFromProducer(classType) : instance.get();
     }
 
     /**
@@ -139,4 +149,50 @@ public final class CDIUtils {
     public static void fireEvent(Object event, Annotation... qualifiers) {
         getBeanManager().fireEvent(event, qualifiers);
     }
+
+    /**
+     * Keeps track of all the CDI Bean producer methods.
+     * @param producerMethod Method which produces a CDI bean (@Produces present)
+     */
+    public static void registerProducerMethod(Method producerMethod) {
+        if (producerMethod.getAnnotation(ApplicationScoped.class) == null && producerMethod.getDeclaringClass().getAnnotation(ApplicationScoped.class) == null) {
+            throw new AtbashIllegalActionException("(CDI-DEV-53) Only CDI bean Producer methods with scope @ApplicationScoped can be registered");
+        }
+        OPTIONAL_BEAN_INFO.put(producerMethod.getReturnType(), producerMethod);
+    }
+
+    private static <T> T getBeanFromProducer(Class<T> targetClass) {
+        T result = null;
+
+        if (OPTIONAL_BEAN.containsKey(targetClass)) {
+            result = (T) OPTIONAL_BEAN.get(targetClass);
+        } else {
+            if (OPTIONAL_BEAN_INFO.containsKey(targetClass)) {
+                Method method = OPTIONAL_BEAN_INFO.get(targetClass);
+                Object bean = CDIUtils.retrieveInstance(method.getDeclaringClass());
+                try {
+                    result = (T) method.invoke(bean);
+                    OPTIONAL_BEAN.put(targetClass, result);
+                } catch (IllegalAccessException e) {
+                    LOGGER.error("Exception occured during invocation of producer method", e);
+                } catch (InvocationTargetException e) {
+                    LOGGER.error("Exception occured during invocation of producer method", e);
+                    // TODO The original code ran in full container and thus we had EJB access in this method
+                    // The idea is to thrown the original Octopus UnauthorizedException when Producer methods call fails
+                    // due to authorization issues.
+                    /*
+                    if (e.getTargetException() instanceof EJBException) {
+                        EJBException ejbException = (EJBException) e.getTargetException();
+                        if (ejbException.getCause() instanceof OctopusUnauthorizedException) {
+                            throw (OctopusUnauthorizedException) ejbException.getCause();
+                        }
+                    }
+                    */
+                }
+            }
+        }
+        return result;
+
+    }
+
 }
