@@ -29,7 +29,7 @@ public final class ProxyUtils {
      * @param currentClass Class to get 'real' class from.
      * @return 'real' Class of the proxy
      */
-    public static Class getUnproxiedClass(Class currentClass) {
+    public static Class<?> getUnproxiedClass(Class<?> currentClass) {
         if (isProxiedClass(currentClass)) {
             return currentClass.getSuperclass();
         }
@@ -42,7 +42,7 @@ public final class ProxyUtils {
      * @param currentClass Class to get 'real' class name from.
      * @return 'real' Class name of the proxy
      */
-    public static String getClassName(Class currentClass) {
+    public static String getClassName(Class<?> currentClass) {
         return getUnproxiedClass(currentClass).getName();
     }
 
@@ -51,7 +51,7 @@ public final class ProxyUtils {
      * @param currentClass Class to test
      * @return true if it is a proxy class.
      */
-    public static boolean isProxiedClass(Class currentClass) {
+    public static boolean isProxiedClass(Class<?> currentClass) {
         return currentClass.getName().contains("$$EnhancerByCGLIB$$") ||
                 currentClass.getName().contains("$$FastClassByCGLIB$$") ||
                 currentClass.getName().contains("_$$_javassist") ||
