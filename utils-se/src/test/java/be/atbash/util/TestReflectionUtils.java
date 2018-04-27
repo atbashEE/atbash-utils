@@ -15,6 +15,8 @@
  */
 package be.atbash.util;
 
+import be.atbash.util.exception.AtbashUnexpectedException;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
@@ -55,60 +57,68 @@ public final class TestReflectionUtils {
     /**
      * Retrieves the value of the field from the target. When the target is a class, it looks through the static fields.
      * When it is an instance it looks through the fields of this class and all parent classes. Visibility of the field doesn't matter (also private fields value can be returned)
-     * @param target Class (for static fields) or instance (for regular fields)
+     *
+     * @param target    Class (for static fields) or instance (for regular fields)
      * @param fieldName Name of the field
      * @param <T>
      * @return Value of the field of Exception thrown when not found.
      * @throws NoSuchFieldException When no such field is found
-     * @throws IllegalAccessException Should never be thrown
      */
-    public static <T> T getValueOf(Object target, String fieldName) throws NoSuchFieldException, IllegalAccessException {
+    public static <T> T getValueOf(Object target, String fieldName) throws NoSuchFieldException {
         Field field = findFieldInHierarchy(target, fieldName);
 
         if (field == null) {
-            throw new NoSuchFieldException("Field " + fieldName + " not found");
+            throw new NoSuchFieldException(String.format("Field %s not found", fieldName));
         }
         field.setAccessible(true);
-        return (T) field.get(target);
+        try {
+            return (T) field.get(target);
+        } catch (IllegalAccessException e) {
+            throw new AtbashUnexpectedException(e);
+        }
 
     }
 
     /**
      * Clears the value of the field from the target. Alternative for setFieldValue() with value null.
-     * @param target Class (for static fields) or instance (for regular fields)
+     *
+     * @param target    Class (for static fields) or instance (for regular fields)
      * @param fieldName Value to set, must be assignable compatible.
      * @throws NoSuchFieldException When no such field is found
-     * @throws IllegalAccessException Should never be thrown.
      */
-    public static void resetOf(Object target, String fieldName) throws NoSuchFieldException, IllegalAccessException {
+    public static void resetOf(Object target, String fieldName) throws NoSuchFieldException {
         setFieldValue(target, fieldName, null);
     }
 
     /**
      * Sets the value of the field from the target. When the target is a class, it sets the static field.
      * When it is an instance it looks through the fields of this class and all parent classes. Visibility of the field doesn't matter (also private fields value can be set).
-     * @param target Class (for static fields) or instance (for regular fields)
+     *
+     * @param target    Class (for static fields) or instance (for regular fields)
      * @param fieldName Name of the field
-     * @param value Value to set, must be assignable compatible.
+     * @param value     Value to set, must be assignable compatible.
      * @throws NoSuchFieldException When no such field is found
-     * @throws IllegalAccessException Should never be thrown.
      */
-    public static void setFieldValue(Object target, String fieldName, Object value) throws NoSuchFieldException, IllegalAccessException {
+    public static void setFieldValue(Object target, String fieldName, Object value) throws NoSuchFieldException {
 
         Field field = findFieldInHierarchy(target, fieldName);
 
         if (field == null) {
-            throw new NoSuchFieldException("Field " + fieldName + " not found");
+            throw new NoSuchFieldException(String.format("Field %s not found", fieldName));
         }
 
         field.setAccessible(true);
-        field.set(target, value);
+        try {
+            field.set(target, value);
+        } catch (IllegalAccessException e) {
+            throw new AtbashUnexpectedException(e);
+        }
     }
 
     private static Field findFieldInHierarchy(Object target, String fieldName) throws NoSuchFieldException {
         if (target instanceof Class<?>) {
             // static field
-            return ((Class<?>)target).getDeclaredField(fieldName);
+            return ((Class<?>) target).getDeclaredField(fieldName);
         }
         Class<?> targetClass = target.getClass();
         Field field = findField(targetClass, fieldName);
