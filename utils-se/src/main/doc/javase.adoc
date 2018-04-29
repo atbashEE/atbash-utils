@@ -11,6 +11,10 @@ v0.9.1, ??/??/2018
 * Added CDICheck.withinContainer
 * Added ProxyUtils
 
+Breaking changes
+
+* Some methods of _be.atbash.util.StringUtils_ have changed parameters or are renamed.
+
 === 0.9.0
 
 * Initial version with classes from various sources usable in any environment.
