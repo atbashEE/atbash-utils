@@ -267,3 +267,7 @@ When you try to register a CDI bean with the Fake CDI system (BeanManagerFake#re
 === CDI-DEV-52
 
 When you try to register a CDI bean with the Fake CDI system (BeanManagerFake#registerBean) but did try to register a null instance (first method parameter is null)
+
+=== CDI-DEV-53
+
+When you try to register a producer (with CDIUtils#registerProducerMethod) method which doesn't produce an instance at _ApplicationScoped_. You should never try to register a producer method manually.

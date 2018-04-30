@@ -36,7 +36,7 @@ Java 7+
 
 == Features
 
-Utilities compiled for Java 7 and no dependencies.
+Utilities compiled for Java 7 and does not have any dependencies (only using SLF4J api).
 
 The most important methods are described here. For the full list of methods, see the Javadoc or the source code.
 
@@ -233,6 +233,13 @@ key , "value1,value2"
 ----
 
 The quotes are removed and the item is trimmed before the placed in the return array.
+
+----
+be.atbash.util.StringUtils.toDelimitedString(Collection, String)
+be.atbash.util.StringUtils.toDelimitedString(Object[], String)
+----
+
+Converts the collections or array of Objects to a String where each item is separated by the 2nd parameter.
 
 === Collection utils
 
