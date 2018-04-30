@@ -1,6 +1,6 @@
 = Java SE utils
 Rudy De Busscher <rdebusscher@gmail.com>
-v0.9.1, ??/??/2018
+v0.9.1, 30/03/2018
 
 == Release notes
 
