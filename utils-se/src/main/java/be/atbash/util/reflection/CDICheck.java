@@ -15,6 +15,8 @@
  */
 package be.atbash.util.reflection;
 
+import be.atbash.util.StringUtils;
+
 /**
  *
  */
@@ -29,6 +31,10 @@ public final class CDICheck {
      * @return true when e are running within CDi container.
      */
     public static boolean withinContainer() {
+        String forcedResult = System.getProperty("atbash.utils.cdi.check");
+        if (StringUtils.hasText(forcedResult)) {
+            return Boolean.parseBoolean(forcedResult);
+        }
         return ClassUtils.isAvailable("javax.enterprise.inject.UnsatisfiedResolutionException");
     }
 }
