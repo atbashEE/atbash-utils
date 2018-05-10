@@ -123,6 +123,38 @@ class StringUtilsTest extends Specification {
         !StringUtils.isEmpty(" a ")
     }
 
+    def "isEmpty_nullCharArray"() {
+        when:
+        char[] data = null
+
+        then:
+        StringUtils.isEmpty(data)
+    }
+
+    def "isEmpty_emptyCharArray"() {
+        when:
+        char[] data = []
+
+        then:
+        StringUtils.isEmpty(data)
+    }
+
+    def "isEmpty_spacesCharArray"() {
+        when:
+        char[] data = [' ']
+
+        then:
+        StringUtils.isEmpty(data)
+    }
+
+    def "isEmpty_textCharArray"() {
+        when:
+        char[] data = " a ".toCharArray();
+
+        then:
+        !StringUtils.isEmpty(data)
+    }
+
     def "startsWithIgnoreCase"() {
         expect:
         StringUtils.startsWithIgnoreCase("Atbash", "At")

@@ -96,6 +96,25 @@ public final class StringUtils {
     }
 
     /**
+     * Check whether the given char array has actual text.
+     * More specifically, returns <code>true</code> if the array is <code>null</code> or
+     * its length is equal to 0, and it contains no non-whitespace character.
+     * <p/>
+     *
+     *
+     * @param value the String to check (may be <code>null</code>)
+     * @return <code>true</code> if the Array is <code>null</code> or its length is
+     * equal to 0, or it does contain whitespace only
+     * @see Character#isWhitespace
+     */
+    public static boolean isEmpty(char[] value) {
+        if (value == null) {
+            return true;
+        }
+        return !hasText(new String(value));
+    }
+
+    /**
      * Check that the given String is neither <code>null</code> nor of length 0.
      * Note: Will return <code>true</code> for a String that purely consists of whitespace.
      * <p/>
