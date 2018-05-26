@@ -19,6 +19,7 @@ package be.atbash.util.base64;
 
 import be.atbash.util.PublicAPI;
 import be.atbash.util.StringUtils;
+import be.atbash.util.codec.CodecSupport;
 
 import java.util.Arrays;
 
@@ -110,6 +111,17 @@ public final class Base64Codec {
 
         // Ensure the legal chars (including '=' padding) divide by 4 (RFC 2045)
         return (value.length() - separatorCount) % 4 == 0;
+    }
+
+    /**
+     * Test to see if the byte array contains a valid Base64 value. Separators and padding (=) are considered as valid
+     * characters.
+     *
+     * @param value The value to test
+     * @return true or false depending on the validity.
+     */
+    public static boolean isBase64Encoded(byte[] value) {
+        return isBase64Encoded(CodecSupport.toString(value));
     }
 
     /**
@@ -215,7 +227,7 @@ public final class Base64Codec {
      *                  still included and not to spec).
      * @return The base 64 encoded character array. Never {@code null}.
      */
-    public static char[] encodeToChar(final byte[] byteArray, final boolean urlSafe) {
+    public static char[] encodeToChar(byte[] byteArray, boolean urlSafe) {
 
         // Check special case
         int sLen = byteArray != null ? byteArray.length : 0;
@@ -363,5 +375,19 @@ public final class Base64Codec {
         }
 
         return dArr;
+    }
+
+    /**
+     * Decodes a base64 or base64 URL-safe encoded string represented as byte array using UTF-8 encoding.
+     * May contain line separators. Any illegal characters are ignored.
+     *
+     * @param value The base 64 or base 64 URL-safe encoded byte array. May
+     *              be empty or {@code null}.
+     * @return The decoded byte array, empty if the input base 64 encoded
+     * string is empty, {@code null} or corrupted.
+     */
+    public static byte[] decode(byte[] value) {
+
+        return decode(CodecSupport.toString(value));
     }
 }

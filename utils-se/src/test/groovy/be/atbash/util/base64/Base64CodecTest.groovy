@@ -89,10 +89,30 @@ class Base64CodecTest extends Specification {
         new String(Base64Codec.decode("TXkgUGxhaW4gU3RyaW5n")) == "My Plain String"
     }
 
+    def "Decode_empty"() {
+
+        expect:
+        Base64Codec.decode("") == []
+    }
+
+    /*
+    Groovy can decide which overloaded method :(
+    def "Decode_null"() {
+
+        expect:
+        Base64Codec.decode((String)null) == null
+    }
+    */
+
     def "Decode_cyrillic"() {
 
         expect:
         new String(Base64Codec.decode("5bCP6aO85by+")) == "小飼弾"
         new String(Base64Codec.decode("5bCP6aO85by-")) == "小飼弾"
+    }
+
+    def "Decode_byteArray"() {
+        expect:
+        new String(Base64Codec.decode("VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wZWQgb3ZlciB0aGUgbGF6eSBkb2dzLg==".getBytes("UTF-8"))) == "The quick brown fox jumped over the lazy dogs."
     }
 }

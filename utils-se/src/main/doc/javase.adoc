@@ -1,8 +1,16 @@
 = Java SE utils
 Rudy De Busscher <rdebusscher@gmail.com>
-v0.9.1, 30/03/2018
+v0.9.2, ??/??/2018
 
 == Release notes
+
+=== 0.9.2
+
+* Added methods taking byte[] for Base64 encode/decoding
+* Added HEX encoding / decoding
+* Added ByteSource, taken byte[] representation of some classes and create encoded (BASE64, HEX) versions
+* isEmpty() on char[]
+* Define outcome of +CDICheck.withinContainer+ by defining system JVM parameter +atbash.utils.cdi.check+.
 
 === 0.9.1
 
@@ -26,7 +34,7 @@ Add the following artifact to your maven project file
     <dependency>
         <groupId>be.atbash.utils</groupId>
         <artifactId>utils-se</artifactId>
-        <version>0.9.1</version>
+        <version>0.9.2</version>
     </dependency>
 
 
@@ -48,27 +56,40 @@ Can be used to do encoding and decoding to BASE64 for Java 7 (Only Java 8 has a 
 be.atbash.util.base64.Base64Codec#encodeToString(byte[], boolean)
 ----
 
-Converts a byte array to a BASE64 encoded String.
-
-----
-be.atbash.util.base64.Base64Codec#encodeToString(byte[], boolean)
-----
-
 Converts a byte array to a BASE64 encoded String. The boolean defines if urlSafe characters need to be used or not.
 
 
 ----
 byte[] be.atbash.util.base64.Base64Codec#decode(String)
+byte[] be.atbash.util.base64.Base64Codec#decode(byte[])
 ----
 
-Decodes a BASE64 String into a byte array.
+Decodes a BASE64 String/byte array into a byte array.
 
 
 ----
 be.atbash.util.base64.Base64Codec#isBase64Encoded(String)
+be.atbash.util.base64.Base64Codec#isBase64Encoded(byte[])
 ----
 
-Verifies if the String is a valid Base64 value.
+Verifies if the String/byte array is a valid Base64 value.
+
+=== HEX
+
+Converts to and from HEX encoded Strings.
+
+----
+byte[] be.atbash.util.codec.Hex.encodeToString(byte[])
+----
+
+Converts a byte array to a HEX encoded String.
+
+
+----
+byte[] be.atbash.util.codec.Hex.decode(String)
+----
+
+Converts the Hex representation to a byte array. Throws an _IllegalArgumentException_ when the value isn't a HEX encoded value.
 
 === Instantiations
 
