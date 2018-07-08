@@ -1,8 +1,12 @@
 = CDI utils
 Rudy De Busscher <rdebusscher@gmail.com>
-v0.9.1, 30/04/2018
+v0.9.2, ??/07/2018
 
 == Release notes
+
+=== 0.9.2
+
+* No changes, version update of Atbash utilities suite.
 
 === 0.9.1
 
@@ -22,7 +26,7 @@ Add the following artifact to your maven project file for using the programmatic
     <dependency>
         <groupId>be.atbash.utils</groupId>
         <artifactId>utils-cdi</artifactId>
-        <version>0.9.1</version>
+        <version>0.9.2</version>
     </dependency>
 
 When you want to use the fake CDI provider for testing purposes, you should add the following artifact.
@@ -30,7 +34,7 @@ When you want to use the fake CDI provider for testing purposes, you should add 
     <dependency>
         <groupId>be.atbash.utils</groupId>
         <artifactId>utils-cdi</artifactId>
-        <version>0.9.1</version>
+        <version>0.9.2</version>
         <classifier>tests</classifier>
         <scope>test</scope>
     </dependency>

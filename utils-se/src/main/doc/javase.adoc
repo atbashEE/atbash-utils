@@ -91,6 +91,12 @@ byte[] be.atbash.util.codec.Hex.decode(String)
 
 Converts the Hex representation to a byte array. Throws an _IllegalArgumentException_ when the value isn't a HEX encoded value.
 
+=== ByteSource
+
+This is an interface which provides a source of bytes which can be used to create a BASE64 or HEX representation from it.
+
+The SE Utils project provide an implementation with support for ++File++ and ++InputStream++ next to the obvious String and char array.
+
 === Instantiations
 
 The dynamic instantiation of classes is important when you define the class name within configuration values.
@@ -327,7 +333,7 @@ Add the following artifact to your maven project file
     <dependency>
         <groupId>be.atbash.utils</groupId>
         <artifactId>utils-se</artifactId>
-        <version>0.9.1</version>
+        <version>0.9.2</version>
         <classifier>tests</classifier>
         <scope>test</scope>
     </dependency>
