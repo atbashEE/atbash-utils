@@ -34,4 +34,22 @@ class HexTest extends Specification {
 
         new String(Hex.decode("48656C6C6F20576F726C64")) == "Hello World"
     }
+
+    def "isHexEncoded"() {
+        expect:
+
+        Hex.isHexEncoded("48656C6C6F20576F726C64")
+    }
+
+    def "isHexEncoded odd number"() {
+        expect:
+
+        !Hex.isHexEncoded("48656C6C6F20576F726C6") // last digit removed
+    }
+
+    def "isHexEncoded wrong character"() {
+        expect:
+
+        !Hex.isHexEncoded("48656C6C6F20576F726C6X") // Wrong character
+    }
 }

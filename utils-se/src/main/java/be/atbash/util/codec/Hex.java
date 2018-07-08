@@ -146,6 +146,30 @@ public final class Hex {
         return out;
     }
 
+    public static boolean isHexEncoded(String data) {
+        return isHexEncoded(data.toCharArray());
+    }
+
+    public static boolean isHexEncoded(char[] data) {
+        int len = data.length;
+
+        if ((len & 0x01) != 0) {
+            return false;
+        }
+
+        boolean result = true;
+        int i = 0, dataLength = data.length;
+        while (i < dataLength && result) {
+            char item = data[i];
+            if (Character.digit(item, 16) == -1) {
+                result = false;
+            }
+            i++;
+        }
+
+        return result;
+    }
+
     /**
      * Converts a hexadecimal character to an integer.
      *
