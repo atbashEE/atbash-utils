@@ -150,6 +150,10 @@ public final class Hex {
         return isHexEncoded(data.toCharArray());
     }
 
+    public static boolean isHexEncoded(byte[] value) {
+        return isHexEncoded(CodecSupport.toString(value));
+    }
+
     public static boolean isHexEncoded(char[] data) {
         int len = data.length;
 
