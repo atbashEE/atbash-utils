@@ -97,6 +97,22 @@ This is an interface which provides a source of bytes which can be used to creat
 
 The SE Utils project provide an implementation with support for ++File++ and ++InputStream++ next to the obvious String and char array.
 
+A ByteSource can be created by the following snippet
+
+----
+  ByteSource.creator.bytes(data);
+----
+
+Where _data_ is an instance of one of the supported types as explained above.
+
+When you need you need to support some additional types, which also can be converted to a byte array, you can use the SPI for this purpose.
+
+Start by implementing the interface ++be.atbash.util.codec.ByteSourceCreator++ and define it as a service by specifying the fully qualified class name in the file _/META-INF/services/be.atbash.util.codec.ByteSourceCreator_ .
+
+That way, your creator is used by the statement _ByteSource.creator.bytes()_ and thus your logic is executed.
+
+Your custom creator can use instances of ++DefaultByteSource++ or an implementation of the interface ++ByteSource++.
+
 === Instantiations
 
 The dynamic instantiation of classes is important when you define the class name within configuration values.

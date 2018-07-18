@@ -15,7 +15,6 @@
  */
 package be.atbash.util.codec;
 
-
 import be.atbash.util.base64.Base64Codec;
 
 import java.io.File;
@@ -39,13 +38,14 @@ import java.util.Arrays;
  * </ul>
  */
 //@ShiroEquivalent(shiroClassNames = {"org.apache.shiro.util.SimpleByteSource"})
-public class SimpleByteSource implements ByteSource {
+public class DefaultByteSource implements ByteSource {
 
     private final byte[] bytes;
     private String cachedHex;
     private String cachedBase64;
 
-    public SimpleByteSource(byte[] bytes) {
+    // Public constructors as class can be reused by custom ByteSourceCreator.
+    public DefaultByteSource(byte[] bytes) {
         this.bytes = bytes;
     }
 
@@ -54,7 +54,7 @@ public class SimpleByteSource implements ByteSource {
      *
      * @param chars the source characters to use to create the underlying byte array.
      */
-    public SimpleByteSource(char[] chars) {
+    public DefaultByteSource(char[] chars) {
         bytes = CodecSupport.toBytes(chars);
     }
 
@@ -63,18 +63,8 @@ public class SimpleByteSource implements ByteSource {
      *
      * @param string the source string to convert to a byte array (assumes UTF-8 encoding).
      */
-    public SimpleByteSource(String string) {
+    public DefaultByteSource(String string) {
         bytes = CodecSupport.toBytes(string);
-    }
-
-    /**
-     * Creates an instance using the sources bytes directly - it does not create a copy of the
-     * argument's byte array.
-     *
-     * @param source the source to use to populate the underlying byte array.
-     */
-    public SimpleByteSource(ByteSource source) {
-        bytes = source.getBytes();
     }
 
     /**
@@ -82,7 +72,7 @@ public class SimpleByteSource implements ByteSource {
      *
      * @param file the file from which to acquire bytes.
      */
-    public SimpleByteSource(File file) {
+    public DefaultByteSource(File file) {
         bytes = new BytesHelper().getBytes(file);
     }
 
@@ -91,32 +81,8 @@ public class SimpleByteSource implements ByteSource {
      *
      * @param stream the stream from which to acquire bytes.
      */
-    public SimpleByteSource(InputStream stream) {
+    public DefaultByteSource(InputStream stream) {
         bytes = new BytesHelper().getBytes(stream);
-    }
-
-    /**
-     * Returns {@code true} if the specified object is a recognized data type that can be easily converted to
-     * bytes by instances of this class, {@code false} otherwise.
-     * <p/>
-     * This implementation returns {@code true} IFF the specified object is an instance of one of the following
-     * types:
-     * <ul>
-     * <li>{@code byte[]}</li>
-     * <li>{@code char[]}</li>
-     * <li>{@link ByteSource}</li>
-     * <li>{@link String}</li>
-     * <li>{@link File}</li>
-     * </li>{@link InputStream}</li>
-     * </ul>
-     *
-     * @param o the object to test to see if it can be easily converted to bytes by instances of this class.
-     * @return {@code true} if the specified object can be easily converted to bytes by instances of this class,
-     * {@code false} otherwise.
-     */
-    public static boolean isCompatible(Object o) {
-        return o instanceof byte[] || o instanceof char[] || o instanceof String ||
-                o instanceof ByteSource || o instanceof File || o instanceof InputStream;
     }
 
     public byte[] getBytes() {
