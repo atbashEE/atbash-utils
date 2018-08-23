@@ -1,8 +1,12 @@
 = JSF utils
 Rudy De Busscher <rdebusscher@gmail.com>
-v0.9.2, 04/08/2018
+v0.9.3, ??/??/2018
 
 == Release notes
+
+=== 0.9.3
+
+* Fake FacesContext implementation for unit testing.
 
 === 0.9.2
 
@@ -128,6 +132,27 @@ This is the algorithm
 - This repeat continue until the root of the component tree is reached or a component is found.
 
 The method **handle** has a custom component parameter flag. When the target is not found, the component itself is used as parameter with the custom componet flag set.
+
+=== Testing with FacesContext
+
+In code, we sometime use this snippet to have access to the _FacesContext_
+
+----
+   FacesContext.getCurrentInstance()
+----
+
+But from within unit tests, this result in a null value since JSF is not activated. In order to make your code work in the test, you can make use of the FakeFacesContext.
+
+----
+   FakeFacesContext.registerFake();
+   FakeFacesContext.registerFake(ExternalContext);
+   FakeFacesContext.registerFake(Application);
+   FakeFacesContext.registerFake(Application, ExternalContext);
+----
+
+With the above methods, we can register a FacesContext instance, and in the same time pass a (mock) implementation of ExternalContext, Application or both.
+
+Also other methods of _FacesContext_ are implemented, like the ones handling the FacesMessages.
 
 == Exceptions
 
