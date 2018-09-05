@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2014-2018 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,28 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package be.atbash.util.reflection.testclasses
+package be.atbash.util.testclasses;
 
-/**
- *
- */
+import be.atbash.util.reflection.testclasses.Foo;
 
-class Child extends Parent{
+public class Child extends Parent {
 
-    static String staticChildField = "static childValue"
+    public static String staticChildField = "static childValue";
 
-    String childField = "childValue"
-    Foo fooValue
+    private String childField = "childValue";
+    private Foo fooValue;
 
-    static String getStaticChildField() {
-        return staticChildField
+    public static String getStaticChildField() {
+        return staticChildField;
     }
 
-    String getChildField() {
-        return childField
+    public String getChildField() {
+        return childField;
     }
 
-    Foo getFooValue() {
-        return fooValue
+    public Foo getFooValue() {
+        return fooValue;
     }
+
 }

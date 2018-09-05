@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2014-2018 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,31 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package be.atbash.util.reflection.testclasses
+package be.atbash.util.reflection.testclasses;
 
 /**
  *
  */
 
-class Foo {
+public class Foo {
+    public String value;
+    public Number number;
+    public Long longValue;
 
-    String value
-    Number number
-    Long longValue
-
-    Foo() { value = "DefaultConstructor" }
-
-    Foo(String value) {
-        this.value = value
+    public Foo() {
+        value = "DefaultConstructor";
     }
 
-    Foo(Number number, String value) {
-        this.number = number
-        this.value = value
+    public Foo(String value) {
+        this.value = value;
     }
 
-    Foo(Long longValue, String value) {
-        this.longValue = longValue
-        this.value = value
+    public Foo(Number number, String value) {
+        this.number = number;
+        this.value = value;
     }
+
+    public Foo(Long longValue, String value) {
+        this.longValue = longValue;
+        this.value = value;
+    }
+
 }

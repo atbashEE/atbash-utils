@@ -249,7 +249,7 @@ public final class ClassUtils {
      * @return Constructor that match the argumentTypes.
      * @throws NoConstructorFoundException When no constructor (or multiple) is found which matches the argumentTypes.
      */
-    private static Constructor getConstructor(Class clazz, Class... argTypes) {
+    static Constructor getConstructor(Class clazz, Class... argTypes) {
         // return clazz.getConstructor(argTypes);
         // The above finds only arguments which exact class matches and doesn't support null arguments.
 

@@ -37,31 +37,18 @@
     <url>https://raw.githubusercontent.com/atbashEE/atbash-utils/master/utils-se/src/main/doc/javase.adoc</url>
 
     <dependencies>
-        <!-- for the Spock/Groovy based testing -->
+        <!-- Testing -->
         <dependency>
-            <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy-all</artifactId>
-            <version>2.4.4</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.spockframework</groupId>
-            <artifactId>spock-core</artifactId>
-            <version>1.0-groovy-2.4</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
-            <groupId>cglib</groupId>
-            <artifactId>cglib-nodep</artifactId>
-            <version>2.2</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.blogspot.toomuchcoding</groupId>
-            <artifactId>spock-subjects-collaborators-extension</artifactId>
-            <version>1.2.1</version>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>2.9.1</version>
             <scope>test</scope>
         </dependency>
 
@@ -83,6 +70,9 @@
                             <includes>
                                 <include>**/Test*</include>
                             </includes>
+                            <excludes>
+                                <exclude>**/*Test.class</exclude>
+                            </excludes>
                         </configuration>
                     </execution>
                 </executions>

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2014-2018 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package be.atbash.util.reflection.testclasses
+package be.atbash.util.testclasses;
 
-/**
- *
- */
+import be.atbash.util.reflection.testclasses.Foo;
 
-class Bar extends Foo {
+public class Bar extends Foo {
 }
