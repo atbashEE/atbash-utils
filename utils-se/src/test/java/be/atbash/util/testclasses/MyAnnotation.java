@@ -15,13 +15,12 @@
  */
 package be.atbash.util.testclasses;
 
-@MyAnnotation
-public class Parent {
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-    private String parentField = "parentValue";
-
-    public String getParentField() {
-        return parentField;
-    }
-
+@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME) // so that we can use tools to verify a few things.
+public @interface MyAnnotation {
 }

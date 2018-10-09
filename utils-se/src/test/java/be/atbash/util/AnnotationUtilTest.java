@@ -13,15 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package be.atbash.util.testclasses;
+package be.atbash.util;
 
-@MyAnnotation
-public class Parent {
+import be.atbash.util.testclasses.Child;
+import be.atbash.util.testclasses.MyAnnotation;
+import org.junit.Test;
 
-    private String parentField = "parentValue";
+import static org.assertj.core.api.Assertions.assertThat;
 
-    public String getParentField() {
-        return parentField;
+
+public class AnnotationUtilTest {
+
+    @Test
+    public void getAnnotation_available() {
+        assertThat(AnnotationUtil.getAnnotation(Child.class, MyAnnotation.class)).isNotNull();
     }
 
+    @Test
+    public void getAnnotation_notAvailable() {
+        assertThat(AnnotationUtil.getAnnotation(Child.class, PublicAPI.class)).isNull();
+    }
 }

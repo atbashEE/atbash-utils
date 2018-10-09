@@ -13,15 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package be.atbash.util.testclasses;
+package be.atbash.util;
 
-@MyAnnotation
-public class Parent {
+import java.lang.annotation.Annotation;
 
-    private String parentField = "parentValue";
+public final class AnnotationUtil {
 
-    public String getParentField() {
-        return parentField;
+    private AnnotationUtil() {
+    }
+
+    public static <A extends Annotation> A getAnnotation(Class<?> someClass, Class<A> someAnnotation) {
+        A result = null;
+        if (someClass.isAnnotationPresent(someAnnotation)) {
+            result = someClass.getAnnotation(someAnnotation);
+        } else {
+            if (someClass != Object.class) {
+                result = getAnnotation(someClass.getSuperclass(), someAnnotation);
+            }
+        }
+        return result;
     }
 
 }
