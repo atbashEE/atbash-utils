@@ -27,7 +27,7 @@ public interface ResourceReader {
      * Determines if the implementation can read the resource based on the prefix.
      *
      * @param resourcePath Must be a non value containing the path pointing to the resource.
-     * @param context Optional value defining the context (like servletContext) from which resource must be read.
+     * @param context      Optional value defining the context (like servletContext) from which resource must be read.
      * @return
      */
     boolean canRead(String resourcePath, Object context);
@@ -36,15 +36,16 @@ public interface ResourceReader {
      * Determines if the resource exists and can be read.
      *
      * @param resourcePath
-     * @param context Optional value defining the context (like servletContext) from which resource must be checked.
+     * @param context      Optional value defining the context (like servletContext) from which resource must be checked.
      * @return
      */
     boolean exists(String resourcePath, Object context);
 
     /**
      * Loads the resource.
+     *
      * @param resourcePath
-     * @param context Optional value defining the context (like servletContext) from which resource must be loaded.
+     * @param context      Optional value defining the context (like servletContext) from which resource must be loaded.
      * @return null if the implementation can't read the resource (based on the prefix).
      */
     InputStream load(String resourcePath, Object context) throws IOException;

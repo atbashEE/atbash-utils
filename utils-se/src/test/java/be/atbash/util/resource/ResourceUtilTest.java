@@ -33,7 +33,7 @@ public class ResourceUtilTest {
         // Just to test a few things (serviceLoader, sorting, and context)
 
         Map<String, String> data = new HashMap<>();
-        data.put("key1","Value of Key1");
+        data.put("key1", "Value of Key1");
         data.put("key2", VALUE);
 
         InputStream is = ResourceUtil.getInstance().getStream("key2", data);

@@ -26,9 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 
-import static be.atbash.util.resource.ResourceUtil.CLASSPATH_PREFIX;
-import static be.atbash.util.resource.ResourceUtil.FILE_PREFIX;
-import static be.atbash.util.resource.ResourceUtil.URL_PREFIX;
+import static be.atbash.util.resource.ResourceUtil.*;
 
 @Order(Long.MAX_VALUE)
 public class FileResourceReader implements ResourceReader {
