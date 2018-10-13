@@ -171,6 +171,62 @@ be.atbash.util.reflection.ClassUtils#getResourceAsStream(String)
 
 Returns the resource using the 3 class loaders as described above.
 
+=== Resource API
+
+On various occasions, you need to retrieve the contents of a resource. The resource can be located on the classpath, on the file system, accessible with HTTP etc ...
+
+When you are reading some fixed resources from a certain type like classpath, then you can do it of course in a very performant way using the dedicated methods.
+But when you are reading some configuration values, for which the location can be changed by the developer at runtime, it might by a good idea to have some kind of API available for this.
+
+With the class **be.atbash.util.resource.ResourceUtil** you are able to read a resource from multiple locations. In the sense that for example by using prefixes, we can indicate where the resource needs to be searched. The most obvious prefix is of course **http://** for a remote resources.
+
+The following methods are defined on the class.
+
+----
+boolean resourceUtil.isSupported(java.lang.String);
+----
+
+Can be called to determine if the resource locator is supported by the API. Because it is extensible, see further on, it is possible to add custom location types. Method is mostly used by the internal implementation by other methods.
+
+----
+boolean resourceUtil.resourceExists(java.lang.String);
+----
+
+Determines if the resource exists and can be read.
+
+----
+InputStream resourceUtil.getStream(java.lang.String);
+----
+
+Return the _InputStream_ for the resource. The method is also allowed to return null when it not able to open.
+
+For the above methods, there exists also an overloaded variant which takes a _Object_ as parameter. This is the context to which the resource location is constrained. It is not used by the default implementations, but a custom implementations can use it for retrieving resources from the ServletContext for example.
+
+The Resource API can be accessed from the singleton **ResourceUtil** retrieved by _ResourceUtil.getInstance()_.  When you also add the Atbash CDI utils, you can also inject an instance.
+
+==== Resource API extensions
+
+By default, the following implementations are supported
+
+- ClassPath resources, with prefix _classpath:_.
+- URL resources, with prefix _http:_.
+- File resources, can be explicitly stated by using _file:_ but not needed.
+
+Other, custom, implementations can be created by implementing the **be.atbash.util.resource.ResourceReader** interface.  The class must be registered for loading with the ServiceLoader mechanism (use file /META-INF/services/be.atbash.util.resource.ResourceReader file)
+and the class must have the annotation **be.atbash.util.ordered.Order** to determine the position within the list of all known readers.
+
+Please use a positive value for your custom implementation for not interfering with the default implementations.
+
+The interface has the following methods, corresponding to the one explained above.
+
+----
+boolean canRead(String, Object);
+boolean exists(String, Object);
+InputStream load(String, Object) throws IOException;
+----
+
+Be aware that the methods _exists()_ and _load()_ can be called also for resources which cannot be handled by the resource reader. So check the String parameter if it contains a prefix for example which indicates that the resource can be handled.
+
 === Reading version
 
 With the class **be.atbash.util.version.VersionReader**, you can read the version information stored within the _META-INF/MANIFEST.MF_ file.
