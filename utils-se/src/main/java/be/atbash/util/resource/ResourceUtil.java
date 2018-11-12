@@ -56,10 +56,27 @@ public class ResourceUtil {
         readers.add(new ClassPathResourceReader());
         readers.add(new URLResourceReader());
         readers.add(new FileResourceReader());
+        // current Thread
         for (ResourceReader resourceReader : ServiceLoader.load(ResourceReader.class)) {
             readers.add(resourceReader);
         }
+        // Classloader for deployment
+        for (ResourceReader resourceReader : ServiceLoader.load(ResourceReader.class, ResourceUtil.class.getClassLoader())) {
+            if (!isReaderFound(resourceReader)) {
+                readers.add(resourceReader);
+            }
+        }
         Collections.sort(readers, new OrderComparator());
+    }
+
+    private boolean isReaderFound(ResourceReader resourceReader) {
+        boolean result = false;
+        for (ResourceReader reader : readers) {
+            if (reader.getClass().getName().equals(resourceReader.getClass().getName())) {
+                result = true;
+            }
+        }
+        return result;
     }
 
     /**
