@@ -52,6 +52,13 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>be.atbash.utils</groupId>
+            <artifactId>test-resources</artifactId>
+            <version>${parent.version}</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

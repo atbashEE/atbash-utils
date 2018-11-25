@@ -69,6 +69,7 @@
     </scm>
 
     <modules>
+        <module>test-resources</module>
         <module>utils-se</module>
         <module>utils-cdi</module>
         <module>utils-jsf</module>
