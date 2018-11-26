@@ -69,18 +69,27 @@ public abstract class Vfs {
         boolean matches(URL url) throws Exception;
 
         Dir createDir(URL url) throws Exception;
+
+        boolean noScanningNeeded(URL url);
     }
 
     /**
-     * tries to create a Dir from the given url, using the given urlTypes
+     * tries to create a Dir from the given url, using the given urlTypes.
+     * @return null when URL doesn't need to be scanned, a non null value is the directory to scan.
      */
     public static Dir fromURL(URL url) {
 
         for (UrlType type : DefaultUrlTypes.values()) {
             try {
-                if (type.matches(url)) {
-                    Dir dir = type.createDir(url);
-                    if (dir != null) return dir;
+                if (type.matches(url) ) {
+                    if (type.noScanningNeeded(url)) {
+                        return null;
+                    } else {
+                        Dir dir = type.createDir(url);
+                        if (dir != null) {
+                            return dir;
+                        }
+                    }
                 }
             } catch (Throwable e) {
                 LOGGER.warn("could not create Dir using " + type + " from url " + url.toExternalForm() + ". skipping.", e);
@@ -153,20 +162,34 @@ public abstract class Vfs {
     public enum DefaultUrlTypes implements Vfs.UrlType {
         // FIXME Review Usage
         jarFile {
+            @Override
             public boolean matches(URL url) {
                 return url.getProtocol().equals("file") && hasJarFileInPath(url);
             }
 
+            @Override
             public Vfs.Dir createDir(final URL url) throws Exception {
                 return new ZipDir(new JarFile(getFile(url)));
+            }
+
+            @Override
+            public boolean noScanningNeeded(URL url) {
+                return false;
             }
         },
 
         jarUrl {
+            @Override
             public boolean matches(URL url) {
                 return "jar".equals(url.getProtocol()) || "zip".equals(url.getProtocol()) || "wsjar".equals(url.getProtocol());
             }
 
+            @Override
+            public boolean noScanningNeeded(URL url) {
+                return false;
+            }
+
+            @Override
             public Vfs.Dir createDir(URL url) throws Exception {
                 try {
                     URLConnection urlConnection = url.openConnection();
@@ -183,6 +206,7 @@ public abstract class Vfs {
         },
 
         directory {
+            @Override
             public boolean matches(URL url) {
                 if (url.getProtocol().equals("file") && !hasJarFileInPath(url)) {
                     java.io.File file = getFile(url);
@@ -190,42 +214,74 @@ public abstract class Vfs {
                 } else return false;
             }
 
+            @Override
+            public boolean noScanningNeeded(URL url) {
+                return false;
+            }
+
+            @Override
             public Vfs.Dir createDir(final URL url) throws Exception {
                 return new SystemDir(getFile(url));
             }
         },
 
         jboss_vfs {
+            @Override
             public boolean matches(URL url) {
                 return url.getProtocol().equals("vfs");
             }
 
+            @Override
+            public boolean noScanningNeeded(URL url) {
+                return url.getPath().endsWith("META-INF/MANIFEST.MF");  // Using the META-INF/MANIFEST.MF resource for finding JAR entries on Java SE
+                // Gives a problem when using on JBoss (with VFS) as it adds an additional URL which can't be processed.
+            }
+
+            @Override
             public Vfs.Dir createDir(URL url) throws Exception {
                 Object content = url.openConnection().getContent();
                 Class<?> virtualFile = Thread.currentThread().getContextClassLoader().loadClass("org.jboss.vfs.VirtualFile");
                 java.io.File physicalFile = (java.io.File) virtualFile.getMethod("getPhysicalFile").invoke(content);
                 String name = (String) virtualFile.getMethod("getName").invoke(content);
-                java.io.File file = new java.io.File(physicalFile.getParentFile(), name);
-                if (!file.exists() || !file.canRead()) file = physicalFile;
+                java.io.File file = new java.io.File(physicalFile.getParentFile(), name);  // Name points to /content dir -> jar file is in the parent
+                if (!file.exists() || !file.canRead()) {
+                    file = physicalFile;
+                }
                 return file.isDirectory() ? new SystemDir(file) : new ZipDir(new JarFile(file));
             }
         },
 
         jboss_vfsfile {
+            // TODO Do we need to support this?
+            @Override
             public boolean matches(URL url) throws Exception {
                 return "vfszip".equals(url.getProtocol()) || "vfsfile".equals(url.getProtocol());
             }
 
+            @Override
+            public boolean noScanningNeeded(URL url) {
+                return false;
+            }
+
+            @Override
             public Vfs.Dir createDir(URL url) throws Exception {
                 return new UrlTypeVFS().createDir(url);
             }
         },
 
         bundle {
+            // TODO Do we need to support this?
+            @Override
             public boolean matches(URL url) throws Exception {
                 return url.getProtocol().startsWith("bundle");
             }
 
+            @Override
+            public boolean noScanningNeeded(URL url) {
+                return false;
+            }
+
+            @Override
             public Vfs.Dir createDir(URL url) throws Exception {
                 return fromURL((URL) Thread.currentThread().getContextClassLoader().
                         loadClass("org.eclipse.core.runtime.FileLocator").getMethod("resolve", URL.class).invoke(null, url));
@@ -233,10 +289,17 @@ public abstract class Vfs {
         },
 
         jarInputStream {
+            @Override
             public boolean matches(URL url) throws Exception {
                 return url.toExternalForm().contains(".jar");
             }
 
+            @Override
+            public boolean noScanningNeeded(URL url) {
+                return false;
+            }
+
+            @Override
             public Vfs.Dir createDir(final URL url) throws Exception {
                 return new JarInputDir(url);
             }

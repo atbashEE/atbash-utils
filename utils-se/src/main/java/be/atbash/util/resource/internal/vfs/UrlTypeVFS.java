@@ -45,6 +45,11 @@ public class UrlTypeVFS implements Vfs.UrlType {
         return VFSZIP.equals(url.getProtocol()) || VFSFILE.equals(url.getProtocol());
     }
 
+    @Override
+    public boolean noScanningNeeded(URL url) {
+        return false;
+    }
+
     public Vfs.Dir createDir(final URL url) {
         try {
             URL adaptedUrl = adaptURL(url);

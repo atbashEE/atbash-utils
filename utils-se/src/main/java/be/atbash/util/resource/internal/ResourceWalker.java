@@ -65,6 +65,11 @@ public class ResourceWalker {
     private void scan(URL url) {
         Vfs.Dir dir = Vfs.fromURL(url);
 
+        if (dir == null) {
+            // Some URL's don't need to be scanned.
+            return;
+        }
+
         try {
             for (Vfs.File file : dir.getFiles()) {
                 // scan if inputs filter accepts file relative path or fqn
