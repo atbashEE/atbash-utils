@@ -8,6 +8,7 @@ v0.9.3, ??/??/2018
 
 * Addition of a, extensible, resource API which can open resource in classpath, URL target and file.
 * AnnotationUtil.
+* ResourceScanner, find resources on classpath
 
 === 0.9.2
 
@@ -226,6 +227,29 @@ InputStream load(String, Object) throws IOException;
 ----
 
 Be aware that the methods _exists()_ and _load()_ can be called also for resources which cannot be handled by the resource reader. So check the String parameter if it contains a prefix for example which indicates that the resource can be handled.
+
+=== Resource Scanner (since v0.9.3)
+
+Based on the org.reflection code, but a very limited version which can scan for resources on classpath.
+
+The ResourceScanner makes it possible to find all resource files within a certain directory within the classpath.
+
+Basic usage
+
+----
+   ResourceScanner scanner = ResourceScanner.getInstance();
+   Pattern pattern = Pattern.compile("someDirectory" + ".*");
+   Set<String> resources = scanner.getResources(pattern)
+----
+
+The above example returns all resources (non class resources) in the _someDirectory_ directory and all subdirectories.
+
+Some important things to know
+
+- The resources within the META-INF directory are excluded.
+- JAR on the classpath are only taken into account when it contains a Manifest file (_/META-INF/MANIFEST.MF_)
+
+Another useful method in some situation are the _geResourcePaths()_. They return the actual location (on the drive) of the resource.
 
 === Reading version
 
