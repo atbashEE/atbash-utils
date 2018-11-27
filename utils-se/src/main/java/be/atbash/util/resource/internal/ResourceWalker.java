@@ -15,6 +15,8 @@
  */
 package be.atbash.util.resource.internal;
 
+import be.atbash.util.exception.AtbashUnexpectedException;
+import be.atbash.util.resource.ResourceWalkerExecutorServiceProvider;
 import be.atbash.util.resource.internal.vfs.Vfs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +24,8 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 
 import static java.lang.String.format;
 
@@ -30,23 +34,59 @@ public class ResourceWalker {
 
     private Logger logger = LoggerFactory.getLogger(ResourceWalker.class);
 
+    private ExecutorService executorService;
+
     private Store store;
 
     public ResourceWalker(Store store) {
         this.store = store;
+
+        Iterator<ResourceWalkerExecutorServiceProvider> providerIterator = ServiceLoader.load(ResourceWalkerExecutorServiceProvider.class).iterator();
+        if (providerIterator.hasNext()) {
+            // TODO What if there are more then 1 defined
+            executorService = providerIterator.next().getExecutorService();
+        }
     }
 
     public void scan() {
         long time = System.currentTimeMillis();
         int scannedUrls = 0;
 
+        List<Future<?>> futures = new ArrayList<>();
+
         Collection<URL> urls = getClassPathURLs();
 
-        for (URL url : urls) {
+        for (final URL url : urls) {
+            try {
+                if (executorService != null) {
 
-            scan(url);
-            scannedUrls++;
+                    futures.add(executorService.submit(new Runnable() {
+                        public void run() {
+                            logger.debug(String.format("[%s] scanning %s", Thread.currentThread(), url));
+                            scan(url);
+                        }
+                    }));
 
+                } else {
+
+                    scan(url);
+                }
+                scannedUrls++;
+            } catch (ResourceWalkerException e) {
+                logger.warn("could not create Vfs.Dir from url. Ignoring the exception and continuing", e);
+            }
+
+        }
+
+
+        if (executorService != null) {
+            for (Future future : futures) {
+                try {
+                    future.get();
+                } catch (Exception e) {
+                    throw new AtbashUnexpectedException(e);
+                }
+            }
         }
 
         time = System.currentTimeMillis() - time;
@@ -57,8 +97,9 @@ public class ResourceWalker {
             values += store.get(index).size();
         }
 
-        logger.info(format("Reflections took %d ms to scan %d urls, producing %d keys and %d values",
-                time, scannedUrls, keys, values));
+        logger.info(format("Reflections took %d ms to scan %d urls, producing %d keys and %d values %s",
+                time, scannedUrls, keys, values,
+                executorService != null ? "[using executorService]" : ""));
 
     }
 

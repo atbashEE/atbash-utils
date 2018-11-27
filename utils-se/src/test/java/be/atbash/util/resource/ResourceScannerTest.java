@@ -15,7 +15,15 @@
  */
 package be.atbash.util.resource;
 
+import be.atbash.util.TestReflectionUtils;
+import be.atbash.util.resource.internal.ResourceWalker;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import uk.org.lidalia.slf4jext.Level;
+import uk.org.lidalia.slf4jtest.LoggingEvent;
+import uk.org.lidalia.slf4jtest.TestLogger;
+import uk.org.lidalia.slf4jtest.TestLoggerFactory;
 
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -24,12 +32,38 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ResourceScannerTest {
 
+    private TestLogger logger;
+
+    @Before
+    public void setup() throws NoSuchFieldException {
+        TestReflectionUtils.resetOf(ResourceScanner.class, "INSTANCE");  // Reset singleton
+        System.setProperty("useExecutorService",""); // No executorService Active
+        // See TestExecutorServiceProvider
+
+        logger = TestLoggerFactory.getTestLogger(ResourceWalker.class);
+    }
+
+    @After
+    public void reset() {
+        TestLoggerFactory.clear();
+    }
     @Test
     public void getResources() {
 
         Pattern pattern = Pattern.compile("walker/directory" + ".*");
         Set<String> resources = ResourceScanner.getInstance().getResources(pattern);
         assertThat(resources).contains("walker/directory/file2.txt", "walker/directory/file3", "walker/directory/fileInJar");
+
+        assertThat(getLogMessage()).doesNotContain("[using executorService]");
+    }
+
+    @Test
+    public void getResources_MultiThreaded() {
+        System.setProperty("useExecutorService","multi"); // Any value wil do
+        Pattern pattern = Pattern.compile("walker/directory" + ".*");
+        Set<String> resources = ResourceScanner.getInstance().getResources(pattern);
+        assertThat(resources).contains("walker/directory/file2.txt", "walker/directory/file3", "walker/directory/fileInJar");
+        assertThat(getLogMessage()).contains("[using executorService]");
     }
 
     @Test
@@ -73,6 +107,7 @@ public class ResourceScannerTest {
 
     @Test
     public void getResourcePaths() {
+        // Does not run from IDE but works fine from Maven
         Set<String> paths = ResourceScanner.getInstance().getResourcePaths("walker/directory/file3");
         int cnt = 0;
         for (String path : paths) {
@@ -89,4 +124,16 @@ public class ResourceScannerTest {
         }
         assertThat(cnt).isEqualTo(2);
     }
+
+    private String getLogMessage() {
+        String result = "";
+        for (LoggingEvent loggingEvent : logger.getLoggingEvents()) {
+            if (Level.INFO.equals(loggingEvent.getLevel())) {
+                result = loggingEvent.getMessage();
+            }
+        }
+        System.out.println(result);
+        return result;
+    }
+
 }
