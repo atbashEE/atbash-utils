@@ -15,6 +15,7 @@
  */
 package be.atbash.util.resource.internal.vfs;
 
+import be.atbash.util.resource.UrlType;
 import be.atbash.util.resource.internal.ResourceWalkerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,13 +34,13 @@ import java.util.regex.Pattern;
  * <p>
  *
  */
-public class UrlTypeVFS implements Vfs.UrlType {
+public class UrlTypeVFS implements UrlType {
     private static final Logger LOGGER = LoggerFactory.getLogger(JarInputDir.class);
 
-    public final static String[] REPLACE_EXTENSION = new String[]{".ear/", ".jar/", ".war/", ".sar/", ".har/", ".par/"};
+    private final static String[] REPLACE_EXTENSION = new String[]{".ear/", ".jar/", ".war/", ".sar/", ".har/", ".par/"};
 
-    final String VFSZIP = "vfszip";
-    final String VFSFILE = "vfsfile";
+    private final String VFSZIP = "vfszip";
+    private final String VFSFILE = "vfsfile";
 
     public boolean matches(URL url) {
         return VFSZIP.equals(url.getProtocol()) || VFSFILE.equals(url.getProtocol());
@@ -66,7 +67,7 @@ public class UrlTypeVFS implements Vfs.UrlType {
         return null;
     }
 
-    public URL adaptURL(URL url) throws MalformedURLException {
+    private URL adaptURL(URL url) throws MalformedURLException {
         if (VFSZIP.equals(url.getProtocol())) {
             return replaceZipSeparators(url.getPath());
         } else if (VFSFILE.equals(url.getProtocol())) {
@@ -76,8 +77,7 @@ public class UrlTypeVFS implements Vfs.UrlType {
         }
     }
 
-    URL replaceZipSeparators(String path)
-            throws MalformedURLException {
+    private URL replaceZipSeparators(String path) throws MalformedURLException {
         int pos = 0;
         while (pos != -1) {
             pos = findFirstMatchOfDeployableExtention(path, pos);
@@ -108,8 +108,7 @@ public class UrlTypeVFS implements Vfs.UrlType {
     }
 
 
-    private URL replaceZipSeparatorStartingFrom(String path, int pos)
-            throws MalformedURLException {
+    private URL replaceZipSeparatorStartingFrom(String path, int pos) throws MalformedURLException {
         String zipFile = path.substring(0, pos - 1);
         String zipPath = path.substring(pos);
 
@@ -121,15 +120,15 @@ public class UrlTypeVFS implements Vfs.UrlType {
             }
         }
 
-        String prefix = "";
+        StringBuilder prefix = new StringBuilder();
         for (int i = 0; i < numSubs; i++) {
-            prefix += "zip:";
+            prefix.append("zip:");
         }
 
         if (zipPath.trim().length() == 0) {
-            return new URL(prefix + "/" + zipFile);
+            return new URL(prefix.toString() + "/" + zipFile);
         } else {
-            return new URL(prefix + "/" + zipFile + "!" + zipPath);
+            return new URL(prefix.toString() + "/" + zipFile + "!" + zipPath);
         }
     }
 }

@@ -15,12 +15,16 @@
  */
 package be.atbash.util.resource.internal.vfs;
 
+import be.atbash.util.resource.UrlType;
 import be.atbash.util.resource.internal.ResourceWalkerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
 import java.net.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.jar.JarFile;
 
 /**
@@ -38,9 +42,17 @@ import java.util.jar.JarFile;
  * <p>{@link Vfs#fromURL(java.net.URL)} uses static {@link Vfs.DefaultUrlTypes} to resolve URLs.
  * It contains VfsTypes for handling for common resources such as local jar file, local directory, jar url, jar input stream and more.
  *
+ * Additional type handling can be registered by a call to {@link Vfs#addDefaultURLTypes(UrlType)}
  */
 public abstract class Vfs {
     private static final Logger LOGGER = LoggerFactory.getLogger(Vfs.class);
+
+    private static List<UrlType> defaultUrlTypes;
+
+    static {
+        defaultUrlTypes = new ArrayList<>();
+        Collections.addAll(defaultUrlTypes, DefaultUrlTypes.values());
+    }
 
     /**
      * an abstract vfs dir
@@ -63,14 +75,10 @@ public abstract class Vfs {
     }
 
     /**
-     * a matcher and factory for a url
+     * add a static default url types to the beginning of the default url types list. can be used to statically plug in urlTypes
      */
-    public interface UrlType {
-        boolean matches(URL url) throws Exception;
-
-        Dir createDir(URL url) throws Exception;
-
-        boolean noScanningNeeded(URL url);
+    public static void registerURLType(UrlType urlType) {
+        defaultUrlTypes.add(0, urlType);
     }
 
     /**
@@ -79,7 +87,7 @@ public abstract class Vfs {
      */
     public static Dir fromURL(URL url) {
 
-        for (UrlType type : DefaultUrlTypes.values()) {
+        for (UrlType type : defaultUrlTypes) {
             try {
                 if (type.matches(url) ) {
                     if (type.noScanningNeeded(url)) {
@@ -112,15 +120,23 @@ public abstract class Vfs {
 
         try {
             path = url.toURI().getSchemeSpecificPart();
-            if ((file = new java.io.File(path)).exists()) return file;
+            file = new java.io.File(path);
+            if (file.exists()) {
+                return file;
+            }
         } catch (URISyntaxException e) {
             // TODO
         }
 
         try {
             path = URLDecoder.decode(url.getPath(), "UTF-8");
-            if (path.contains(".jar!")) path = path.substring(0, path.lastIndexOf(".jar!") + ".jar".length());
-            if ((file = new java.io.File(path)).exists()) return file;
+            if (path.contains(".jar!")) {
+                path = path.substring(0, path.lastIndexOf(".jar!") + ".jar".length());
+            }
+            file = new java.io.File(path);
+            if (file.exists()) {
+                return file;
+            }
 
         } catch (UnsupportedEncodingException e) {
             // TODO
@@ -128,14 +144,28 @@ public abstract class Vfs {
 
         try {
             path = url.toExternalForm();
-            if (path.startsWith("jar:")) path = path.substring("jar:".length());
-            if (path.startsWith("wsjar:")) path = path.substring("wsjar:".length());
-            if (path.startsWith("file:")) path = path.substring("file:".length());
-            if (path.contains(".jar!")) path = path.substring(0, path.indexOf(".jar!") + ".jar".length());
-            if ((file = new java.io.File(path)).exists()) return file;
+            if (path.startsWith("jar:")) {
+                path = path.substring("jar:".length());
+            }
+            if (path.startsWith("wsjar:")) {
+                path = path.substring("wsjar:".length());
+            }
+            if (path.startsWith("file:")) {
+                path = path.substring("file:".length());
+            }
+            if (path.contains(".jar!")) {
+                path = path.substring(0, path.indexOf(".jar!") + ".jar".length());
+            }
+            file = new java.io.File(path);
+            if (file.exists()) {
+                return file;
+            }
 
             path = path.replace("%20", " ");
-            if ((file = new java.io.File(path)).exists()) return file;
+            file = new java.io.File(path);
+            if (file.exists()) {
+                return file;
+            }
 
         } catch (Exception e) {
             // TODO
@@ -159,8 +189,8 @@ public abstract class Vfs {
      * <p>bundle - for bundle protocol, using eclipse FileLocator (should be provided in classpath)
      * <p>jarInputStream - creates a {@link JarInputDir} over jar files, using Java's JarInputStream
      */
-    public enum DefaultUrlTypes implements Vfs.UrlType {
-        // FIXME Review Usage
+    public enum DefaultUrlTypes implements UrlType {
+
         jarFile {
             @Override
             public boolean matches(URL url) {
@@ -254,7 +284,7 @@ public abstract class Vfs {
         jboss_vfsfile {
             // TODO Do we need to support this?
             @Override
-            public boolean matches(URL url) throws Exception {
+            public boolean matches(URL url) {
                 return "vfszip".equals(url.getProtocol()) || "vfsfile".equals(url.getProtocol());
             }
 
@@ -272,7 +302,7 @@ public abstract class Vfs {
         bundle {
             // TODO Do we need to support this?
             @Override
-            public boolean matches(URL url) throws Exception {
+            public boolean matches(URL url) {
                 return url.getProtocol().startsWith("bundle");
             }
 
@@ -290,7 +320,7 @@ public abstract class Vfs {
 
         jarInputStream {
             @Override
-            public boolean matches(URL url) throws Exception {
+            public boolean matches(URL url) {
                 return url.toExternalForm().contains(".jar");
             }
 

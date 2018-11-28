@@ -47,25 +47,25 @@ public class Store {
      * get or create the multimap object for the given {@code key}
      */
     public List<String> getOrCreate(String key) {
-        List<String> mmap = storeMap.get(key);
-        if (mmap == null) {
+        List<String> result = storeMap.get(key);
+        if (result == null) {
 
-            mmap = new ArrayList<>();
-            storeMap.put(key, mmap);
+            result = new ArrayList<>();
+            storeMap.put(key, result);
         }
-        return mmap;
+        return result;
     }
 
     /**
      * get the List object for the given {@code index}, otherwise throws a {@link AtbashUnexpectedException}
      */
     public List<String> get(String key) {
-        List<String> mmap = storeMap.get(key);
-        if (mmap == null) {
+        List<String> result = storeMap.get(key);
+        if (result == null) {
             // FIXME Review
             throw new AtbashUnexpectedException("Scanner " + key + " was not configured");
         }
-        return mmap;
+        return result;
     }
 
 }

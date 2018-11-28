@@ -230,7 +230,7 @@ Be aware that the methods _exists()_ and _load()_ can be called also for resourc
 
 === Resource Scanner (since v0.9.3)
 
-Based on the org.reflection code, but a very limited version which can scan for resources on classpath.
+Based on the org.reflection code, but a very limited version which can scan for resources on the classpath.
 
 The ResourceScanner makes it possible to find all resource files within a certain directory within the classpath.
 
@@ -247,19 +247,27 @@ The above example returns all resources (non class resources) in the _someDirect
 Some important things to know
 
 - The resources within the META-INF directory are excluded.
-- JAR on the classpath are only taken into account when it contains a Manifest file (_/META-INF/MANIFEST.MF_)
+- JARs on the classpath are only taken into account when it contains a Manifest file (_/META-INF/MANIFEST.MF_) (Java SE only)
 
-Another useful method in some situation are the _geResourcePaths()_. They return the actual location (on the drive) of the resource.
+Another useful method in some situations are the _geResourcePaths()_ methods. They return the actual location (the URL) of the resource.
 
-If you notice that scanning the resources takes a lot of time, you can increase the performance by supplying an instance of an _ExecutorService_ so that classpath URL are scanned in a multi-threaded fashion.
+If you notice that scanning of the resources takes a lot of time, you can increase the performance by supplying an instance of an _ExecutorService_ so that classpath URL are scanned in a multi-threaded fashion.
 
-You can evaluate if a multi-threaded apporach is required by looking at a log entry (info level) in the format of
+You can evaluate if a multi-threaded approach is required by looking at the log entry (info level) in the format of
 
     Reflections took 69 ms to scan 35 urls, producing 1843 keys and 1844 values
 
-If you want to supply an _ExecutorService_, implement the **ResourceWalkerExecutorServiceProvider** and define it through the _service Loader_ mechanism.  The interface has 1 method which needs to return the instance (but is allowed to return null)
+If you want to supply an _ExecutorService_, implement the **ResourceWalkerExecutorServiceProvider** and define it through the _service loader_ mechanism.  The interface has 1 method which needs to return the instance (but is allowed to return null)
 
     ExecutorService getExecutorService();
+
+By default, the _ResourceScanner_ supports directories, zip and jar files and the JBoss VFS protocol.  Additional types can be registered by calling the method:
+
+----
+   ResourceScanner.registerURLType(UrlType);
+----
+
+This needs to be done of course before the first call to **ResourceScanner.getInstance()** as this initializes the scanning.
 
 === Reading version
 

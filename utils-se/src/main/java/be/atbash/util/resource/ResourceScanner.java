@@ -18,6 +18,7 @@ package be.atbash.util.resource;
 import be.atbash.util.PublicAPI;
 import be.atbash.util.resource.internal.ResourceWalker;
 import be.atbash.util.resource.internal.Store;
+import be.atbash.util.resource.internal.vfs.Vfs;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -88,5 +89,10 @@ public class ResourceScanner {
             }
         }
         return INSTANCE;
+    }
+
+    public static void registerURLType(UrlType urlType) {
+
+        Vfs.registerURLType(urlType);
     }
 }
