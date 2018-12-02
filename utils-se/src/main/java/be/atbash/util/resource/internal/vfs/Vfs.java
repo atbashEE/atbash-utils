@@ -42,7 +42,7 @@ import java.util.jar.JarFile;
  * <p>{@link Vfs#fromURL(java.net.URL)} uses static {@link Vfs.DefaultUrlTypes} to resolve URLs.
  * It contains VfsTypes for handling for common resources such as local jar file, local directory, jar url, jar input stream and more.
  *
- * Additional type handling can be registered by a call to {@link Vfs#addDefaultURLTypes(UrlType)}
+ * Additional type handling can be registered by a call to {@link Vfs#registerURLType(UrlType)}
  */
 public abstract class Vfs {
     private static final Logger LOGGER = LoggerFactory.getLogger(Vfs.class);

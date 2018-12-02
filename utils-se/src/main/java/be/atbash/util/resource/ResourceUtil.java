@@ -82,8 +82,8 @@ public class ResourceUtil {
     /**
      * Returns {@code true} if the resource can be read by an implementation (based on the prefix in most cases)
      *
-     * @param resourcePath
-     * @return
+     * @param resourcePath Location of the resource to be tested.
+     * @return true when resource can be read, false otherwise.
      */
     public boolean isSupported(String resourcePath) {
         return isSupported(resourcePath, null);
@@ -92,9 +92,9 @@ public class ResourceUtil {
     /**
      * Returns {@code true} if the resource can be read by an implementation (based on the prefix in most cases)
      *
-     * @param resourcePath
+     * @param resourcePath Location of the resource to be tested.
      * @param context      Optional value defining the context (like servletContext) from which resource must be read
-     * @return
+     * @return true when resource can be read, false otherwise.
      */
     public boolean isSupported(String resourcePath, Object context) {
         if (StringUtils.isEmpty(resourcePath)) {

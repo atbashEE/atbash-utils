@@ -27,7 +27,7 @@ public class AtbashIllegalActionException extends AtbashException {
     /**
      * Constructs the Exception with the message
      *
-     * @param message
+     * @param message Reason indicating the illegal action which is performed.
      */
     public AtbashIllegalActionException(String message) {
         super(message);

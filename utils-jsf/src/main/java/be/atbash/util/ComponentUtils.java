@@ -165,7 +165,7 @@ public final class ComponentUtils {
     }
 
     /**
-     * Return the {@code maxLngth} from the component ({@link HtmlInputText}. It checks first the valueExpression, if not
+     * Return the {@code maxLength} from the component ({@link HtmlInputText}. It checks first the valueExpression, if not
      * present then the getter is executed for retrieving fixed values.
      *
      * @param component    JSF component to get the value from.

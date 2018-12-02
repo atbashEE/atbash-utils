@@ -18,6 +18,7 @@ package be.atbash.util.codec;
 import org.junit.Test;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -29,7 +30,7 @@ public class HexTest {
 
     @Test
     public void encodeToString() throws UnsupportedEncodingException {
-        assertThat(Hex.encodeToString("Hello World".getBytes("UTF-8")) ).isEqualTo( "48656C6C6F20576F726C64");
+        assertThat(Hex.encodeToString("Hello World".getBytes(StandardCharsets.UTF_8))).isEqualTo("48656C6C6F20576F726C64");
     }
 
     @Test

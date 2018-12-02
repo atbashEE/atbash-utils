@@ -131,7 +131,7 @@ This is the algorithm
 - When no match found, the search is performed again but now with the parent
 - This repeat continue until the root of the component tree is reached or a component is found.
 
-The method **handle** has a custom component parameter flag. When the target is not found, the component itself is used as parameter with the custom componet flag set.
+The method **handle** has a custom component parameter flag. When the target is not found, the component itself is used as parameter with the custom component flag set.
 
 === Testing with FacesContext
 

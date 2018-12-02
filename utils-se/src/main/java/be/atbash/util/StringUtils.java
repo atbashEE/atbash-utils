@@ -310,7 +310,6 @@ public final class StringUtils {
      * @see StringTokenizer
      * @see String#trim()
      */
-    @SuppressWarnings({"unchecked"})
     public static String[] tokenizeToStringArray(
             String str, String delimiters, boolean trimTokens, boolean ignoreEmptyTokens) {
 
@@ -339,12 +338,11 @@ public final class StringUtils {
      * @return the String array (<code>null</code> if the passed-in
      * Collection was <code>null</code>)
      */
-    @SuppressWarnings({"unchecked"})
     public static String[] toStringArray(Collection<String> collection) {
         if (collection == null) {
             return null;
         }
-        return collection.toArray(new String[collection.size()]);
+        return collection.toArray(new String[0]);
     }
 
     /**
@@ -468,7 +466,7 @@ public final class StringUtils {
             s = s.trim();
         }
         tokens.add(s);
-        return tokens.toArray(new String[tokens.size()]);
+        return tokens.toArray(new String[0]);
     }
 
     /**

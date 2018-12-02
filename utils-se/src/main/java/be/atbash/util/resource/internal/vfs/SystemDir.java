@@ -44,11 +44,8 @@ public class SystemDir implements Vfs.Dir {
         if (file == null || !file.exists()) {
             return Collections.emptyList();
         }
-        List<Vfs.File> result = new ArrayList<>();
 
-        result.addAll(defineFiles(file));
-
-        return result;
+        return new ArrayList<>(defineFiles(file));
     }
 
     private Collection<? extends Vfs.File> defineFiles(File parentFile) {

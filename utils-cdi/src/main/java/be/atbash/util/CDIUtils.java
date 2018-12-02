@@ -119,7 +119,7 @@ public final class CDIUtils {
      * @param targetClass The class this bean must have (or subclass)
      * @param <T>         Generic Type argument
      * @return The CDI bean or exception when an issue in retrieving the bean.
-     * @throws UnsatisfiedResolutionException
+     * @throws UnsatisfiedResolutionException When instance cannot be found or is assignable to the requested type.
      */
     public static <T> T retrieveInstanceByName(String beanName, Class<T> targetClass) {
         if (StringUtils.isEmpty(beanName)) {

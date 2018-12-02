@@ -61,14 +61,14 @@ public class FakeCDI extends CDI<Object> {
     }
 
     @Override
-    public <U extends Object> Instance<U> select(Class<U> subtype, Annotation... qualifiers) {
+    public <U> Instance<U> select(Class<U> subtype, Annotation... qualifiers) {
         // TODO Support Qualifiers
         return new FakeInstance<>((List<U>) registeredObjects.get(subtype));
 
     }
 
     @Override
-    public <U extends Object> Instance<U> select(TypeLiteral<U> subtype, Annotation... qualifiers) {
+    public <U> Instance<U> select(TypeLiteral<U> subtype, Annotation... qualifiers) {
         // TODO
         throw new UnsupportedOperationException("Not implemented be.atbash.ee.jsf.jerry.util.cdi.FakeCDI.select(javax.enterprise.util.TypeLiteral<U>, java.lang.annotation.Annotation...)");
     }

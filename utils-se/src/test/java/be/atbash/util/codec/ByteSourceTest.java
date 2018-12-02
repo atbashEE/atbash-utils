@@ -46,8 +46,8 @@ public class ByteSourceTest {
     public void extra_type_with_custom_creator() {
         System.setProperty("default.creator", "false");
 
-        assertThat(ByteSource.creator.isCompatible(Byte.valueOf((byte) 123))).isTrue();
-        assertThat(ByteSource.creator.bytes(Byte.valueOf((byte) 123)).getBytes()).isEqualTo(new byte[]{123});
+        assertThat(ByteSource.creator.isCompatible((byte) 123)).isTrue();
+        assertThat(ByteSource.creator.bytes((byte) 123).getBytes()).isEqualTo(new byte[]{123});
 
     }
 

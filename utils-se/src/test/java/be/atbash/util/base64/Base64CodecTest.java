@@ -19,6 +19,7 @@ import org.junit.Test;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -117,7 +118,7 @@ public class Base64CodecTest {
 
     @Test
     public void decode_byteArray() throws UnsupportedEncodingException {
-        byte[] decode = Base64Codec.decode("VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wZWQgb3ZlciB0aGUgbGF6eSBkb2dzLg==".getBytes("UTF-8"));
+        byte[] decode = Base64Codec.decode("VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wZWQgb3ZlciB0aGUgbGF6eSBkb2dzLg==".getBytes(StandardCharsets.UTF_8));
         assertThat(new String(decode)).isEqualTo("The quick brown fox jumped over the lazy dogs.");
     }
 

@@ -24,7 +24,6 @@ import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
 import java.util.*;
 
-import static org.mockito.Matchers.anySet;
 import static org.mockito.Mockito.*;
 
 /**
