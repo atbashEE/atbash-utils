@@ -38,6 +38,11 @@ public class ResourceScanner {
         new ResourceWalker(store).scan();
     }
 
+    public Set<String> getResources(String resourceName) {
+        Pattern pattern = Pattern.compile(resourceName);
+        return getResources(pattern);
+    }
+
     public Set<String> getResources(Pattern pattern) {
 
         Set<String> result = new HashSet<>();
