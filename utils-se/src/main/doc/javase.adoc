@@ -46,7 +46,7 @@ Add the following artifact to your maven project file
 
 == Requirements
 
-Java 7+
+Runs on JDK 7, JDK 8 and JDK 11 ClassPath
 
 == Features
 

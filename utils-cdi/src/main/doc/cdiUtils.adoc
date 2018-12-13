@@ -45,7 +45,9 @@ When you want to use the fake CDI provider for testing purposes, you should add 
 
 == Requirements
 
-These utilities work only with CDI 1.1 (thus Java EE 7+)
+These utilities work only with CDI 1.1 (thus Java EE 7+) running on JDK 7 and JDK 8.
+
+Source compiles against JDK 11 but is not tested against this JDK (due to the lack of support by the application servers)
 
 == Features
 

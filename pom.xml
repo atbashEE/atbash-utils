@@ -33,8 +33,9 @@
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <asciidoctor.maven.plugin.version>1.5.6</asciidoctor.maven.plugin.version>
+        <asciidoctor.maven.plugin.version>1.5.7.1</asciidoctor.maven.plugin.version>
         <asciidoctorj.pdf.version>1.5.0-alpha.16</asciidoctorj.pdf.version>
+        <documentation.skip>false</documentation.skip>
 
     </properties>
 
@@ -126,6 +127,7 @@
                     <attributes>
                         <sourcedir>${project.build.sourceDirectory}</sourcedir>
                     </attributes>
+                    <skip>${documentation.skip}</skip>
                 </configuration>
                 <executions>
                     <execution>
@@ -280,6 +282,15 @@
                 </plugins>
             </build>
 
+        </profile>
+        <profile>
+            <id>jdk11-Profile</id>
+            <properties>
+                <documentation.skip>true</documentation.skip>
+            </properties>
+            <activation>
+                <jdk>11</jdk>
+            </activation>
         </profile>
     </profiles>
 </project>
