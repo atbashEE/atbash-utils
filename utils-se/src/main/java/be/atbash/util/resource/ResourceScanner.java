@@ -16,6 +16,7 @@
 package be.atbash.util.resource;
 
 import be.atbash.util.PublicAPI;
+import be.atbash.util.SecurityReview;
 import be.atbash.util.resource.internal.ResourceWalker;
 import be.atbash.util.resource.internal.Store;
 import be.atbash.util.resource.internal.vfs.Vfs;
@@ -38,11 +39,27 @@ public class ResourceScanner {
         new ResourceWalker(store).scan();
     }
 
+    /**
+     * Returns all resources which matches the Regular Expression Pattern.
+     * Security Review : Make sure the Pattern is defined by the developer since some regular expression can be
+     * very time consuming and thus used by user to trigger a DOS.
+     * @param resourceName The Regular expression pattern to resources much match
+     * @return The resources matching the regular expression
+     */
+    @SecurityReview
     public Set<String> getResources(String resourceName) {
         Pattern pattern = Pattern.compile(resourceName);
         return getResources(pattern);
     }
 
+    /**
+     * Returns all resources which matches the Regular Expression Pattern.
+     * Security Review : Make sure the Pattern is defined by the developer since some regular expression can be
+     * very time consuming and thus used by user to trigger a DOS.
+     * @param pattern The Regular expression pattern to resources much match
+     * @return The resources matching the regular expression
+     */
+    @SecurityReview
     public Set<String> getResources(Pattern pattern) {
 
         Set<String> result = new HashSet<>();
@@ -55,11 +72,27 @@ public class ResourceScanner {
         return result;
     }
 
+    /**
+     * Returns all resource locations which matches the Regular Expression Pattern.
+     * Security Review : Make sure the Pattern is defined by the developer since some regular expression can be
+     * very time consuming and thus used by user to trigger a DOS.
+     * @param resourceName The Regular expression pattern to resources much match
+     * @return The locations of the resources matching the regular expression
+     */
+    @SecurityReview
     public Set<String> getResourcePaths(String resourceName) {
         Pattern pattern = Pattern.compile(resourceName);
         return getResourcePaths(pattern);
     }
 
+    /**
+     * Returns all resource locations which matches the Regular Expression Pattern.
+     * Security Review : Make sure the Pattern is defined by the developer since some regular expression can be
+     * very time consuming and thus used by user to trigger a DOS.
+     * @param pattern The Regular expression pattern to resources much match
+     * @return The locations of the resources matching the regular expression
+     */
+    @SecurityReview
     public Set<String> getResourcePaths(Pattern pattern) {
 
         Set<String> result = new HashSet<>();

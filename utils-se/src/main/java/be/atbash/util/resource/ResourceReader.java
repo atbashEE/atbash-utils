@@ -16,6 +16,7 @@
 package be.atbash.util.resource;
 
 import be.atbash.util.PublicAPI;
+import be.atbash.util.SecurityReview;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,10 +44,11 @@ public interface ResourceReader {
 
     /**
      * Loads the resource.
-     *
+     * Security check : Make sure that the resourcePath is controlled by the developer so that no unwanted files are read.
      * @param resourcePath Must be a non empty value containing the path pointing to the resource.
      * @param context      Optional value defining the context (like servletContext) from which resource must be loaded.
      * @return null if the implementation can't read the resource (based on the prefix).
      */
+    @SecurityReview
     InputStream load(String resourcePath, Object context) throws IOException;
 }

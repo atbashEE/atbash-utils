@@ -16,6 +16,7 @@
 package be.atbash.util.reflection;
 
 import be.atbash.util.PublicAPI;
+import be.atbash.util.SecurityReview;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -352,10 +353,12 @@ public final class ClassUtils {
     private interface ClassLoaderAccessor {
         /**
          * Tries to load the class defined by the FQCN and returns null if class is not found.
+         * Security Check: Make sure that the loaded class name is controlled by developer (so no arbitrary class loaded)
          *
          * @param fqcn FQCN of the class to load.
          * @return The class corresponding ith the FQCN or null if not found.
          */
+        @SecurityReview
         Class loadClass(String fqcn);
 
         /**
@@ -380,10 +383,12 @@ public final class ClassUtils {
             // When there was an issue retrieving the ClassLoader, the method return null;
             if (cl != null) {
                 try {
+                    // Security check : Dynamic loaded class can only be from classpath (so no arbitrary class loaded)
+                    //
                     clazz = cl.loadClass(fqcn);
                 } catch (ClassNotFoundException e) {
                     if (log.isTraceEnabled()) {
-                        log.trace("Unable to load clazz named [" + fqcn + "] from class loader [" + cl + "]");
+                        log.trace(String.format("Unable to load clazz named [%s] from class loader [%s]", fqcn, cl));
                     }
                 }
             }
