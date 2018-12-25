@@ -173,7 +173,7 @@ be.atbash.util.reflection.ClassUtils#getResourceAsStream(String)
 
 Returns the resource using the 3 class loaders as described above.
 
-=== Resource API
+=== Resource API (0.9.3)
 
 On various occasions, you need to retrieve the contents of a resource. The resource can be located on the classpath, on the file system, accessible with HTTP etc ...
 

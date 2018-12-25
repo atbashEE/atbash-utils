@@ -60,7 +60,7 @@ public abstract class CodecSupport {
      * @return the bytes of the specified character array under the specified encoding.
      * @throws CodecException if the JVM does not support the specified encoding.
      */
-    public static byte[] toBytes(char[] chars, String encoding) throws CodecException {
+    public static byte[] toBytes(char[] chars, String encoding) {
         return toBytes(new String(chars), encoding);
     }
 
@@ -85,7 +85,7 @@ public abstract class CodecSupport {
      * @return the byte array of the specified source with the given encoding.
      * @throws CodecException if the JVM does not support the specified encoding.
      */
-    public static byte[] toBytes(String source, String encoding) throws CodecException {
+    public static byte[] toBytes(String source, String encoding) {
         try {
             return source.getBytes(encoding);
         } catch (UnsupportedEncodingException e) {
@@ -117,7 +117,7 @@ public abstract class CodecSupport {
      * @return the specified byte array as an encoded String
      * @throws CodecException if the JVM does not support the specified encoding.
      */
-    public static String toString(byte[] bytes, String encoding) throws CodecException {
+    public static String toString(byte[] bytes, String encoding) {
         try {
             return new String(bytes, encoding);
         } catch (UnsupportedEncodingException e) {
@@ -148,7 +148,7 @@ public abstract class CodecSupport {
      * @return the specified byte array as an encoded char array
      * @throws CodecException if the JVM does not support the specified encoding.
      */
-    public static char[] toChars(byte[] bytes, String encoding) throws CodecException {
+    public static char[] toChars(byte[] bytes, String encoding) {
         return toString(bytes, encoding).toCharArray();
     }
 
@@ -277,10 +277,12 @@ public abstract class CodecSupport {
             try {
                 in.close();
             } catch (IOException ignored) {
+                // Ignored on purpose
             }
             try {
                 out.close();
             } catch (IOException ignored) {
+                // Ignored on purpose
             }
         }
     }

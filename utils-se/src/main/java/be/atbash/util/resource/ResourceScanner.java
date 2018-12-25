@@ -28,8 +28,6 @@ import java.util.regex.Pattern;
 @PublicAPI
 public class ResourceScanner {
 
-    private static final Object LOCK = new Object();
-
     private static ResourceScanner INSTANCE;
 
     private Store store;
@@ -118,14 +116,12 @@ public class ResourceScanner {
         return result;
     }
 
-    public static ResourceScanner getInstance() {
+    public static synchronized ResourceScanner getInstance() {
+        // Synchronize methods are not so bad for performance anymore and since only 1 synchronized static there are no side effects
         if (INSTANCE == null) {
-            synchronized (LOCK) {
-                if (INSTANCE == null) {
-                    INSTANCE = new ResourceScanner();
-                }
-            }
+            INSTANCE = new ResourceScanner();
         }
+
         return INSTANCE;
     }
 

@@ -53,13 +53,9 @@ public class VersionReader {
             // Is the manifest file found.
             if (manifestFile != null) {
                 InputStream resourceAsStream = manifestFile.openStream();
-                if (resourceAsStream != null) {
-                    properties.load(resourceAsStream);
-                }
+                properties.load(resourceAsStream);
 
-                if (resourceAsStream != null) {
-                    resourceAsStream.close();
-                }
+                resourceAsStream.close();
             } else {
                 logger.warn(String.format("Unable to find manifest file %s module", module));
             }

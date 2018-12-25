@@ -94,7 +94,7 @@ public final class Hex {
      *                                  to this function
      * @see #decode(char[])
      */
-    public static byte[] decode(byte[] array) throws IllegalArgumentException {
+    public static byte[] decode(byte[] array) {
         String s = CodecSupport.toString(array);
         return decode(s);
     }
@@ -124,7 +124,7 @@ public final class Hex {
      * @throws IllegalArgumentException if an odd number or illegal of characters
      *                                  is supplied
      */
-    public static byte[] decode(char[] data) throws IllegalArgumentException {
+    public static byte[] decode(char[] data) {
 
         int len = data.length;
 
@@ -162,7 +162,8 @@ public final class Hex {
         }
 
         boolean result = true;
-        int i = 0, dataLength = data.length;
+        int i = 0;
+        int dataLength = data.length;
         while (i < dataLength && result) {
             char item = data[i];
             if (Character.digit(item, 16) == -1) {
@@ -182,7 +183,7 @@ public final class Hex {
      * @return An integer
      * @throws IllegalArgumentException if ch is an illegal hex character
      */
-    protected static int toDigit(char ch, int index) throws IllegalArgumentException {
+    protected static int toDigit(char ch, int index) {
         int digit = Character.digit(ch, 16);
         if (digit == -1) {
             throw new IllegalArgumentException("Illegal hexadecimal character " + ch + " at index " + index);

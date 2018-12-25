@@ -257,7 +257,9 @@ public final class ComponentUtils {
                 if (targetComponent != null) {
                     result.add(targetComponent);
                 } else {
-                    LOGGER.warn("Unable to find component with ID " + targetId + " in view.");
+                    if (LOGGER.isWarnEnabled()) {
+                        LOGGER.warn(String.format("Unable to find component with ID %s in view.", targetId));
+                    }
                 }
             }
         }
@@ -304,7 +306,9 @@ public final class ComponentUtils {
                     if (isInCustomComponent(component)) {
                         callback.handle(component, true);
                     } else {
-                        LOGGER.warn("Unable to find component with ID " + targetId + " in view.");
+                        if (LOGGER.isWarnEnabled()) {
+                            LOGGER.warn(String.format("Unable to find component with ID %s in view.", targetId));
+                        }
                     }
                 }
             }

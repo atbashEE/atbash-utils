@@ -10,6 +10,7 @@ Utility classes for Java SE, CDI, CDI-test, ...
 
 * Java SE 7 based!
 * **No** Support for Module path of 9+ 
+* Runs on Java 7, 8 and 11 Classpath.
 
 ## utils SE
 
@@ -18,8 +19,10 @@ Utility classes for Java SE, CDI, CDI-test, ...
 * Top level RuntimeException and Exception for unexpected conditions
 * Proxy Utils
 * Class Utils
+* BASE64 and HEX encoding
 * Reading Version from MANIFEST.MF
 * Check if running within CDI container.
+* Resource API
 
 ## utils CDI
 
@@ -34,4 +37,5 @@ Requires CDI 1.1
 
 Requires JSF 2.x
 
-* Some general useful utility methods related to JSF. 
+* Some general useful utility methods related to JSF.
+* Fake FacesContext for unit testing

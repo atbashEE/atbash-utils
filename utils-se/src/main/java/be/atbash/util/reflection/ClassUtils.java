@@ -43,7 +43,7 @@ public final class ClassUtils {
      */
     private static final ClassLoaderAccessor THREAD_CL_ACCESSOR = new ExceptionIgnoringAccessor() {
         @Override
-        protected ClassLoader doGetClassLoader() throws Throwable {
+        protected ClassLoader doGetClassLoader() {
             return Thread.currentThread().getContextClassLoader();
         }
     };
@@ -53,7 +53,7 @@ public final class ClassUtils {
      */
     private static final ClassLoaderAccessor CLASS_CL_ACCESSOR = new ExceptionIgnoringAccessor() {
         @Override
-        protected ClassLoader doGetClassLoader() throws Throwable {
+        protected ClassLoader doGetClassLoader() {
             return ClassUtils.class.getClassLoader();
         }
     };
@@ -63,7 +63,7 @@ public final class ClassUtils {
      */
     private static final ClassLoaderAccessor SYSTEM_CL_ACCESSOR = new ExceptionIgnoringAccessor() {
         @Override
-        protected ClassLoader doGetClassLoader() throws Throwable {
+        protected ClassLoader doGetClassLoader() {
             return ClassLoader.getSystemClassLoader();
         }
     };
@@ -180,7 +180,7 @@ public final class ClassUtils {
      * @throws InstantiationException if the class instantiation went wrong.
      */
     public static <T> T newInstance(String fqcn) {
-        return (T) newInstance(forName(fqcn));
+        return newInstance(forName(fqcn));
     }
 
     /**
@@ -195,7 +195,7 @@ public final class ClassUtils {
      * @throws InstantiationException if the class instantiation went wrong.
      */
     public static <T> T newInstance(String fqcn, Object... args) {
-        return (T) newInstance(forName(fqcn), args);
+        return newInstance(forName(fqcn), args);
     }
 
     /**
@@ -236,7 +236,7 @@ public final class ClassUtils {
             }
         }
         Constructor ctor = getConstructor(clazz, argTypes);
-        return (T) instantiate(ctor, args);
+        return instantiate(ctor, args);
     }
 
     /**
@@ -251,9 +251,6 @@ public final class ClassUtils {
      * @throws NoConstructorFoundException When no constructor (or multiple) is found which matches the argumentTypes.
      */
     static Constructor getConstructor(Class clazz, Class... argTypes) {
-        // return clazz.getConstructor(argTypes);
-        // The above finds only arguments which exact class matches and doesn't support null arguments.
-
         return matchConstructor(clazz, argTypes);
     }
 
@@ -291,10 +288,8 @@ public final class ClassUtils {
     private static List<Constructor> matchAllConstructors(Class clazz, Class[] argTypes, boolean exactMatch) {
         List<Constructor> result = new ArrayList<>();
         for (Constructor constructor : clazz.getConstructors()) {
-            if (constructor.getParameterTypes().length == argTypes.length) {
-                if (matchParameterTypes(constructor.getParameterTypes(), argTypes, exactMatch)) {
-                    result.add(constructor);
-                }
+            if (constructor.getParameterTypes().length == argTypes.length && matchParameterTypes(constructor.getParameterTypes(), argTypes, exactMatch)) {
+                result.add(constructor);
             }
         }
         return result;
@@ -374,7 +369,7 @@ public final class ClassUtils {
      * An implementation that implement the {@link ClassLoaderAccessor} functionality for any classLoader but
      * converts the possible {@link Exception}s to null return values.
      */
-    private static abstract class ExceptionIgnoringAccessor implements ClassLoaderAccessor {
+    private abstract static class ExceptionIgnoringAccessor implements ClassLoaderAccessor {
 
         @Override
         public Class loadClass(String fqcn) {
@@ -414,9 +409,9 @@ public final class ClassUtils {
         final ClassLoader getClassLoader() {
             try {
                 return doGetClassLoader();
-            } catch (Throwable t) {
+            } catch (Exception e) {
                 if (log.isDebugEnabled()) {
-                    log.debug("Unable to acquire ClassLoader.", t);
+                    log.debug("Unable to acquire ClassLoader.", e);
                 }
             }
             return null;
@@ -428,6 +423,6 @@ public final class ClassUtils {
          * @return {@link ClassLoader} to be used by this class.
          * @throws Throwable When there was an issue retrieving the classLoader, see also {@link ExceptionIgnoringAccessor#getClassLoader()}.
          */
-        protected abstract ClassLoader doGetClassLoader() throws Throwable;
+        protected abstract ClassLoader doGetClassLoader();
     }
 }

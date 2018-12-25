@@ -25,7 +25,6 @@ import java.util.*;
 // Based on org.reflections Store
 public class Store {
 
-    //private transient boolean concurrent;  TODO Using ExecutorService to scan in parallel
     private final Map<String, List<String>> storeMap; // FIXME Review nested map.
 
     public Store() {

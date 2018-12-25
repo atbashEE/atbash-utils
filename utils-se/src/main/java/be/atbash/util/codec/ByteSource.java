@@ -65,6 +65,10 @@ public interface ByteSource {
     ByteSourceCreator creator = CreatorInitializer.defineCreator();
 
     final class CreatorInitializer {
+
+        private CreatorInitializer() {
+        }
+
         static ByteSourceCreator defineCreator() {
 
             Iterator<ByteSourceCreator> creatorIterator = ServiceLoader.load(ByteSourceCreator.class).iterator();

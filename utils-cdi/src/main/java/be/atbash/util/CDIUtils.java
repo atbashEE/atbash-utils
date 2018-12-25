@@ -80,7 +80,8 @@ public final class CDIUtils {
         Instance<T> instance = CDI.current().select(classType, qualifiers);
         if (instance.isUnsatisfied()) {
             // TODO Better error message
-            throw new UnsatisfiedResolutionException(String.format("No bean found for class %s and qualifiers %s", classType.getName(), qualifiers));
+            throw new UnsatisfiedResolutionException(String.format("No bean found for class %s and qualifiers [%s]", classType.getName(),
+                    StringUtils.toDelimitedString(qualifiers)));
         }
         return instance.get();
     }

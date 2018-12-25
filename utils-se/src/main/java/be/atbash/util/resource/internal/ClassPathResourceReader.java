@@ -41,7 +41,7 @@ public class ClassPathResourceReader implements ResourceReader {
     public boolean exists(String resourcePath, Object context) {
         boolean result = canRead(resourcePath, context);
         if (!result) {
-            return result;
+            return false;
         }
 
         try {
@@ -67,11 +67,9 @@ public class ClassPathResourceReader implements ResourceReader {
             LOG.debug("Opening resource from class path [{}]", cleanedPath);
         }
         InputStream result = ClassUtils.getResourceAsStream(cleanedPath);
-        if (result == null) {
-            if (cleanedPath.startsWith("/")) {
-                String newPath = cleanedPath.substring(1);
-                result = load(newPath, context);
-            }
+        if (result == null && cleanedPath.startsWith("/")) {
+            String newPath = cleanedPath.substring(1);
+            result = load(newPath, context);
         }
         return result;
     }

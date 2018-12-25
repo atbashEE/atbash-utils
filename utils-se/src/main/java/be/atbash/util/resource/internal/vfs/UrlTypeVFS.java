@@ -37,10 +37,10 @@ import java.util.regex.Pattern;
 public class UrlTypeVFS implements UrlType {
     private static final Logger LOGGER = LoggerFactory.getLogger(JarInputDir.class);
 
-    private final static String[] REPLACE_EXTENSION = new String[]{".ear/", ".jar/", ".war/", ".sar/", ".har/", ".par/"};
+    private static final String[] REPLACE_EXTENSION = new String[]{".ear/", ".jar/", ".war/", ".sar/", ".har/", ".par/"};
 
-    private final String VFSZIP = "vfszip";
-    private final String VFSFILE = "vfsfile";
+    private static final String VFSZIP = "vfszip";
+    private static final String VFSFILE = "vfsfile";
 
     public boolean matches(URL url) {
         return VFSZIP.equals(url.getProtocol()) || VFSFILE.equals(url.getProtocol());

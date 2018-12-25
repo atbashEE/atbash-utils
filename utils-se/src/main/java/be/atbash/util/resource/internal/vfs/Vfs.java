@@ -15,6 +15,7 @@
  */
 package be.atbash.util.resource.internal.vfs;
 
+import be.atbash.util.exception.AtbashUnexpectedException;
 import be.atbash.util.resource.UrlType;
 import be.atbash.util.resource.internal.ResourceWalkerException;
 import org.slf4j.Logger;
@@ -46,6 +47,7 @@ import java.util.jar.JarFile;
  */
 public abstract class Vfs {
     private static final Logger LOGGER = LoggerFactory.getLogger(Vfs.class);
+    private static final String JAR_MARKER = ".jar!";
 
     private static List<UrlType> defaultUrlTypes;
 
@@ -99,15 +101,15 @@ public abstract class Vfs {
                         }
                     }
                 }
-            } catch (Throwable e) {
+            } catch (Exception e) {
                 LOGGER.warn("could not create Dir using " + type + " from url " + url.toExternalForm() + ". skipping.", e);
 
             }
         }
 
         throw new ResourceWalkerException("could not create Vfs.Dir from url, no matching UrlType was found [" + url.toExternalForm() + "]\n" +
-                "either use fromURL(final URL url, final List<UrlType> urlTypes) or " +
-                "use the static setDefaultURLTypes(final List<UrlType> urlTypes) or addDefaultURLTypes(UrlType urlType) " +
+                "either use fromURL(URL url, List<UrlType> urlTypes) or " +
+                "use the static setDefaultURLTypes(List<UrlType> urlTypes) or addDefaultURLTypes(UrlType urlType) " +
                 "with your specialized UrlType.");
     }
 
@@ -125,13 +127,13 @@ public abstract class Vfs {
                 return file;
             }
         } catch (URISyntaxException e) {
-            // TODO
+            throw new AtbashUnexpectedException(e);
         }
 
         try {
             path = URLDecoder.decode(url.getPath(), "UTF-8");
-            if (path.contains(".jar!")) {
-                path = path.substring(0, path.lastIndexOf(".jar!") + ".jar".length());
+            if (path.contains(JAR_MARKER)) {
+                path = path.substring(0, path.lastIndexOf(JAR_MARKER) + ".jar".length());
             }
             file = new java.io.File(path);
             if (file.exists()) {
@@ -139,7 +141,7 @@ public abstract class Vfs {
             }
 
         } catch (UnsupportedEncodingException e) {
-            // TODO
+            throw new AtbashUnexpectedException(e);
         }
 
         try {
@@ -153,8 +155,8 @@ public abstract class Vfs {
             if (path.startsWith("file:")) {
                 path = path.substring("file:".length());
             }
-            if (path.contains(".jar!")) {
-                path = path.substring(0, path.indexOf(".jar!") + ".jar".length());
+            if (path.contains(JAR_MARKER)) {
+                path = path.substring(0, path.indexOf(JAR_MARKER) + ".jar".length());
             }
             file = new java.io.File(path);
             if (file.exists()) {
@@ -168,7 +170,7 @@ public abstract class Vfs {
             }
 
         } catch (Exception e) {
-            // TODO
+            throw new AtbashUnexpectedException(e);
         }
 
         return null;
@@ -198,7 +200,7 @@ public abstract class Vfs {
             }
 
             @Override
-            public Vfs.Dir createDir(final URL url) throws Exception {
+            public Vfs.Dir createDir(URL url) throws Exception {
                 return new ZipDir(new JarFile(getFile(url)));
             }
 
@@ -226,7 +228,7 @@ public abstract class Vfs {
                     if (urlConnection instanceof JarURLConnection) {
                         return new ZipDir(((JarURLConnection) urlConnection).getJarFile());
                     }
-                } catch (Throwable e) { /*fallback*/ }
+                } catch (Exception e) { /*fallback*/ }
                 java.io.File file = getFile(url);
                 if (file != null) {
                     return new ZipDir(new JarFile(file));
@@ -250,7 +252,7 @@ public abstract class Vfs {
             }
 
             @Override
-            public Vfs.Dir createDir(final URL url) throws Exception {
+            public Vfs.Dir createDir(URL url) throws Exception {
                 return new SystemDir(getFile(url));
             }
         },
@@ -330,7 +332,7 @@ public abstract class Vfs {
             }
 
             @Override
-            public Vfs.Dir createDir(final URL url) throws Exception {
+            public Vfs.Dir createDir(URL url) throws Exception {
                 return new JarInputDir(url);
             }
         }

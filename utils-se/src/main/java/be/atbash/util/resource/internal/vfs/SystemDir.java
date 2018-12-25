@@ -50,11 +50,11 @@ public class SystemDir implements Vfs.Dir {
 
     private Collection<? extends Vfs.File> defineFiles(File parentFile) {
         List<Vfs.File> result = new ArrayList<>();
-        for (File file : listFiles(parentFile)) {
-            if (file.isDirectory()) {
-                result.addAll(defineFiles(file));
+        for (File item : listFiles(parentFile)) {
+            if (item.isDirectory()) {
+                result.addAll(defineFiles(item));
             } else {
-                result.add(new SystemFile(SystemDir.this, file));
+                result.add(new SystemFile(SystemDir.this, item));
             }
 
         }
@@ -73,6 +73,7 @@ public class SystemDir implements Vfs.Dir {
     }
 
     public void close() {
+        //No Need to close Directory
     }
 
     @Override

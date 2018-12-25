@@ -55,12 +55,11 @@ public class FileResourceReader implements ResourceReader {
     public InputStream load(String resourcePath, Object context) throws IOException {
         String path = stripPrefix(resourcePath);
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Opening file [" + path + "]...");
+            LOG.debug(String.format("Opening file [%s] ...", path));
         }
         return new FileInputStream(path);
 
     }
-
 
     private static String stripPrefix(String resourcePath) {
         String lowerCasePath = resourcePath.toLowerCase(Locale.ENGLISH);

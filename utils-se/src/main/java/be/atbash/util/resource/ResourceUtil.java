@@ -46,7 +46,6 @@ public class ResourceUtil {
     public static final String CLASSPATH_PREFIX = "classpath:";
 
 
-    private static final Object LOCK = new Object();
     private static ResourceUtil INSTANCE;
 
     private List<ResourceReader> readers;
@@ -72,7 +71,8 @@ public class ResourceUtil {
     private boolean isReaderFound(ResourceReader resourceReader) {
         boolean result = false;
         for (ResourceReader reader : readers) {
-            if (reader.getClass().getName().equals(resourceReader.getClass().getName())) {
+            // We need to check the class here, but since we are using FQCN Sonar check can be disabled here.
+            if (reader.getClass().getName().equals(resourceReader.getClass().getName())) { // NOSONAR
                 result = true;
             }
         }
@@ -184,13 +184,10 @@ public class ResourceUtil {
 
     }
 
-    public static ResourceUtil getInstance() {
+    public static synchronized ResourceUtil getInstance() {
+        // Synchronize methods are not so bad for performance anymore and since only 1 synchronized static there are no side effects
         if (INSTANCE == null) {
-            synchronized (LOCK) {
-                if (INSTANCE == null) {
-                    INSTANCE = new ResourceUtil();
-                }
-            }
+            INSTANCE = new ResourceUtil();
         }
         return INSTANCE;
     }

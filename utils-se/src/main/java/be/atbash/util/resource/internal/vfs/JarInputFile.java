@@ -29,7 +29,7 @@ public class JarInputFile implements Vfs.File {
 
     public String getName() {
         String name = entry.getName();
-        return name.substring(name.lastIndexOf("/") + 1);
+        return name.substring(name.lastIndexOf('/') + 1);
     }
 
     public String getRelativePath() {

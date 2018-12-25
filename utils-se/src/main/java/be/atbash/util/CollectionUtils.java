@@ -37,6 +37,7 @@ public final class CollectionUtils {
      * @param <E>      The type of the items and the resulting {@link Set}
      * @return The items as a modifiable Set.
      */
+    @SafeVarargs
     public static <E> Set<E> asSet(E... elements) {
         if (elements == null || elements.length == 0) {
             return Collections.emptySet();
@@ -98,6 +99,7 @@ public final class CollectionUtils {
      * @param <E>      The type of the List items.
      * @return The elements within a {@link List} instance.
      */
+    @SafeVarargs
     public static <E> List<E> asList(E... elements) {
         if (elements == null || elements.length == 0) {
             return Collections.emptyList();
