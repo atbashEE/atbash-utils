@@ -17,6 +17,7 @@ package be.atbash.util;
 
 import java.lang.annotation.Annotation;
 
+@PublicAPI
 public final class AnnotationUtil {
 
     private AnnotationUtil() {
