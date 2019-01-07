@@ -1,6 +1,6 @@
 = Java SE utils
 Rudy De Busscher <rdebusscher@gmail.com>
-v0.9.3, ??/??/2018
+v0.9.3, 07/01/2019
 
 == Release notes
 
@@ -47,7 +47,7 @@ Add the following artifact to your maven project file
 
 == Requirements
 
-Runs on JDK 7, JDK 8 and JDK 11 ClassPath
+Runs on JDK 7, JDK 8 and JDK 11 ClassPath.
 
 == Features
 
@@ -434,12 +434,12 @@ be.atbash.util.ProxyUtils.getClassName(Class)
 
 Returns the 'real' class name for the parameter. When it is a proxied class, it return the name of the super class, otherwise it returns the name of the class itself.
 
-=== AnnotationUtil
+=== AnnotationUtil (since v0.9.3)
 
 With the AnnotationUtil.getAnnotation one can search if the class or one of his parent has an annotation defined on it.
 
 ----
-   be.atbash.util.AnnotationUtil.getAnnotation(aClass,Annotation);
+   be.atbash.util.AnnotationUtil.getAnnotation(aClass, Annotation);
 ----
 
 The difference with the _Class.getAnnotation_ method is that also the object hierarchy is searched until found or the top level Object is reached.

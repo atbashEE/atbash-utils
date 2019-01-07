@@ -1,6 +1,6 @@
 = CDI utils
 Rudy De Busscher <rdebusscher@gmail.com>
-v0.9.3, ??/??/2018
+v0.9.3, 07/01/2019
 
 == Release notes
 
