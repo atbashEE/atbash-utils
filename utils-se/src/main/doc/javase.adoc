@@ -1,8 +1,12 @@
 = Java SE utils
 Rudy De Busscher <rdebusscher@gmail.com>
-v0.9.3, 07/01/2019
+v0.9.3.1, ??/??/2019
 
 == Release notes
+
+=== 0.9.3.1
+
+* Addition of Base32 encoding/decoding.
 
 === 0.9.3
 
@@ -97,6 +101,23 @@ byte[] be.atbash.util.codec.Hex.decode(String)
 ----
 
 Converts the Hex representation to a byte array. Throws an _IllegalArgumentException_ when the value isn't a HEX encoded value.
+
+=== BASE32
+
+Converts to and from Base32 encoded Strings.
+
+----
+String be.atbash.util.codec.Base32Codec.encodeToString(byte[])
+----
+
+Converts a byte array to a Base32 encoded String.
+
+
+----
+byte[] be.atbash.util.codec.Base32Codec.decode(String)
+----
+
+Converts the Base32 representation to a byte array. Throws an _IllegalArgumentException_ when the value isn't a Base32 encoded value.
 
 === ByteSource
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2018 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2019 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,6 +43,7 @@ public class DefaultByteSource implements ByteSource {
     private final byte[] bytes;
     private String cachedHex;
     private String cachedBase64;
+    private String cachedBase32;
 
     // Public constructors as class can be reused by custom ByteSourceCreator.
     public DefaultByteSource(byte[] bytes) {
@@ -105,6 +106,13 @@ public class DefaultByteSource implements ByteSource {
             cachedBase64 = Base64Codec.encodeToString(getBytes(), true);
         }
         return cachedBase64;
+    }
+
+    public String toBase32() {
+        if (cachedBase32 == null) {
+            cachedBase32 = Base32Codec.encodeToString(getBytes());
+        }
+        return cachedBase32;
     }
 
     public String toString() {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2018 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2019 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,6 +52,15 @@ public interface ByteSource {
      * underlying wrapped byte array.
      */
     String toBase64();
+
+    /**
+     * Returns the Base 32-formatted String representation of the
+     * underlying wrapped byte array.
+     *
+     * @return the Base32-formatted String representation of the
+     * underlying wrapped byte array.
+     */
+    String toBase32();
 
     /**
      * Returns {@code true} if the underlying wrapped byte array is null or empty (zero length), {@code false}
