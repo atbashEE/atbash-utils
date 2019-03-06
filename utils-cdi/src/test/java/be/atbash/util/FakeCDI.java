@@ -15,15 +15,16 @@
  */
 package be.atbash.util;
 
-import javax.enterprise.inject.Instance;
-import javax.enterprise.inject.spi.BeanManager;
-import javax.enterprise.inject.spi.CDI;
-import javax.enterprise.inject.spi.CDIProvider;
-import javax.enterprise.util.TypeLiteral;
 import java.lang.annotation.Annotation;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import javax.enterprise.inject.Instance;
+import javax.enterprise.inject.spi.BeanManager;
+import javax.enterprise.inject.spi.CDI;
+import javax.enterprise.inject.spi.CDIProvider;
+import javax.enterprise.util.AnnotationLiteral;
+import javax.enterprise.util.TypeLiteral;
 
 /**
  * This is actually is the Fake CDI system. Partial implementation, needs to be extended.
@@ -32,10 +33,14 @@ public class FakeCDI extends CDI<Object> {
 
     private final BeanManager beanManager;
     private final Map<Class<?>, List<Object>> registeredObjects;
+    private final Map<AnnotationLiteral<?>, List<Object>> registeredLiterals;
 
-    FakeCDI(BeanManager beanManager, Map<Class<?>, List<Object>> registeredObjects) {
+
+    FakeCDI(BeanManager beanManager, Map<Class<?>, List<Object>> registeredObjects,
+       Map<AnnotationLiteral<?>, List<Object>> registeredLiterals) {
         this.beanManager = beanManager;
         this.registeredObjects = registeredObjects;
+        this.registeredLiterals = registeredLiterals;
 
         // Here we register ourself as provider.
         final CDI<Object> cdiInstance = this;
@@ -55,9 +60,13 @@ public class FakeCDI extends CDI<Object> {
 
     @Override
     public Instance<Object> select(Annotation... qualifiers) {
-        // TODO
-        throw new UnsupportedOperationException("Not implemented be.atbash.ee.jsf.jerry.util.cdi.FakeCDI.select(java.lang.annotation.Annotation...)");
 
+        if(qualifiers != null && qualifiers.length > 0)
+        {
+            return new FakeInstance<>(registeredLiterals.get(qualifiers[0]));
+        }
+
+        throw new RuntimeException("Empty qualifier received");
     }
 
     @Override
