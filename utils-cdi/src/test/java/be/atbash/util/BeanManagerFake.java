@@ -19,7 +19,7 @@ import be.atbash.util.exception.AtbashIllegalActionException;
 import be.atbash.util.literal.AnyLiteral;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -87,7 +87,7 @@ public class BeanManagerFake {
     }
 
     public void registerBean(AnnotationLiteral beanName, Object instance) {
-        registeredLiterals.put(beanName, new ArrayList<Object>(Arrays.asList(instance)));
+        registeredLiterals.put(beanName, new ArrayList<>(Collections.singletonList(instance)));
     }
 
     public void endRegistration() {

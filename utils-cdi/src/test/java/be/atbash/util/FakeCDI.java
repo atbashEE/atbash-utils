@@ -61,8 +61,7 @@ public class FakeCDI extends CDI<Object> {
     @Override
     public Instance<Object> select(Annotation... qualifiers) {
 
-        if(qualifiers != null && qualifiers.length > 0)
-        {
+        if(qualifiers != null && qualifiers.length > 0) {
             return new FakeInstance<>(registeredLiterals.get(qualifiers[0]));
         }
 
