@@ -17,14 +17,24 @@ package be.atbash.util;
 
 import be.atbash.util.exception.AtbashIllegalActionException;
 import be.atbash.util.literal.AnyLiteral;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
-import java.util.*;
-
-import static org.mockito.Mockito.*;
+import javax.enterprise.util.AnnotationLiteral;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+import static org.mockito.Mockito.anySet;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.when;
 
 /**
  * Fake CDI provider for unit tests. It can be used to define a mock {@link BeanManager} which holds CDI beans compatible
@@ -37,6 +47,10 @@ public class BeanManagerFake {
 
     // beans attached to a Class.
     private Map<Class<?>, List<Object>> registeredObjects;
+
+    // beans attached to instances of AnnotationLiteral
+    private Map<AnnotationLiteral<?>, List<Object>> registeredLiterals;
+
     // Named beans
     private Map<String, Object> registeredBeans;
 
@@ -45,8 +59,9 @@ public class BeanManagerFake {
 
         registeredObjects = new HashMap<>();
         registeredBeans = new HashMap<>();
+        registeredLiterals = new HashMap<>();
 
-        new FakeCDI(beanManagerMock, registeredObjects);
+        new FakeCDI(beanManagerMock, registeredObjects, registeredLiterals);
     }
 
     public void registerBean(Object instance, Class<?>... typesToRegister) {
@@ -69,6 +84,10 @@ public class BeanManagerFake {
 
     public void registerBean(String beanName, Object instance) {
         registeredBeans.put(beanName, instance);
+    }
+
+    public void registerBean(AnnotationLiteral beanName, Object instance) {
+        registeredLiterals.put(beanName, new ArrayList<>(Collections.singletonList(instance)));
     }
 
     public void endRegistration() {

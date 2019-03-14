@@ -4,6 +4,10 @@ v0.9.3, 07/01/2019
 
 == Release notes
 
+=== 0.9.3.1
+
+* Support to beans represented by Annotation Literals
+
 === 0.9.3
 
 * CDI producer for _ResourceUtil_.
