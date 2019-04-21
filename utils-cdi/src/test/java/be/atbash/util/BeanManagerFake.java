@@ -73,11 +73,7 @@ public class BeanManagerFake {
         }
         // TODO should we test that instance can be assigned to typesToRegister?
         for (Class<?> typeToRegister : typesToRegister) {
-            List<Object> objects = registeredObjects.get(typeToRegister);
-            if (objects == null) {
-                objects = new ArrayList<>();
-                registeredObjects.put(typeToRegister, objects);
-            }
+            List<Object> objects = registeredObjects.computeIfAbsent(typeToRegister, k -> new ArrayList<>());
             objects.add(instance);
         }
     }
@@ -104,17 +100,14 @@ public class BeanManagerFake {
             }
         }
 
-        doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
-                Set arg = (Set) invocationOnMock.getArguments()[0];
-                return arg.iterator().next();
-            }
+        doAnswer(invocationOnMock -> {
+            Set arg = (Set) invocationOnMock.getArguments()[0];
+            return arg.iterator().next();
         }).when(beanManagerMock).resolve(anySet());
 
         for (Map.Entry<String, Object> entry : registeredBeans.entrySet()) {
             Set<Bean<?>> beans = new HashSet<>();
-            Bean<?> bean = new FakeBean<Object>(entry.getValue());
+            Bean<?> bean = new FakeBean<>(entry.getValue());
             beans.add(bean);
 
             when(beanManagerMock.getBeans(entry.getKey())).thenReturn(beans);

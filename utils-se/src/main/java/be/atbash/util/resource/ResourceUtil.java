@@ -65,7 +65,7 @@ public class ResourceUtil {
                 readers.add(resourceReader);
             }
         }
-        Collections.sort(readers, new OrderComparator());
+        readers.sort(new OrderComparator());
     }
 
     private boolean isReaderFound(ResourceReader resourceReader) {

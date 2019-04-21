@@ -148,11 +148,7 @@ public class FakeFacesContext extends FacesContext {
 
     @Override
     public void addMessage(String clientId, FacesMessage message) {
-        List<FacesMessage> item = messages.get(clientId);
-        if (item == null) {
-            item = new ArrayList<>();
-            messages.put(clientId, item);
-        }
+        List<FacesMessage> item = messages.computeIfAbsent(clientId, k -> new ArrayList<>());
         item.add(message);
     }
 

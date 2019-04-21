@@ -44,12 +44,7 @@ public class FakeCDI extends CDI<Object> {
 
         // Here we register ourself as provider.
         final CDI<Object> cdiInstance = this;
-        configuredProvider = new CDIProvider() {
-            @Override
-            public CDI<Object> getCDI() {
-                return cdiInstance;
-            }
-        };
+        configuredProvider = () -> cdiInstance;
 
     }
 

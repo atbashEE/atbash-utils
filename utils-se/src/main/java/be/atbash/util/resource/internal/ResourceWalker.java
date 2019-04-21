@@ -60,11 +60,9 @@ public class ResourceWalker {
             try {
                 if (executorService != null) {
 
-                    futures.add(executorService.submit(new Runnable() {
-                        public void run() {
-                            logger.debug(String.format("[%s] scanning %s", Thread.currentThread(), url));
-                            scan(url);
-                        }
+                    futures.add(executorService.submit(() -> {
+                        logger.debug(String.format("[%s] scanning %s", Thread.currentThread(), url));
+                        scan(url);
                     }));
 
                 } else {
