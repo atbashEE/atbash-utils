@@ -28,7 +28,8 @@ public class TestReflectionUtilsTest {
 
         Child child = new Child();
 
-        assertThat(TestReflectionUtils.getValueOf(child, "childField")).isEqualTo("childValue");
+        String childField = TestReflectionUtils.getValueOf(child, "childField");
+        assertThat(childField).isEqualTo("childValue");
 
     }
 
@@ -36,13 +37,15 @@ public class TestReflectionUtilsTest {
     public void getValueOf_parent() throws NoSuchFieldException {
         Child child = new Child();
 
-        assertThat(TestReflectionUtils.getValueOf(child, "parentField")).isEqualTo("parentValue");
+        String parentField = TestReflectionUtils.getValueOf(child, "parentField");
+        assertThat(parentField).isEqualTo("parentValue");
 
     }
 
     @Test
     public void getValueOf_static_Child() throws NoSuchFieldException {
-        assertThat(TestReflectionUtils.getValueOf(Child.class, "staticChildField")).isEqualTo("static childValue");
+        String staticChildField = TestReflectionUtils.getValueOf(Child.class, "staticChildField");
+        assertThat(staticChildField).isEqualTo("static childValue");
 
     }
 
