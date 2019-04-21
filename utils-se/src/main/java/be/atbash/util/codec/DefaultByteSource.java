@@ -15,15 +15,15 @@
  */
 package be.atbash.util.codec;
 
-import be.atbash.util.base64.Base64Codec;
 
 import java.io.File;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Base64;
 
 /**
  * Very simple {@link ByteSource ByteSource} implementation that maintains an internal {@code byte[]} array and uses the
- * {@link Hex Hex} and {@link be.atbash.util.base64.Base64Codec Base64} codec classes to support the
+ * {@link Hex Hex} and {@link java.util.Base64 Base64} classes to support the
  * {@link #toHex() toHex()} and {@link #toBase64() toBase64()} implementations.
  * <p/>
  * The constructors on this class accept the following implicit byte-backed data types and will convert them to
@@ -103,7 +103,8 @@ public class DefaultByteSource implements ByteSource {
 
     public String toBase64() {
         if (cachedBase64 == null) {
-            cachedBase64 = Base64Codec.encodeToString(getBytes(), true);
+            cachedBase64 = Base64.getUrlEncoder()
+                    .withoutPadding().encodeToString(getBytes());
         }
         return cachedBase64;
     }

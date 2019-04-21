@@ -20,6 +20,7 @@ import org.junit.Test;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -29,96 +30,69 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class Base64CodecTest {
 
-    @Test
-    public void isBase64Encoded() {
-        assertThat(Base64Codec.isBase64Encoded("TXkgUGxhaW4gU3RyaW5n")).isTrue();
-    }
-
-    @Test
-    public void isBase64Encoded_separators() {
-        assertThat(Base64Codec.isBase64Encoded("0LfQuNGBINC40Lcg0L/Qu9GN0L\nnQvSDRgdGC0YDQuNC90LM=")).isTrue();
-    }
-
-    @Test
-    public void isBase64Encoded_missingChar() {
-        assertThat(Base64Codec.isBase64Encoded("TXkgUGxhaW4gU3RyaW5")).isFalse();
-    }
-
-    @Test
-    public void isBase64Encoded_IllegalChar() {
-        assertThat(Base64Codec.isBase64Encoded("зис из плэйн стринг")).isFalse();
-        assertThat(Base64Codec.isBase64Encoded("小飼弾")).isFalse();
-        assertThat(Base64Codec.isBase64Encoded("TXkgU\tGxhaW4gU3RyaW5n")).isFalse();
-    }
 
     @Test
     public void encodeToString_plain() {
 
-        String actual = Base64Codec.encodeToString("My Plain String".getBytes(Charset.forName("UTF-8")), true);
+        String actual = Base64.getUrlEncoder().withoutPadding().encodeToString("My Plain String".getBytes(Charset.forName("UTF-8")));
         assertThat(actual).isEqualTo("TXkgUGxhaW4gU3RyaW5n");
     }
 
     @Test
     public void encodeToString_multiLine() {
 
-        assertThat(Base64Codec.encodeToString("My Plain String\nMy Plain String".getBytes(Charset.forName("UTF-8")), true)).isEqualTo("TXkgUGxhaW4gU3RyaW5nCk15IFBsYWluIFN0cmluZw");
+        assertThat(Base64.getUrlEncoder().withoutPadding().encodeToString("My Plain String\nMy Plain String".getBytes(Charset.forName("UTF-8")))).isEqualTo("TXkgUGxhaW4gU3RyaW5nCk15IFBsYWluIFN0cmluZw");
     }
 
     @Test
     public void EncodeToString_unicode() {
 
-        assertThat(Base64Codec.encodeToString("小飼弾".getBytes(Charset.forName("UTF-8")), false)).isEqualTo("5bCP6aO85by+");
+        assertThat(Base64.getEncoder().encodeToString("小飼弾".getBytes(Charset.forName("UTF-8")))).isEqualTo("5bCP6aO85by+");
     }
 
     @Test
     public void encodeToString_unicode_URLSafe() {
 
-        assertThat(Base64Codec.encodeToString("小飼弾".getBytes(Charset.forName("UTF-8")), true)).isEqualTo("5bCP6aO85by-");
+        assertThat(Base64.getUrlEncoder().withoutPadding().encodeToString("小飼弾".getBytes(Charset.forName("UTF-8")))).isEqualTo("5bCP6aO85by-");
     }
 
     @Test
     public void encodeToString_cyrillic() {
 
-        String actual = Base64Codec.encodeToString("зис из плэйн стринг".getBytes(Charset.forName("UTF-8")), false);
+        String actual = Base64.getEncoder().encodeToString("зис из плэйн стринг".getBytes(Charset.forName("UTF-8")));
         assertThat(actual).isEqualTo("0LfQuNGBINC40Lcg0L/Qu9GN0LnQvSDRgdGC0YDQuNC90LM=");
     }
 
     @Test
     public void encodeToString_cyrillic_URLSafe() {
 
-        String actual = Base64Codec.encodeToString("зис из плэйн стринг".getBytes(Charset.forName("UTF-8")), true);
+        String actual = Base64.getUrlEncoder().withoutPadding().encodeToString("зис из плэйн стринг".getBytes(Charset.forName("UTF-8")));
         assertThat(actual).isEqualTo("0LfQuNGBINC40Lcg0L_Qu9GN0LnQvSDRgdGC0YDQuNC90LM");
     }
 
     @Test
     public void decode_plain() {
 
-        assertThat(new String(Base64Codec.decode("TXkgUGxhaW4gU3RyaW5n"))).isEqualTo("My Plain String");
+        assertThat(new String(Base64.getDecoder().decode("TXkgUGxhaW4gU3RyaW5n"))).isEqualTo("My Plain String");
     }
 
     @Test
     public void decode_empty() {
 
-        assertThat(Base64Codec.decode("")).isEmpty();
-    }
-
-    @Test
-    public void decode_null() {
-
-        assertThat(Base64Codec.decode((String) null)).isEmpty();
+        assertThat(Base64.getDecoder().decode("")).isEmpty();
     }
 
     @Test
     public void decode_cyrillic() {
 
         assertThat(
-                new String(Base64Codec.decode("5bCP6aO85by+"))).isEqualTo("小飼弾");
-        assertThat(new String(Base64Codec.decode("5bCP6aO85by-"))).isEqualTo("小飼弾");
+                new String(Base64.getDecoder().decode("5bCP6aO85by+"))).isEqualTo("小飼弾");
+        assertThat(new String(Base64.getUrlDecoder().decode("5bCP6aO85by-"))).isEqualTo("小飼弾");
     }
 
     @Test
     public void decode_byteArray() throws UnsupportedEncodingException {
-        byte[] decode = Base64Codec.decode("VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wZWQgb3ZlciB0aGUgbGF6eSBkb2dzLg==".getBytes(StandardCharsets.UTF_8));
+        byte[] decode = Base64.getDecoder().decode("VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wZWQgb3ZlciB0aGUgbGF6eSBkb2dzLg==".getBytes(StandardCharsets.UTF_8));
         assertThat(new String(decode)).isEqualTo("The quick brown fox jumped over the lazy dogs.");
     }
 
