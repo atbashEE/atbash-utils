@@ -16,6 +16,7 @@
 package be.atbash.util;
 
 import javax.el.MethodExpression;
+import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
 
@@ -36,6 +37,14 @@ public final class JsfUtils {
         FacesContext context = FacesContext.getCurrentInstance();
         return context.getApplication().getExpressionFactory()
                 .createMethodExpression(context.getELContext(), methodExpression, expectedReturnType, expectedParamTypes);
+    }
+
+    public static Object evaluateExpression(String valueExpression) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        ValueExpression expression = facesContext.getApplication().getExpressionFactory()
+                .createValueExpression(facesContext
+                        .getELContext(), valueExpression, Object.class);
+        return expression.getValue(facesContext.getELContext());
     }
 
 }
