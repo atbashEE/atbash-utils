@@ -46,8 +46,7 @@ public class Store {
      * get or create the multimap object for the given {@code key}
      */
     public List<String> getOrCreate(String key) {
-        List<String> result = storeMap.computeIfAbsent(key, k -> new ArrayList<>());
-        return result;
+        return storeMap.computeIfAbsent(key, k -> new ArrayList<>());
     }
 
     /**

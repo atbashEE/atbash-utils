@@ -1,8 +1,12 @@
 = Java SE utils
 Rudy De Busscher <rdebusscher@gmail.com>
-v0.9.3.1, 16/03/2019
+v1.0.0, ??/??/2019
 
 == Release notes
+
+=== 1.0.0
+
+* Removed support for Java 7.
 
 === 0.9.3.1
 

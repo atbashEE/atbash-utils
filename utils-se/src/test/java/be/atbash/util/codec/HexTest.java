@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2018 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2019 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class HexTest {
 
     @Test
-    public void encodeToString() throws UnsupportedEncodingException {
+    public void encodeToString()  {
         assertThat(Hex.encodeToString("Hello World".getBytes(StandardCharsets.UTF_8))).isEqualTo("48656C6C6F20576F726C64");
     }
 

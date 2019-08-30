@@ -6,8 +6,8 @@ v1.0.0, ??/??/2019
 
 === 1.0.0
 
-* Java 8 only
-* Evaluate EL expressions (JsfUtils.evaluateExpression)
+* Removed support for Java 7.
+* Evaluate EL expressions (JsfUtils.evaluateExpression).
 
 === 0.9.3.1
 

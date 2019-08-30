@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2018 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2019 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -421,7 +421,6 @@ public final class ClassUtils {
          * Subclasses should implement this class and return a {@link ClassLoader}.
          *
          * @return {@link ClassLoader} to be used by this class.
-         * @throws Throwable When there was an issue retrieving the classLoader, see also {@link ExceptionIgnoringAccessor#getClassLoader()}.
          */
         protected abstract ClassLoader doGetClassLoader();
     }
