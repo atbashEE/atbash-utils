@@ -1,6 +1,6 @@
 language: java
 sudo: false # faster builds
 
-jdk: openjdk7
+jdk: openjdk8
 
 script: "mvn package"
