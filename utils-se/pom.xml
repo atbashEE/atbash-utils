@@ -22,7 +22,7 @@
     <parent>
         <groupId>be.atbash.utils</groupId>
         <artifactId>utils-parent</artifactId>
-        <version>0.9.3.1</version>
+        <version>0.9.3.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
