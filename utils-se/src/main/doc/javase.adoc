@@ -8,6 +8,10 @@ v1.0.0, ??/??/2019
 
 * Removed support for Java 7.
 
+Breaking changes
+
+* Removed of Base64Codec, please us JDK `Base64`.
+
 === 0.9.3.1
 
 * Addition of Base32 encoding/decoding.

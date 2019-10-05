@@ -205,7 +205,12 @@
                 <artifactId>clirr-maven-plugin</artifactId>
                 <version>2.8</version>
                 <configuration>
-
+                    <ignored>
+                        <difference>
+                            <className>be/atbash/util/base64/Base64Codec</className>
+                            <differenceType>8001</differenceType>
+                        </difference>
+                    </ignored>
 
                 </configuration>
             </plugin>

@@ -8,9 +8,11 @@ utils-jsf : [![Maven Central](https://maven-badges.herokuapp.com/maven-central/b
 # atbash-utils
 Utility classes for Java SE, CDI, CDI-test, ...
 
-* Java SE 7 based!
-* **No** Support for Module path of 9+ 
-* Runs on Java 7, 8 and 11 Classpath.
+* Java SE 8 based!
+* Automatic maodule name defined for Java 9+ 
+* Runs on Java 8 and 11 Classpath.
+
+For Java 7 support, you can use version 0.9.3.2.
 
 ## utils SE
 
@@ -19,7 +21,7 @@ Utility classes for Java SE, CDI, CDI-test, ...
 * Top level RuntimeException and Exception for unexpected conditions
 * Proxy Utils
 * Class Utils
-* BASE64 and HEX encoding
+* HEX encoding
 * Reading Version from MANIFEST.MF
 * Check if running within CDI container.
 * Resource API
