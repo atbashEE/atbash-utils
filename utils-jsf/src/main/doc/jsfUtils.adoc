@@ -1,6 +1,6 @@
 = JSF utils
 Rudy De Busscher <rdebusscher@gmail.com>
-v0.9.3.2, ??/??/2019
+v0.9.3.2, 17/10/2019
 
 == Release notes
 
