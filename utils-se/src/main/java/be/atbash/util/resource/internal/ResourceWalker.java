@@ -71,7 +71,7 @@ public class ResourceWalker {
                 }
                 scannedUrls++;
             } catch (ResourceWalkerException e) {
-                logger.warn("could not create Vfs.Dir from url. Ignoring the exception and continuing", e);
+                logger.warn("Could not create Vfs.Dir from url. Ignoring the exception and continuing. \n" + e.getMessage());
             }
 
         }
