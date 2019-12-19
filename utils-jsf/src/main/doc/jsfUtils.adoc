@@ -8,6 +8,7 @@ v1.0.0, ??/??/2019
 
 * Removed support for Java 7.
 * Evaluate EL expressions (JsfUtils.evaluateExpression).
+* Compiled against JSF 2.3 (but still compatible with 2.0)
 
 === 0.9.3.1
 
