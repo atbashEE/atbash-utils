@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2019 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2020 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -83,7 +83,7 @@ public class Base32Codec {
         int bitsLeft = 0;
         for (char c : encoded.toCharArray()) {
             if (!CHAR_MAP.containsKey(c)) {
-                throw new IllegalArgumentException("Illegal character: " + c);
+                throw new CodecException("Illegal character: " + c);
             }
             buffer <<= SHIFT;
             buffer |= CHAR_MAP.get(c) & MASK;

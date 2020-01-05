@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2018 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2020 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,8 @@
  */
 package be.atbash.util.codec;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -34,12 +35,14 @@ public class ByteSourceTest {
 
     }
 
-    @Test(expected = CodecException.class)
+    @Test
     public void unknown_type_with_default_creator() {
 
-        System.setProperty("default.creator", "true");
-
-        ByteSource.creator.bytes(123L);
+        Assertions.assertThrows(CodecException.class, () -> {
+            Base32Codec.decode("ORSXG8");
+            System.setProperty("default.creator", "true");
+            ByteSource.creator.bytes(123L);
+        });
     }
 
     @Test

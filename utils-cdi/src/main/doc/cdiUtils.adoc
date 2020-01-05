@@ -9,6 +9,8 @@ v1.0.0, ??/??/2019
 * Removed support for Java 7.
 * Compiled against CDI 2.0 (but still compatible with 1.1)
 
+* Use of JUnit 5 for testing
+
 === 0.9.3.1
 
 * Support to beans represented by Annotation Literals (contributed by mrgurgel)
@@ -54,7 +56,7 @@ When you want to use the fake CDI provider for testing purposes, you should add 
 
 == Requirements
 
-These utilities work only with CDI 1.1 (thus Java EE 7+) running on JDK 7 and JDK 8.
+These utilities work only with CDI 2.0 (thus Java EE 8+) running on JDK 8.
 
 Source compiles against JDK 11 but is not tested against this JDK (due to the lack of support by the application servers)
 

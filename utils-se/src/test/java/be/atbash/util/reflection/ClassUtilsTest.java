@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2018 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2020 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,8 @@
 package be.atbash.util.reflection;
 
 import be.atbash.util.reflection.testclasses.Foo;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.Calendar;
 
@@ -53,18 +54,18 @@ public class ClassUtilsTest {
         assertThat(ClassUtils.getConstructor(Foo.class, Integer.class, null)).isNotNull();
     }
 
-    @Test(expected = NoConstructorFoundException.class)
+    @Test
     public void getConstructor_NoMatchingArgument() {
-
-        ClassUtils.getConstructor(Foo.class, Calendar.class);
-
+        Assertions.assertThrows(NoConstructorFoundException.class, () -> {
+            ClassUtils.getConstructor(Foo.class, Calendar.class);
+        });
     }
 
-    @Test(expected = NoConstructorFoundException.class)
+    @Test
     public void getConstructor_TooManyMatching() {
-
-        ClassUtils.getConstructor(Foo.class, null, null);
-
+        Assertions.assertThrows(NoConstructorFoundException.class, () -> {
+            ClassUtils.getConstructor(Foo.class, null, null);
+        });
     }
 
     @Test

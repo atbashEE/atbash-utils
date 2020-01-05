@@ -8,6 +8,8 @@ v1.0.0, ??/??/2019
 
 * Removed support for Java 7.
 
+* Use of JUnit 5 for testing
+
 Breaking changes
 
 * Removed of Base64Codec, please us JDK `Base64`.

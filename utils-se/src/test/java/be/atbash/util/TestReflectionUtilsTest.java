@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2019 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2020 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,8 @@ package be.atbash.util;
 
 import be.atbash.util.testclasses.Bar;
 import be.atbash.util.testclasses.Child;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -49,12 +50,13 @@ public class TestReflectionUtilsTest {
 
     }
 
-    @Test(expected = NoSuchFieldException.class)
-    public void getValueOf_unknown_field() throws NoSuchFieldException {
-        Child child = new Child();
+    @Test
+    public void getValueOf_unknown_field() {
+        Assertions.assertThrows(NoSuchFieldException.class, () -> {
+            Child child = new Child();
 
-        TestReflectionUtils.getValueOf(child, "unknown");
-
+            TestReflectionUtils.getValueOf(child, "unknown");
+        });
     }
 
     @Test
@@ -85,13 +87,13 @@ public class TestReflectionUtilsTest {
 
     }
 
-    @Test(expected = NoSuchFieldException.class)
-    public void setFieldValue_unknown_field() throws NoSuchFieldException {
-        Child child = new Child();
+    @Test
+    public void setFieldValue_unknown_field() {
+        Assertions.assertThrows(NoSuchFieldException.class, () -> {
+            Child child = new Child();
 
-
-        TestReflectionUtils.setFieldValue(child, "unknown", "Octopus");
-
+            TestReflectionUtils.setFieldValue(child, "unknown", "Octopus");
+        });
     }
 
     @Test
@@ -105,12 +107,13 @@ public class TestReflectionUtilsTest {
 
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void setFieldValue_Assignable_failure() throws NoSuchFieldException {
-        Child child = new Child();
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            Child child = new Child();
 
-        TestReflectionUtils.setFieldValue(child, "childField", 123L);
-
+            TestReflectionUtils.setFieldValue(child, "childField", 123L);
+        });
 
     }
 
@@ -142,12 +145,13 @@ public class TestReflectionUtilsTest {
         assertThat(Child.getStaticChildField()).isNull();
     }
 
-    @Test(expected = NoSuchFieldException.class)
+    @Test
     public void resetOf_unknown_field() throws NoSuchFieldException {
-        Child child = new Child();
+        Assertions.assertThrows(NoSuchFieldException.class, () -> {
+            Child child = new Child();
 
-        TestReflectionUtils.resetOf(child, "unknown");
-
+            TestReflectionUtils.resetOf(child, "unknown");
+        });
     }
 
 
