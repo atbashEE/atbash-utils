@@ -10,6 +10,8 @@ v1.0.0, ??/??/2019
 
 * Use of JUnit 5 for testing
 
+* Fixed bug in FileResourceReader when using file:
+
 Breaking changes
 
 * Removed of Base64Codec, please us JDK `Base64`.

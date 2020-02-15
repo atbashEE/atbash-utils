@@ -45,4 +45,29 @@ public class ResourceUtilTest {
         java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
         return s.hasNext() ? s.next() : "";
     }
+
+    @Test
+    public void resourceExists() {
+        boolean exists = ResourceUtil.getInstance().resourceExists("./src/test/resources/walker/file1");
+        assertThat(exists).isTrue();
+    }
+
+    @Test
+    public void resourceExists_filePrefix() {
+        boolean exists = ResourceUtil.getInstance().resourceExists("file:./src/test/resources/walker/file1");
+        assertThat(exists).isTrue();
+    }
+
+    @Test
+    public void resourceExists_nonexistent() {
+        boolean exists = ResourceUtil.getInstance().resourceExists("./src/test/resources/file1");
+        assertThat(exists).isFalse();
+    }
+
+    @Test
+    public void resourceExists_nonexistent2() {
+        boolean exists = ResourceUtil.getInstance().resourceExists("file:./src/test/resources/file1");
+        assertThat(exists).isFalse();
+    }
+
 }
