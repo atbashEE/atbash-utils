@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2019 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2020 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,11 +29,7 @@ import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.util.AnnotationLiteral;
 
-import static org.mockito.Mockito.anySet;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Fake CDI provider for unit tests. It can be used to define a mock {@link BeanManager} which holds CDI beans compatible
@@ -91,11 +87,11 @@ public class BeanManagerFake {
             for (Object obj : entry.getValue()) {
                 beans.add(new FakeBean<>(obj));
             }
-            when(beanManagerMock.getBeans(entry.getKey(), new AnyLiteral())).thenReturn(beans);
+            doReturn(beans).when(beanManagerMock).getBeans(entry.getKey(), new AnyLiteral());
 
             for (Bean<?> bean : beans) {
 
-                when(beanManagerMock.getReference(bean, entry.getKey(), null)).thenReturn(((FakeBean) bean).getRealBean());
+                doReturn(((FakeBean) bean).getRealBean()).when(beanManagerMock).getReference(bean, entry.getKey(), null);
             }
         }
 
@@ -109,8 +105,9 @@ public class BeanManagerFake {
             Bean<?> bean = new FakeBean<>(entry.getValue());
             beans.add(bean);
 
-            when(beanManagerMock.getBeans(entry.getKey())).thenReturn(beans);
-            when(beanManagerMock.getReference(bean, Object.class, null)).thenReturn(entry.getValue());
+            doReturn(beans).when(beanManagerMock).getBeans(entry.getKey());
+
+            doReturn(entry.getValue()).when(beanManagerMock).getReference(bean, Object.class, null);
         }
 
     }
