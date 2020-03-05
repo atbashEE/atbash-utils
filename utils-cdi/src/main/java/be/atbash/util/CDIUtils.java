@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2018 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2020 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -127,7 +127,13 @@ public final class CDIUtils {
             throw new AtbashIllegalActionException("(CDI-DEV-01) beanName parameter can't be null or empty.");
         }
         BeanManager beanManager = getBeanManager();
-        Iterator<Bean<?>> iterator = beanManager.getBeans(beanName).iterator();
+            Iterator<Bean<?>> iterator;
+        try {
+            iterator = beanManager.getBeans(beanName).iterator();
+        } catch (Exception e) {
+            // Mainly due to beanManagerFake during testing.
+            throw new UnsatisfiedResolutionException(String.format("No bean with name '%s' found.", beanName));
+        }
         if (!iterator.hasNext()) {
             throw new UnsatisfiedResolutionException(String.format("No bean with name '%s' found.", beanName));
         }
