@@ -50,7 +50,11 @@ public class BeanManagerFake {
     private Map<String, Object> registeredBeans;
 
     public BeanManagerFake() {
-        beanManagerMock = mock(BeanManager.class);
+        this(mock(BeanManager.class));
+    }
+
+    public BeanManagerFake(BeanManager beanManager) {
+        beanManagerMock = beanManager;
 
         registeredObjects = new HashMap<>();
         registeredBeans = new HashMap<>();
