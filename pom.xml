@@ -21,7 +21,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>be.atbash.utils</groupId>
+    <groupId>be.atbash.jakarta.utils</groupId>
     <artifactId>utils-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -40,9 +40,9 @@
 
     </properties>
 
-    <name>Atbash Utils</name>
+    <name>Atbash Jakarta Utils</name>
     <inceptionYear>2014</inceptionYear> <!-- Some classes are created for the first time in that year -->
-    <description>Atbash Utils parent</description>
+    <description>Atbash Jakarta Utils parent</description>
     <url>https://github.com/atbashEE/atbash-utils</url>
 
     <developers>
@@ -71,8 +71,6 @@
     </scm>
 
     <modules>
-        <module>test-resources</module>
-        <module>utils-se</module>
         <module>utils-cdi</module>
         <module>utils-jsf</module>
     </modules>
@@ -186,6 +184,7 @@
                         <exclude>**/LICENSE.txt</exclude>
                         <exclude>**/NOTICE.txt</exclude>
                         <exclude>**/NOTICE</exclude>
+                        <exclude>**/config.yml</exclude>
                         <exclude>**/Base64Codec.java</exclude>
                     </excludes>
                     <mapping>

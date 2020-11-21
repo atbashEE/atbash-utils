@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2019 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2020 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,14 +19,14 @@ import be.atbash.util.exception.AtbashIllegalActionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.el.ValueExpression;
-import javax.faces.component.EditableValueHolder;
-import javax.faces.component.UIComponent;
-import javax.faces.component.ValueHolder;
-import javax.faces.component.html.HtmlInputText;
-import javax.faces.component.html.HtmlOutputLabel;
-import javax.faces.component.html.HtmlSelectOneMenu;
-import javax.faces.context.FacesContext;
+import jakarta.el.ValueExpression;
+import jakarta.faces.component.EditableValueHolder;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.component.ValueHolder;
+import jakarta.faces.component.html.HtmlInputText;
+import jakarta.faces.component.html.HtmlOutputLabel;
+import jakarta.faces.component.html.HtmlSelectOneMenu;
+import jakarta.faces.context.FacesContext;
 import java.util.ArrayList;
 import java.util.List;
 

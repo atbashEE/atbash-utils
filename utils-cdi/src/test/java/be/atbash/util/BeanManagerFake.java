@@ -25,9 +25,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import javax.enterprise.inject.spi.Bean;
-import javax.enterprise.inject.spi.BeanManager;
-import javax.enterprise.util.AnnotationLiteral;
+import jakarta.enterprise.inject.spi.Bean;
+import jakarta.enterprise.inject.spi.BeanManager;
+import jakarta.enterprise.util.AnnotationLiteral;
 
 import static org.mockito.Mockito.*;
 
@@ -50,7 +50,11 @@ public class BeanManagerFake {
     private Map<String, Object> registeredBeans;
 
     public BeanManagerFake() {
-        beanManagerMock = mock(BeanManager.class);
+        this(mock(BeanManager.class));
+    }
+
+    public BeanManagerFake(BeanManager beanManager) {
+        beanManagerMock = beanManager;
 
         registeredObjects = new HashMap<>();
         registeredBeans = new HashMap<>();

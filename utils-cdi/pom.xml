@@ -20,7 +20,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <parent>
-        <groupId>be.atbash.utils</groupId>
+        <groupId>be.atbash.jakarta.utils</groupId>
         <artifactId>utils-parent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
@@ -30,17 +30,41 @@
 
     <artifactId>utils-cdi</artifactId>
     <packaging>jar</packaging>
-    <name>Utilities for CDI</name>
+    <name>Jakarta Utilities for CDI</name>
     <description>
-        Some utilities only requiring CDI 1.1
+        Some utilities only requiring Jakarta CDI 3.x
     </description>
-    <url>https://raw.githubusercontent.com/atbashEE/atbash-utils/master/utils-cdi/src/main/doc/cdiUtils.adoc</url>
+    <url>https://raw.githubusercontent.com/atbashEE/atbash-utils/jakarta/utils-cdi/src/main/doc/cdiUtils.adoc</url>
 
     <dependencies>
         <dependency>
-            <groupId>javax.enterprise</groupId>
-            <artifactId>cdi-api</artifactId>
-            <version>2.0</version>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>jakarta.enterprise.cdi-api</artifactId>
+            <version>3.0.0</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>jakarta.el</groupId>
+                    <artifactId>jakarta.el-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>jakarta.interceptor</groupId>
+                    <artifactId>jakarta.interceptor-api</artifactId>
+                </exclusion>
+
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.el</groupId>
+            <artifactId>jakarta.el-api</artifactId>
+            <version>4.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.interceptor</groupId>
+            <artifactId>jakarta.interceptor-api</artifactId>
+            <version>2.0.0</version>
             <scope>provided</scope>
         </dependency>
 
@@ -82,7 +106,7 @@
                 <configuration>
                     <archive>
                         <manifestEntries>
-                            <Automatic-Module-Name>be.atbash.util.cdi</Automatic-Module-Name>
+                            <Automatic-Module-Name>be.atbash.jakarta.util.cdi</Automatic-Module-Name>
                         </manifestEntries>
                     </archive>
                 </configuration>

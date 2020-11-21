@@ -258,14 +258,22 @@ In order to keep the different tests independently, that no CDI beans are left f
 
 === SLF4J LogProducer
 
-There isa CDI producer defined which creates a SLF4J Logger. It takes the class information from the injection for the creation information.
+There is a CDI producer defined which creates a SLF4J Logger. It takes the class information from the injection for the creation information.
+
+.Usage of injectable logger.
+[source,java]
+----
+
+  @Inject
+  private Logger logger;
+
+  public void doSomething() {
+     logger.info("Performed the doSomething");
+  }
 
 ----
 
-   @Inject
-   private Logger logger;
-
-----
+The type of logger is `org.slf4j.Logger`.
 
 == Known issues
 
