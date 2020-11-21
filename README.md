@@ -1,34 +1,18 @@
 [![License](https://img.shields.io/:license-Apache2-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
-[![Build Status](https://travis-ci.org/atbashEE/atbash-utils.svg?branch=master)](https://github.com/atbashEE/atbash-utils)
 
-utils-se : [![Maven Central](https://maven-badges.herokuapp.com/maven-central/be.atbash.utils/utils-se/badge.svg)](https://maven-badges.herokuapp.com/maven-central/be.atbash.utils/utils-se)  
-utils-cdi : [![Maven Central](https://maven-badges.herokuapp.com/maven-central/be.atbash.utils/utils-cdi/badge.svg)](https://maven-badges.herokuapp.com/maven-central/be.atbash.utils/utils-cdi)  
-utils-jsf : [![Maven Central](https://maven-badges.herokuapp.com/maven-central/be.atbash.utils/utils-jsf/badge.svg)](https://maven-badges.herokuapp.com/maven-central/be.atbash.utils/utils-jsf)
+utils-cdi : [![Maven Central](https://maven-badges.herokuapp.com/maven-central/be.atbash.utils/utils-cdi/badge.svg)](https://maven-badges.herokuapp.com/maven-central/be.atbash.jakarta.utils/utils-cdi)  
+utils-jsf : [![Maven Central](https://maven-badges.herokuapp.com/maven-central/be.atbash.utils/utils-jsf/badge.svg)](https://maven-badges.herokuapp.com/maven-central/be.atbash.jakarta.utils/utils-jsf)
 
 # atbash-utils
-Utility classes for Java SE, CDI, CDI-test, ...
+Utility classes for Jakarta CDI and JSF
 
 * Java SE 8 based!
-* Automatic maodule name defined for Java 9+ 
+* Automatic module name defined for Java 9+ 
 * Runs on Java 8 and 11 Classpath.
-
-For Java 7 support, you can use version 0.9.3.2.
-
-## utils SE
-
-* String Utils
-* Collection Utils
-* Top level RuntimeException and Exception for unexpected conditions
-* Proxy Utils
-* Class Utils
-* HEX encoding
-* Reading Version from MANIFEST.MF
-* Check if running within CDI container.
-* Resource API
 
 ## utils CDI
 
-Requires CDI 1.1
+Requires Jakarta CDI 3.0
 
 * Programmatic retrieval of CDI instances.
 * Producer for SLF4J logger.
@@ -37,7 +21,7 @@ Requires CDI 1.1
 
 ## utils JSF
 
-Requires JSF 2.x
+Requires Jakarta JSF 3.0
 
 * Some general useful utility methods related to JSF.
 * Fake FacesContext for unit testing
