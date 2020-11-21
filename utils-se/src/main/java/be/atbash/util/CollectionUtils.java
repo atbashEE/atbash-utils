@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2018 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2020 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -115,4 +115,7 @@ public final class CollectionUtils {
         return (int) Math.min(5L + arraySize + (arraySize / 10), Integer.MAX_VALUE);
     }
 
+    public static <T> List<T> unmodifiableList(List<? extends T> list) {
+        return Collections.unmodifiableList(list);
+    }
 }

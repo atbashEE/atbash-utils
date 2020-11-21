@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2019 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2020 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,11 @@
  */
 package be.atbash.util;
 
+import be.atbash.util.reflection.ReflectionUtils;
+
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.util.List;
 
 @PublicAPI
 public final class AnnotationUtil {
@@ -33,6 +37,10 @@ public final class AnnotationUtil {
             }
         }
         return result;
+    }
+
+    public static List<Field> findAnnotatedFields(Class<?> clazz, Class<? extends Annotation> annotationType) {
+        return ReflectionUtils.findFields(clazz, fld -> fld.isAnnotationPresent(annotationType));
     }
 
 }

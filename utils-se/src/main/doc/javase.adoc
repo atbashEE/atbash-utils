@@ -12,9 +12,11 @@ v1.0.0, ??/??/2019
 
 * Fixed bug in FileResourceReader when using file:
 
+* added AnnotationUtil.findAnnotatedFields()
+
 Breaking changes
 
-* Removed of Base64Codec, please us JDK `Base64`.
+* Removal of Base64Codec, please us JDK `Base64`.
 
 === 0.9.3.1
 
@@ -477,6 +479,9 @@ With the AnnotationUtil.getAnnotation one can search if the class or one of his 
 
 The difference with the _Class.getAnnotation_ method is that also the object hierarchy is searched until found or the top level Object is reached.
 
+With AnnotationUtil.findAnnotatedFields() you can search all the fields that are annotated with the annotation specified as parameter.
+
+be.atbash.util.AnnotationUtil.getAnnotation(aClass, Annotation);
 
 === CDICheck
 

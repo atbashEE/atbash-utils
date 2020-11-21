@@ -186,6 +186,7 @@
                         <exclude>**/LICENSE.txt</exclude>
                         <exclude>**/NOTICE.txt</exclude>
                         <exclude>**/NOTICE</exclude>
+                        <exclude>**/config.yml</exclude>
                         <exclude>**/Base64Codec.java</exclude>
                     </excludes>
                     <mapping>
