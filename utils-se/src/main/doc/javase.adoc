@@ -14,7 +14,7 @@ v1.0.0, ??/??/2019
 
 * added AnnotationUtil.findAnnotatedFields()
 
-Breaking changes
+**Breaking changes**
 
 * Removal of Base64Codec, please us JDK `Base64`.
 
@@ -44,7 +44,7 @@ Breaking changes
 * Added CDICheck.withinContainer
 * Added ProxyUtils
 
-Breaking changes
+**Breaking changes**
 
 * Some methods of _be.atbash.util.StringUtils_ have changed parameters or are renamed.
 
@@ -65,39 +65,13 @@ Add the following artifact to your maven project file
 
 == Requirements
 
-Runs on JDK 7, JDK 8 and JDK 11 ClassPath.
+Runs on JDK 8 and JDK 11 ClassPath.
 
 == Features
 
-Utilities compiled for Java 7 and does not have any dependencies (only using SLF4J api).
+Utilities compiled for Java 8 and does not have any dependencies (only using SLF4J api).
 
 The most important methods are described here. For the full list of methods, see the Javadoc or the source code.
-
-=== BASE64
-
-Can be used to do encoding and decoding to BASE64 for Java 7 (Only Java 8 has a JVM native implementation)
-
-----
-be.atbash.util.base64.Base64Codec#encodeToString(byte[], boolean)
-----
-
-Converts a byte array to a BASE64 encoded String. The boolean defines if urlSafe characters need to be used or not.
-
-
-----
-byte[] be.atbash.util.base64.Base64Codec#decode(String)
-byte[] be.atbash.util.base64.Base64Codec#decode(byte[])
-----
-
-Decodes a BASE64 String/byte array into a byte array.
-
-
-----
-be.atbash.util.base64.Base64Codec#isBase64Encoded(String)
-be.atbash.util.base64.Base64Codec#isBase64Encoded(byte[])
-----
-
-Verifies if the String/byte array is a valid Base64 value.
 
 === HEX
 
@@ -479,9 +453,11 @@ With the AnnotationUtil.getAnnotation one can search if the class or one of his 
 
 The difference with the _Class.getAnnotation_ method is that also the object hierarchy is searched until found or the top level Object is reached.
 
-With AnnotationUtil.findAnnotatedFields() you can search all the fields that are annotated with the annotation specified as parameter.
+With AnnotationUtil.findAnnotatedFields()` (Added in version 1.0.0) you can search all the fields that are annotated with the annotation specified as parameter.
 
+----
 be.atbash.util.AnnotationUtil.getAnnotation(aClass, Annotation);
+----
 
 === CDICheck
 
@@ -502,12 +478,12 @@ Add the following artifact to your maven project file
     <dependency>
         <groupId>be.atbash.utils</groupId>
         <artifactId>utils-se</artifactId>
-        <version>0.9.2</version>
+        <version>1.0.0</version>
         <classifier>tests</classifier>
         <scope>test</scope>
     </dependency>
 
-When you are using a instance of a class during your unit test, and that class should have some dependencies (which are normally set by some kind of injection), the _injectDependencies_ can be very useful in those situations.
+When you are using an instance of a class during your unit test, and that class should have some dependencies (which are normally set by some kind of injection), the _injectDependencies_ can be very useful in those situations.
 
     public class Foo {
 
@@ -523,7 +499,7 @@ Then within a test you can have the following code;
 
 The injection is done based on the compatible type assignments. So you can also inject a subclass of Foo in the same manner (thus also a Mock created by Mockito for instance)
 
-However you should always consider the default supported functionality from Mockito for example.
+However, you should always consider the default supported functionality from Mockito for example.
 
 ----
 @RunWith(MockitoJUnitRunner.class)
