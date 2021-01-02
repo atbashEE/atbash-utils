@@ -4,7 +4,7 @@ utils-cdi : [![Maven Central](https://maven-badges.herokuapp.com/maven-central/b
 utils-jsf : [![Maven Central](https://maven-badges.herokuapp.com/maven-central/be.atbash.utils/utils-jsf/badge.svg)](https://maven-badges.herokuapp.com/maven-central/be.atbash.jakarta.utils/utils-jsf)
 
 # atbash-utils
-Utility classes for Jakarta CDI and JSF
+Utility classes for Jakarta CDI and JSF. There is no _Utils-SE_ version here as it has no dependency on Jakarta EE 9 specifications. 
 
 * Java SE 8 based!
 * Automatic module name defined for Java 9+ 

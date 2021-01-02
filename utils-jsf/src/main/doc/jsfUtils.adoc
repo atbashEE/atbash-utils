@@ -1,54 +1,27 @@
 = JSF utils
 Rudy De Busscher <rdebusscher@gmail.com>
-v1.0.0, ??/??/2019
+v1.0.0, 02/01/2021
 
 == Release notes
 
 === 1.0.0
 
-* Removed support for Java 7.
-* Evaluate EL expressions (JsfUtils.evaluateExpression).
-* Compiled against JSF 2.3 (but still compatible with 2.0)
-
-* Use of JUnit 5 for testing
-
-=== 0.9.3.1
-
-* No changes, version update of Atbash utilities suite.
-
-=== 0.9.3
-
-* Fake FacesContext implementation for unit testing.
-
-=== 0.9.2
-
-* No changes, version update of Atbash utilities suite.
-
-=== 0.9.1
-
-* No changes, version update of Atbash utilities suite.
-
-=== 0.9.0
-
-* Initial version
-
+* Compiled against JSF 3.0 (Jakarta EE 9 namespace!)
 
 == Setup
 
-Add the following artifact to your maven project file for using the programmatic CDI utilities.
+Add the following artfact to your maven project file for using the programmatic CDI utilities.
 
     <dependency>
-        <groupId>be.atbash.utils</groupId>
+        <groupId>be.atbash.jakarta.utils</groupId>
         <artifactId>utils-jsf</artifactId>
-        <version>0.9.2</version>
+        <version>1.0.0</version>
     </dependency>
 
 
 == Requirements
 
-These utilities work only with JSF 2.x (thus Java EE 6+) running on JDK 7 and JDK 8.
-
-Source compiles against JDK 11 but is not tested against this JDK (due to the lack of support by the application servers)
+These utilities work only with JSF 3.0 (thus Jakarta EE 9) running on JDK 8 and JDK 11.
 
 == Features
 
@@ -59,7 +32,6 @@ be.atbash.util.JsfUtils#isRenderResponsePhase
 ----
 
 verify we are in the render response phase.
-
 
 ----
 be.atbash.util.JsfUtils#createMethodExpression(String, Class<?>, Class<?>... )
@@ -155,7 +127,7 @@ In code, we sometime use this snippet to have access to the _FacesContext_
    FacesContext.getCurrentInstance()
 ----
 
-But from within unit tests, this result in a null value since JSF is not activated. In order to make your code work in the test, you can make use of the FakeFacesContext.
+But from within unit tests, this result in a null value since JSF is not activated. In order to make your code work in the test, you can make use of the `FakeFacesContext`.
 
 ----
    FakeFacesContext.registerFake();
@@ -164,7 +136,7 @@ But from within unit tests, this result in a null value since JSF is not activat
    FakeFacesContext.registerFake(Application, ExternalContext);
 ----
 
-With the above methods, we can register a FacesContext instance, and in the same time pass a (mock) implementation of ExternalContext, Application or both.
+With the above methods, we can register a FacesContext instance, and at the same time pass a (mock) implementation of ExternalContext, Application or both.
 
 Also other methods of _FacesContext_ are implemented, like the ones handling the FacesMessages.
 
