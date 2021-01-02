@@ -9,7 +9,7 @@ utils-jsf : [![Maven Central](https://maven-badges.herokuapp.com/maven-central/b
 Utility classes for Java SE, CDI, CDI-test, ...
 
 * Java SE 8 based!
-* Automatic maodule name defined for Java 9+ 
+* Automatic module name defined for Java 9+ 
 * Runs on Java 8 and 11 Classpath.
 
 For Java 7 support, you can use version 0.9.3.2.

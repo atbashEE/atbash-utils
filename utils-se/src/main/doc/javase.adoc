@@ -1,12 +1,12 @@
 = Java SE utils
 Rudy De Busscher <rdebusscher@gmail.com>
-v1.0.0, ??/??/2019
+v1.0.0, 01/01/2021
 
 == Release notes
 
 === 1.0.0
 
-* Removed support for Java 7.
+* Removed support for Java 7. (this version is tested on Java 8 and Java 11)
 
 * Use of JUnit 5 for testing
 

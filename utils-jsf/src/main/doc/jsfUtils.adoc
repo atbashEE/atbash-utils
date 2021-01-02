@@ -1,13 +1,13 @@
 = JSF utils
 Rudy De Busscher <rdebusscher@gmail.com>
-v1.0.0, ??/??/2019
+v1.0.0, 02/01/2021
 
 == Release notes
 
 === 1.0.0
 
 * Removed support for Java 7.
-* Evaluate EL expressions (JsfUtils.evaluateExpression).
+* Evaluate EL expressions (`JsfUtils.evaluateExpression`).
 * Compiled against JSF 2.3 (but still compatible with 2.0)
 
 * Use of JUnit 5 for testing
