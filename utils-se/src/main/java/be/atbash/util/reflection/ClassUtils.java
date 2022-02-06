@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2019 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,10 +20,11 @@ import be.atbash.util.SecurityReview;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.List;
+import java.net.URL;
+import java.util.*;
 
 /**
  * Utility class used to conveniently interact with <code>Class</code>es, such as acquiring them from the
@@ -111,6 +112,19 @@ public final class ClassUtils {
         }
 
         return is;
+    }
+
+    /**
+     * Return the list of URLs for the resource. It tries to determine is the resource is available on the Thread Context
+     * Classloader, the Classloader of the {@link ClassUtils} class or the System Classloader.
+     * @param name the name of the resource to acquire from the classloader(s).
+     * @return List of URLs pointing to the resource or empty list when resource is not present.
+     */
+    public static List<URL> getAllResources(String name) {
+        Set<URL> result = new HashSet<>(THREAD_CL_ACCESSOR.getResources(name));
+        result.addAll(CLASS_CL_ACCESSOR.getResources(name));
+        result.addAll(SYSTEM_CL_ACCESSOR.getResources(name));
+        return new ArrayList<>(result);
     }
 
     /**
@@ -363,6 +377,8 @@ public final class ClassUtils {
          * @return An InputStream to the resource or null if not found.
          */
         InputStream getResourceStream(String name);
+
+        List<URL> getResources(String name);
     }
 
     /**
@@ -415,6 +431,20 @@ public final class ClassUtils {
                 }
             }
             return null;
+        }
+
+        @Override
+        public List<URL> getResources(String name) {
+            ClassLoader classLoader = doGetClassLoader();
+            try {
+                return Collections.list(classLoader.getResources(name));
+            } catch (IOException e) {
+                if (log.isDebugEnabled()) {
+                    log.debug(String.format("Unable to read resources %s from ClassLoader %s.", name, classLoader), e);
+                }
+
+            }
+            return Collections.emptyList();
         }
 
         /**

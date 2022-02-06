@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2020 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,9 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -68,6 +70,29 @@ public class ResourceUtilTest {
     public void resourceExists_nonexistent2() {
         boolean exists = ResourceUtil.getInstance().resourceExists("file:./src/test/resources/file1");
         assertThat(exists).isFalse();
+    }
+
+    @Test
+    public void getResources() {
+        List<URI> resources = ResourceUtil.getInstance().getResources("walker/file1");
+        assertThat(resources).hasSize(1);
+        assertThat(resources.get(0).getScheme()).isEqualTo("file");
+        assertThat(resources.get(0).getPath()).endsWith("target/test-classes/walker/file1");
+    }
+
+    @Test
+    public void getResources_filePrefix() {
+        List<URI> resources = ResourceUtil.getInstance().getResources("file:./src/test/resources/walker/directory/file3");
+        assertThat(resources).hasSize(1);
+        assertThat(resources.get(0).getScheme()).isEqualTo("file");
+        assertThat(resources.get(0).getPath()).endsWith("walker/directory/file3");
+    }
+
+    @Test
+    public void getResources_classpath() {
+        List<URI> resources = ResourceUtil.getInstance().getResources("META-INF/MANIFEST.MF");
+        assertThat(resources.size()).isGreaterThan(20);
+        // We can't test for specific number as it depends on the dependencies of the test run. We know it are *many*.
     }
 
 }

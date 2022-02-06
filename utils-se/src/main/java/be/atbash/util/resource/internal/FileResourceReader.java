@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2020 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
 import static be.atbash.util.resource.ResourceUtil.*;
@@ -59,6 +62,15 @@ public class FileResourceReader implements ResourceReader {
         }
         return new FileInputStream(path);
 
+    }
+
+    @Override
+    public List<URI> getResources(String resourcePath) {
+        if (exists(resourcePath, null)) {
+            String path = stripPrefix(resourcePath);
+            return Collections.singletonList(new File(path).toURI());
+        }
+        return Collections.emptyList();
     }
 
     private static String stripPrefix(String resourcePath) {

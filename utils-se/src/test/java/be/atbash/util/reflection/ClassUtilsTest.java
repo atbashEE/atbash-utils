@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2020 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,9 @@ import be.atbash.util.reflection.testclasses.Foo;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.net.URL;
 import java.util.Calendar;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -176,4 +178,18 @@ public class ClassUtilsTest {
 
     }
 
+    @Test
+    public void getAllResources() {
+        List<URL> resources = ClassUtils.getAllResources("walker/file1");
+        assertThat(resources).hasSize(1);
+        assertThat(resources.get(0).getPath()).endsWith("/test-classes/walker/file1");
+
+    }
+
+    @Test
+    public void getAllResources_noMatch() {
+        List<URL> resources = ClassUtils.getAllResources("someRandomFile");
+        assertThat(resources).isEmpty();
+
+    }
 }

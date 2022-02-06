@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2019 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ import be.atbash.util.resource.internal.URLResourceReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.util.*;
 
 @PublicAPI
@@ -182,6 +183,12 @@ public class ResourceUtil {
         }
         return result;
 
+    }
+
+    public List<URI> getResources(String resourcePath) {
+        List<URI> result = new ArrayList<>();
+        readers.forEach(rr -> result.addAll(rr.getResources(resourcePath)));
+        return result;
     }
 
     public static synchronized ResourceUtil getInstance() {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2018 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,8 @@ import be.atbash.util.SecurityReview;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.util.List;
 
 @PublicAPI
 public interface ResourceReader {
@@ -51,4 +53,13 @@ public interface ResourceReader {
      */
     @SecurityReview
     InputStream load(String resourcePath, Object context) throws IOException;
+
+    /**
+     * Determine the URI for the resource. This could be multiple as a resource file may be present in multiple JAR files on the classpath.
+     * The returned list might be empty when no resource with that name is found or when the {@link ResourceReader} doesn't
+     * support representation to a URI.
+     * @param resourcePath Must be a non empty value containing the path pointing to the resource.
+     * @return List of URI for the resource or empty List.
+     */
+    List<URI> getResources(String resourcePath);
 }

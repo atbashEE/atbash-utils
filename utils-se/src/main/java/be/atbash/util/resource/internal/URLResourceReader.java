@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2018 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,13 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
 import static be.atbash.util.resource.ResourceUtil.URL_PREFIX;
@@ -71,6 +77,22 @@ public class URLResourceReader implements ResourceReader {
 
     }
 
+    @Override
+    public List<URI> getResources(String resourcePath) {
+        if (!canRead(resourcePath, null)) {
+            return Collections.emptyList();
+        }
+        List<URI> result = new ArrayList<>();
+        String urlPath = stripPrefix(resourcePath);
+        try {
+            URL url = new URL(urlPath);
+            result.add(url.toURI());
+        } catch (MalformedURLException | URISyntaxException e) {
+            LOG.warn("Invalid URL {}", urlPath);
+        }
+        return result;
+
+    }
 
     private static String stripPrefix(String resourcePath) {
         String lowerCasePath = resourcePath.toLowerCase(Locale.ENGLISH);

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2018 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,11 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static be.atbash.util.resource.ResourceUtil.CLASSPATH_PREFIX;
 
@@ -72,6 +77,20 @@ public class ClassPathResourceReader implements ResourceReader {
             result = load(newPath, context);
         }
         return result;
+    }
+
+    @Override
+    public List<URI> getResources(String resourcePath) {
+        return ClassUtils.getAllResources(resourcePath)
+                .stream().map(url -> {
+                    try {
+                        return url.toURI();
+                    } catch (URISyntaxException e) {
+                        LOG.warn("Converting to URI failed for [{}]", url);
+                    }
+                    return null;
+                }).filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 
     private static String stripPrefix(String resourcePath) {
