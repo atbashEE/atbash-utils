@@ -81,7 +81,7 @@ public class ClassPathResourceReader implements ResourceReader {
 
     @Override
     public List<URI> getResources(String resourcePath) {
-        return ClassUtils.getAllResources(resourcePath)
+        return ClassUtils.getAllResources(stripPrefix(resourcePath))
                 .stream().map(url -> {
                     try {
                         return url.toURI();
