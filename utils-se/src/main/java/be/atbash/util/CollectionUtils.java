@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2020 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package be.atbash.util;
 import java.util.*;
 
 /**
- * Static helper class for use dealing with Collections. Taken from Apache Shiro.
+ * Static helper class for use dealing with Collections. Parts of these methods are taken from Apache Shiro.
  */
 @PublicAPI
 public final class CollectionUtils {
@@ -109,6 +109,10 @@ public final class CollectionUtils {
         List<E> list = new ArrayList<>(capacity);
         Collections.addAll(list, elements);
         return list;
+    }
+
+    public static<T> Iterable<T> iteratorToIterable(Iterator<T> iterator) {
+        return () -> iterator;
     }
 
     static int computeListCapacity(int arraySize) {

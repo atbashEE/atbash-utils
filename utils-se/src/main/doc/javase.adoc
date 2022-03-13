@@ -7,6 +7,7 @@ v1.1.0, ??/??/2022
 === 1.1.0
 
 * Added be.atbash.util.resource.ResourceUtil.getResources method to determine URI for a resource.
+* `CollectionUtils.iteratorToIterable`
 
 === 1.0.0
 
