@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2018 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,8 @@
 package be.atbash.util.resource.internal.vfs;
 
 
+import be.atbash.util.exception.ResourceURLHandlingException;
+
 import java.io.File;
 import java.util.*;
 
@@ -27,7 +29,7 @@ public class SystemDir implements Vfs.Dir {
 
     public SystemDir(File file) {
         if (file != null && (!file.isDirectory() || !file.canRead())) {
-            throw new RuntimeException("cannot use dir " + file);
+            throw new ResourceURLHandlingException("cannot use dir " + file);
         }
 
         this.file = file;

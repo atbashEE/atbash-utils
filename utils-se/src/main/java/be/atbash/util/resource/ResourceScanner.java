@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2018 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,9 +28,9 @@ import java.util.regex.Pattern;
 @PublicAPI
 public class ResourceScanner {
 
-    private static ResourceScanner INSTANCE;
+    private static ResourceScanner instance;
 
-    private Store store;
+    private final Store store;
 
     private ResourceScanner() {
         store = new Store();
@@ -118,11 +118,11 @@ public class ResourceScanner {
 
     public static synchronized ResourceScanner getInstance() {
         // Synchronize methods are not so bad for performance anymore and since only 1 synchronized static there are no side effects
-        if (INSTANCE == null) {
-            INSTANCE = new ResourceScanner();
+        if (instance == null) {
+            instance = new ResourceScanner();
         }
 
-        return INSTANCE;
+        return instance;
     }
 
     public static void registerURLType(UrlType urlType) {

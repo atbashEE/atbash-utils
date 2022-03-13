@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2020 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ package be.atbash.util.codec;
  * <p>
  * Copyright 2009 Google Inc. All Rights Reserved.
  * <p>
- * Licensed under the Apache License, Version 2.0 (the "License");
+ * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * <p>
@@ -38,22 +38,22 @@ import java.util.Map;
 
 @SuppressWarnings("squid:S1226")
 public class Base32Codec {
-
-    private char[] DIGITS;
-    private int MASK;
-    private int SHIFT;
-    private Map<Character, Integer> CHAR_MAP;
-
     private static final String SEPARATOR = "-";
+
+    private final char[] digits;
+    private final int mask;
+    private final int shift;
+    private final Map<Character, Integer> charMap;
+
 
     private Base32Codec(String alphabet) {
         // 32 alpha-numeric characters.
-        DIGITS = alphabet.toCharArray();
-        MASK = DIGITS.length - 1;
-        SHIFT = Integer.numberOfTrailingZeros(DIGITS.length);
-        CHAR_MAP = new HashMap<>();
-        for (int i = 0; i < DIGITS.length; i++) {
-            CHAR_MAP.put(DIGITS[i], i);
+        digits = alphabet.toCharArray();
+        mask = digits.length - 1;
+        shift = Integer.numberOfTrailingZeros(digits.length);
+        charMap = new HashMap<>();
+        for (int i = 0; i < digits.length; i++) {
+            charMap.put(digits[i], i);
         }
     }
 
@@ -76,28 +76,24 @@ public class Base32Codec {
             return new byte[0];
         }
         int encodedLength = encoded.length();
-        int outLength = encodedLength * SHIFT / 8;
+        int outLength = encodedLength * shift / 8;
         byte[] result = new byte[outLength];
         int buffer = 0;
         int next = 0;
         int bitsLeft = 0;
         for (char c : encoded.toCharArray()) {
-            if (!CHAR_MAP.containsKey(c)) {
+            if (!charMap.containsKey(c)) {
                 throw new CodecException("Illegal character: " + c);
             }
-            buffer <<= SHIFT;
-            buffer |= CHAR_MAP.get(c) & MASK;
-            bitsLeft += SHIFT;
+            buffer <<= shift;
+            buffer |= charMap.get(c) & mask;
+            bitsLeft += shift;
             if (bitsLeft >= 8) {
                 result[next++] = (byte) (buffer >> (bitsLeft - 8));
                 bitsLeft -= 8;
             }
         }
         // We'll ignore leftover bits for now.
-        //
-        // if (next != outLength || bitsLeft >= SHIFT) {
-        //  throw new DecodingException("Bits left: " + bitsLeft);
-        // }
         return result;
     }
 
@@ -117,27 +113,27 @@ public class Base32Codec {
             throw new IllegalArgumentException();
         }
 
-        int outputLength = (data.length * 8 + SHIFT - 1) / SHIFT;
+        int outputLength = (data.length * 8 + shift - 1) / shift;
         StringBuilder result = new StringBuilder(outputLength);
 
         int buffer = data[0];
         int next = 1;
         int bitsLeft = 8;
         while (bitsLeft > 0 || next < data.length) {
-            if (bitsLeft < SHIFT) {
+            if (bitsLeft < shift) {
                 if (next < data.length) {
                     buffer <<= 8;
                     buffer |= (data[next++] & 0xff);
                     bitsLeft += 8;
                 } else {
-                    int pad = SHIFT - bitsLeft;
+                    int pad = shift - bitsLeft;
                     buffer <<= pad;
                     bitsLeft += pad;
                 }
             }
-            int index = MASK & (buffer >> (bitsLeft - SHIFT));
-            bitsLeft -= SHIFT;
-            result.append(DIGITS[index]);
+            int index = mask & (buffer >> (bitsLeft - shift));
+            bitsLeft -= shift;
+            result.append(digits[index]);
         }
         return result.toString();
     }

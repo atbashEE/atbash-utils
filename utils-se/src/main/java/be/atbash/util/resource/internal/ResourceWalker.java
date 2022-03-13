@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2019 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,11 +32,11 @@ import static java.lang.String.format;
 // Based on org.reflections Reflection
 public class ResourceWalker {
 
-    private Logger logger = LoggerFactory.getLogger(ResourceWalker.class);
+    private final Logger logger = LoggerFactory.getLogger(ResourceWalker.class);
 
     private ExecutorService executorService;
 
-    private Store store;
+    private final Store store;
 
     public ResourceWalker(Store store) {
         this.store = store;
@@ -78,9 +78,13 @@ public class ResourceWalker {
 
 
         if (executorService != null) {
-            for (Future future : futures) {
+            for (Future<?> future : futures) {
                 try {
                     future.get();
+                } catch (InterruptedException e) {
+                    // Keep thread interrupted for correct cleanup and closure.
+                    Thread.currentThread().interrupt();
+                    throw new AtbashUnexpectedException(e);
                 } catch (Exception e) {
                     throw new AtbashUnexpectedException(e);
                 }

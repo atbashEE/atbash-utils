@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2020 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,8 +31,8 @@ public class CollectionUtilsTest {
     public void asSet() {
         Set<String> data = CollectionUtils.asSet("Value1", "Value2");
 
-        assertThat(data).hasSize(2);
-        assertThat(data).containsExactly("Value1", "Value2");
+        assertThat(data).hasSize(2)
+                .containsExactly("Value1", "Value2");
     }
 
     @Test

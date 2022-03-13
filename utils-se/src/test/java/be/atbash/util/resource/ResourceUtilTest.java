@@ -91,7 +91,7 @@ public class ResourceUtilTest {
     @Test
     public void getResources_classpath() {
         List<URI> resources = ResourceUtil.getInstance().getResources("META-INF/MANIFEST.MF");
-        assertThat(resources.size()).isGreaterThan(20);
+        assertThat(resources).hasSizeGreaterThan(20);
         // We can't test for specific number as it depends on the dependencies of the test run. We know it are *many*.
     }
 

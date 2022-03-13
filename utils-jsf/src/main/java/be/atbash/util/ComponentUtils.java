@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2019 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,6 +37,7 @@ import java.util.List;
 public final class ComponentUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ComponentUtils.class);
+    public static final String COMPONENT_PARAMETER_IS_REQUIRED = "component parameter is required";
 
     private ComponentUtils() {
     }
@@ -51,7 +52,7 @@ public final class ComponentUtils {
      */
     public static Object getValue(UIComponent component, FacesContext facesContext) {
         if (component == null) {
-            throw new IllegalArgumentException("component parameter is required");
+            throw new IllegalArgumentException(COMPONENT_PARAMETER_IS_REQUIRED);
         }
         ValueExpression value = component.getValueExpression("value");
         if (value == null) {
@@ -76,7 +77,7 @@ public final class ComponentUtils {
      */
     public static boolean isRequired(UIComponent component, FacesContext facesContext) {
         if (component == null) {
-            throw new IllegalArgumentException("component parameter is required");
+            throw new IllegalArgumentException(COMPONENT_PARAMETER_IS_REQUIRED);
         }
         ValueExpression value = component.getValueExpression("required");
         if (value == null) {
@@ -106,7 +107,7 @@ public final class ComponentUtils {
     // FIXME There are so many different classes with getStyle Method, reflection?!
     public static String getStyle(UIComponent component, FacesContext facesContext) {
         if (component == null) {
-            throw new IllegalArgumentException("component parameter is required");
+            throw new IllegalArgumentException(COMPONENT_PARAMETER_IS_REQUIRED);
         }
         ValueExpression value = component.getValueExpression("style");
         if (value == null) {
@@ -141,7 +142,7 @@ public final class ComponentUtils {
     // FIXME There are so many different classes with getStyle Method, reflection?!
     public static String getStyleClass(UIComponent component, FacesContext facesContext) {
         if (component == null) {
-            throw new IllegalArgumentException("component parameter is required");
+            throw new IllegalArgumentException(COMPONENT_PARAMETER_IS_REQUIRED);
         }
         ValueExpression value = component.getValueExpression("styleClass");
         if (value == null) {
@@ -174,7 +175,7 @@ public final class ComponentUtils {
      */
     public static int getMaxLength(UIComponent component, FacesContext facesContext) {
         if (component == null) {
-            throw new IllegalArgumentException("component parameter is required");
+            throw new IllegalArgumentException(COMPONENT_PARAMETER_IS_REQUIRED);
         }
         ValueExpression value = component.getValueExpression("maxlength");
         if (value == null) {
@@ -199,7 +200,7 @@ public final class ComponentUtils {
      */
     public static <T> T getAttributeValue(UIComponent component, String attributeName, Class<T> resultClass) {
         if (component == null) {
-            throw new IllegalArgumentException("component parameter is required");
+            throw new IllegalArgumentException(COMPONENT_PARAMETER_IS_REQUIRED);
         }
         T result = null;
 
@@ -239,7 +240,7 @@ public final class ComponentUtils {
      */
     public static List<UIComponent> findTargets(UIComponent component, String target) {
         if (component == null) {
-            throw new IllegalArgumentException("component parameter is required");
+            throw new IllegalArgumentException(COMPONENT_PARAMETER_IS_REQUIRED);
         }
 
         List<UIComponent> result = new ArrayList<>();

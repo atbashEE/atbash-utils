@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2018 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -71,7 +71,8 @@ public final class Hex {
         char[] out = new char[l << 1];
 
         // two characters form the hex value.
-        for (int i = 0, j = 0; i < l; i++) {
+        int j = 0;
+        for (int i = 0; i < l; i++) {
             out[j++] = DIGITS[(0xF0 & data[i]) >>> 4];
             out[j++] = DIGITS[0x0F & data[i]];
         }
@@ -135,7 +136,8 @@ public final class Hex {
         byte[] out = new byte[len >> 1];
 
         // two characters form the hex value.
-        for (int i = 0, j = 0; j < len; i++) {
+        int j = 0;
+        for (int i = 0; j < len; i++) {
             int f = toDigit(data[j], j) << 4;
             j++;
             f = f | toDigit(data[j], j);
@@ -183,7 +185,7 @@ public final class Hex {
      * @return An integer
      * @throws IllegalArgumentException if ch is an illegal hex character
      */
-    protected static int toDigit(char ch, int index) {
+    private static int toDigit(char ch, int index) {
         int digit = Character.digit(ch, 16);
         if (digit == -1) {
             throw new IllegalArgumentException("Illegal hexadecimal character " + ch + " at index " + index);

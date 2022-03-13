@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2018 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,13 @@
 package be.atbash.util.resource.internal.vfs;
 
 import be.atbash.util.exception.AtbashUnexpectedException;
+import be.atbash.util.exception.ResourceURLHandlingException;
 import be.atbash.util.resource.UrlType;
 import be.atbash.util.resource.internal.ResourceWalkerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.*;
 import java.util.ArrayList;
@@ -49,7 +51,7 @@ public abstract class Vfs {
     private static final Logger LOGGER = LoggerFactory.getLogger(Vfs.class);
     private static final String JAR_MARKER = ".jar!";
 
-    private static List<UrlType> defaultUrlTypes;
+    private static final List<UrlType> defaultUrlTypes;
 
     static {
         defaultUrlTypes = new ArrayList<>();
@@ -114,7 +116,7 @@ public abstract class Vfs {
     }
 
     /**
-     * try to get {@link java.io.File} from url
+     * try to get {@link java.io.File} from url.
      */
     public static java.io.File getFile(URL url) {
         java.io.File file;
@@ -191,6 +193,7 @@ public abstract class Vfs {
      * <p>bundle - for bundle protocol, using eclipse FileLocator (should be provided in classpath)
      * <p>jarInputStream - creates a {@link JarInputDir} over jar files, using Java's JarInputStream
      */
+    @SuppressWarnings("squid:S115")
     public enum DefaultUrlTypes implements UrlType {
 
         jarFile {
@@ -201,7 +204,11 @@ public abstract class Vfs {
 
             @Override
             public Vfs.Dir createDir(URL url) throws Exception {
-                return new ZipDir(new JarFile(getFile(url)));
+                java.io.File file = getFile(url);
+                if (file == null) {
+                    throw new ResourceURLHandlingException(String.format("Unable to locate the Directory within the JAR File '%s'", url.toExternalForm()));
+                }
+                return new ZipDir(new JarFile(file));
             }
 
             @Override

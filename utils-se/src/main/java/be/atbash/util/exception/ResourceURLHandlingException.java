@@ -13,26 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package be.atbash.util.resource.internal.vfs;
+package be.atbash.util.exception;
 
-import java.util.zip.ZipEntry;
+import be.atbash.util.PublicAPI;
+import be.atbash.util.StringUtils;
 
-/**
- *
- */
-public class JarInputFile implements Vfs.File {
-    private final ZipEntry entry;
+@PublicAPI
+public class ResourceURLHandlingException extends AtbashException {
 
-    public JarInputFile(ZipEntry entry) {
-        this.entry = entry;
+    /**
+     * Creates an unexpectedException with a message.
+     *
+     * @param message The message what went unexpectedly wrong.
+     */
+    public ResourceURLHandlingException(String message) {
+        super(message);
     }
 
-    public String getName() {
-        String name = entry.getName();
-        return name.substring(name.lastIndexOf('/') + 1);
-    }
-
-    public String getRelativePath() {
-        return entry.getName();
-    }
 }

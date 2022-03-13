@@ -55,7 +55,7 @@ public final class CollectionUtils {
      * @return {@code true} if the specified {@code Collection} is {@code null} or {@link Collection#isEmpty empty},
      * {@code false} otherwise.
      */
-    public static boolean isEmpty(Collection c) {
+    public static boolean isEmpty(Collection<?> c) {
         return c == null || c.isEmpty();
     }
 
@@ -67,7 +67,7 @@ public final class CollectionUtils {
      * @return {@code true} if the specified {@code Map} is {@code null} or {@link Map#isEmpty empty},
      * {@code false} otherwise.
      */
-    public static boolean isEmpty(Map m) {
+    public static boolean isEmpty(Map<?,?> m) {
         return m == null || m.isEmpty();
     }
 
@@ -77,7 +77,7 @@ public final class CollectionUtils {
      * @param c the collection to check
      * @return the size of the specified collection or {@code 0} if the collection is {@code null}.
      */
-    public static int size(Collection c) {
+    public static int size(Collection<?> c) {
         return c != null ? c.size() : 0;
     }
 
@@ -87,7 +87,7 @@ public final class CollectionUtils {
      * @param m the map to check
      * @return the size of the specified map or {@code 0} if the map is {@code null}.
      */
-    public static int size(Map m) {
+    public static int size(Map<?,?> m) {
         return m != null ? m.size() : 0;
     }
 

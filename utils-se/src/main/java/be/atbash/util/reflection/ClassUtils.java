@@ -139,9 +139,9 @@ public final class ClassUtils {
      * @return the located class
      * @throws UnknownClassException if the class cannot be found.
      */
-    public static Class forName(String fqcn) {
+    public static Class<?> forName(String fqcn) {
 
-        Class clazz = THREAD_CL_ACCESSOR.loadClass(fqcn);
+        Class<?> clazz = THREAD_CL_ACCESSOR.loadClass(fqcn);
 
         if (clazz == null) {
             if (log.isTraceEnabled()) {
@@ -220,7 +220,7 @@ public final class ClassUtils {
      * @return The instantiated class.
      * @throws InstantiationException if the class instantiation went wrong.
      */
-    public static <T> T newInstance(Class clazz) {
+    public static <T> T newInstance(Class<?> clazz) {
         if (clazz == null) {
             String msg = "Class method parameter cannot be null.";
             throw new IllegalArgumentException(msg);
@@ -241,15 +241,15 @@ public final class ClassUtils {
      * @return The instantiated class.
      * @throws InstantiationException if the class instantiation went wrong.
      */
-    public static <T> T newInstance(Class clazz, Object... args) {
-        Class[] argTypes = new Class[args.length];
+    public static <T> T newInstance(Class<?> clazz, Object... args) {
+        Class<?>[] argTypes = new Class[args.length];
         for (int i = 0; i < args.length; i++) {
             // Support for null argument
             if (args[i] != null) {
                 argTypes[i] = args[i].getClass();
             }
         }
-        Constructor ctor = getConstructor(clazz, argTypes);
+        Constructor<?> ctor = getConstructor(clazz, argTypes);
         return instantiate(ctor, args);
     }
 
@@ -264,7 +264,7 @@ public final class ClassUtils {
      * @return Constructor that match the argumentTypes.
      * @throws NoConstructorFoundException When no constructor (or multiple) is found which matches the argumentTypes.
      */
-    static Constructor getConstructor(Class clazz, Class... argTypes) {
+    static Constructor<?> getConstructor(Class<?> clazz, Class<?>... argTypes) {
         return matchConstructor(clazz, argTypes);
     }
 
@@ -279,8 +279,8 @@ public final class ClassUtils {
      * @return Constructor that match the argumentTypes.
      * @throws NoConstructorFoundException When no constructor (or multiple) is found which matches the argumentTypes.
      */
-    private static Constructor matchConstructor(Class clazz, Class[] argTypes) {
-        List<Constructor> constructors = matchAllConstructors(clazz, argTypes, true);
+    private static Constructor<?> matchConstructor(Class<?> clazz, Class<?>[] argTypes) {
+        List<Constructor<?>> constructors = matchAllConstructors(clazz, argTypes, true);
         if (constructors.isEmpty()) {
             constructors = matchAllConstructors(clazz, argTypes, false);
         }
@@ -299,9 +299,9 @@ public final class ClassUtils {
      * @param exactMatch is <code>equals</code> or <code>isAssignableFrom</code> used.
      * @return List of Constructors that match the argumentTypes.
      */
-    private static List<Constructor> matchAllConstructors(Class clazz, Class[] argTypes, boolean exactMatch) {
-        List<Constructor> result = new ArrayList<>();
-        for (Constructor constructor : clazz.getConstructors()) {
+    private static List<Constructor<?>> matchAllConstructors(Class<?> clazz, Class<?>[] argTypes, boolean exactMatch) {
+        List<Constructor<?>> result = new ArrayList<>();
+        for (Constructor<?> constructor : clazz.getConstructors()) {
             if (constructor.getParameterTypes().length == argTypes.length && matchParameterTypes(constructor.getParameterTypes(), argTypes, exactMatch)) {
                 result.add(constructor);
             }
@@ -320,7 +320,7 @@ public final class ClassUtils {
      * @param exactMatch     is <code>equals</code> or <code>isAssignableFrom</code> used.
      * @return Do all arguments match the parameter types.
      */
-    private static boolean matchParameterTypes(Class[] parameterTypes, Class[] argTypes, boolean exactMatch) {
+    private static boolean matchParameterTypes(Class<?>[] parameterTypes, Class<?>[] argTypes, boolean exactMatch) {
         boolean result = true;
         for (int i = 0; i < parameterTypes.length; i++) {
             if (argTypes[i] != null) {
@@ -347,7 +347,7 @@ public final class ClassUtils {
      * @param <T>  Convenience generic typecasting so no cast is needed.
      * @return The new instance.
      */
-    private static <T> T instantiate(Constructor ctor, Object... args) {
+    private static <T> T instantiate(Constructor<?> ctor, Object... args) {
         try {
             return (T) ctor.newInstance(args);
         } catch (Exception e) {
@@ -368,7 +368,7 @@ public final class ClassUtils {
          * @return The class corresponding ith the FQCN or null if not found.
          */
         @SecurityReview
-        Class loadClass(String fqcn);
+        Class<?> loadClass(String fqcn);
 
         /**
          * Tries to locate and open the resource defined by the name and returns null if not found.
@@ -388,10 +388,10 @@ public final class ClassUtils {
     private abstract static class ExceptionIgnoringAccessor implements ClassLoaderAccessor {
 
         @Override
-        public Class loadClass(String fqcn) {
-            Class clazz = null;
+        public Class<?> loadClass(String fqcn) {
+            Class<?> clazz = null;
             ClassLoader cl = getClassLoader();
-            // When there was an issue retrieving the ClassLoader, the method return null;
+            // When there was an issue retrieving the ClassLoader, the method return null.
             if (cl != null) {
                 try {
                     // Security check : Dynamic loaded class can only be from classpath (so no arbitrary class loaded)
@@ -410,7 +410,7 @@ public final class ClassUtils {
         public InputStream getResourceStream(String name) {
             InputStream is = null;
             ClassLoader cl = getClassLoader();
-            // When there was an issue retrieving the ClassLoader, the method return null;
+            // When there was an issue retrieving the ClassLoader, the method return null.
             if (cl != null) {
                 is = cl.getResourceAsStream(name);
             }
