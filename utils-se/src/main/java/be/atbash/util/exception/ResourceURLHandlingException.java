@@ -16,16 +16,10 @@
 package be.atbash.util.exception;
 
 import be.atbash.util.PublicAPI;
-import be.atbash.util.StringUtils;
 
 @PublicAPI
 public class ResourceURLHandlingException extends AtbashException {
 
-    /**
-     * Creates an unexpectedException with a message.
-     *
-     * @param message The message what went unexpectedly wrong.
-     */
     public ResourceURLHandlingException(String message) {
         super(message);
     }

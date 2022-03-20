@@ -1,12 +1,12 @@
 = Java SE utils
 Rudy De Busscher <rdebusscher@gmail.com>
-v1.1.0, ??/??/2022
+v1.1.0, 20/03/2022
 
 == Release notes
 
 === 1.1.0
 
-* Added be.atbash.util.resource.ResourceUtil.getResources method to determine URI for a resource.
+* Added `ResourceUtil.getResources` method to determine URI for a resource.
 * `CollectionUtils.iteratorToIterable`
 
 === 1.0.0

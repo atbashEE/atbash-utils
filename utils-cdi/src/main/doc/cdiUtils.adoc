@@ -1,8 +1,12 @@
 = CDI utils
 Rudy De Busscher <rdebusscher@gmail.com>
-v1.0.0, 01/01/2021
+v1.1.0, 20/03/2022
 
 == Release notes
+
+=== 1.1.0
+
+* Update dependencies.
 
 === 1.0.0
 
