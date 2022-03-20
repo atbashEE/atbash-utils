@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2020 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,35 +17,35 @@ package be.atbash.util.base32;
 
 import be.atbash.util.codec.Base32Codec;
 import be.atbash.util.codec.CodecException;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-public class Base32CodecTest {
+class Base32CodecTest {
 
     @Test
-    public void encodeToString() {
+    void encodeToString() {
         String encode = Base32Codec.encodeToString("test".getBytes());
-        assertThat(encode).isEqualTo("ORSXG5A");
+        Assertions.assertThat(encode).isEqualTo("ORSXG5A");
     }
 
     @Test
-    public void decode() {
+    void decode() {
         byte[] value = Base32Codec.decode("ORSXG5A");
-        assertThat("test").isEqualTo(new String(value));
+        Assertions.assertThat("test").isEqualTo(new String(value));
 
     }
 
     @Test
-    public void decode_WrongCharacter() {
-        Assertions.assertThrows(CodecException.class, () -> Base32Codec.decode("ORSXG8"));
+    void decode_WrongCharacter() {
+        Assertions.assertThatThrownBy(() ->
+                        Base32Codec.decode("ORSXG8"))
+                .isInstanceOf(CodecException.class);
     }
 
     @Test
-    public void decode_toUppercase() {
+    void decode_toUppercase() {
         byte[] value = Base32Codec.decode("ORsxG5a");
-        assertThat("test").isEqualTo(new String(value));
+        Assertions.assertThat("test").isEqualTo(new String(value));
     }
 
 }

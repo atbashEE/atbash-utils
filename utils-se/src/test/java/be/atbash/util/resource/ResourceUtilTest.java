@@ -15,6 +15,7 @@
  */
 package be.atbash.util.resource;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -24,14 +25,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-public class ResourceUtilTest {
+class ResourceUtilTest {
 
     private static final String VALUE = "Value of Key2";
 
     @Test
-    public void getStream() throws IOException {
+    void getStream() throws IOException {
         // Just to test a few things (serviceLoader, sorting, and context)
 
         Map<String, String> data = new HashMap<>();
@@ -39,7 +38,7 @@ public class ResourceUtilTest {
         data.put("key2", VALUE);
 
         InputStream is = ResourceUtil.getInstance().getStream("key2", data);
-        assertThat(convertStreamToString(is)).isEqualTo(VALUE);
+        Assertions.assertThat(convertStreamToString(is)).isEqualTo(VALUE);
         is.close();
     }
 
@@ -49,49 +48,49 @@ public class ResourceUtilTest {
     }
 
     @Test
-    public void resourceExists() {
+    void resourceExists() {
         boolean exists = ResourceUtil.getInstance().resourceExists("./src/test/resources/walker/file1");
-        assertThat(exists).isTrue();
+        Assertions.assertThat(exists).isTrue();
     }
 
     @Test
-    public void resourceExists_filePrefix() {
+    void resourceExists_filePrefix() {
         boolean exists = ResourceUtil.getInstance().resourceExists("file:./src/test/resources/walker/file1");
-        assertThat(exists).isTrue();
+        Assertions.assertThat(exists).isTrue();
     }
 
     @Test
-    public void resourceExists_nonexistent() {
+    void resourceExists_nonexistent() {
         boolean exists = ResourceUtil.getInstance().resourceExists("./src/test/resources/file1");
-        assertThat(exists).isFalse();
+        Assertions.assertThat(exists).isFalse();
     }
 
     @Test
-    public void resourceExists_nonexistent2() {
+    void resourceExists_nonexistent2() {
         boolean exists = ResourceUtil.getInstance().resourceExists("file:./src/test/resources/file1");
-        assertThat(exists).isFalse();
+        Assertions.assertThat(exists).isFalse();
     }
 
     @Test
-    public void getResources() {
+    void getResources() {
         List<URI> resources = ResourceUtil.getInstance().getResources("walker/file1");
-        assertThat(resources).hasSize(1);
-        assertThat(resources.get(0).getScheme()).isEqualTo("file");
-        assertThat(resources.get(0).getPath()).endsWith("target/test-classes/walker/file1");
+        Assertions.assertThat(resources).hasSize(1);
+        Assertions.assertThat(resources.get(0).getScheme()).isEqualTo("file");
+        Assertions.assertThat(resources.get(0).getPath()).endsWith("target/test-classes/walker/file1");
     }
 
     @Test
-    public void getResources_filePrefix() {
+    void getResources_filePrefix() {
         List<URI> resources = ResourceUtil.getInstance().getResources("file:./src/test/resources/walker/directory/file3");
-        assertThat(resources).hasSize(1);
-        assertThat(resources.get(0).getScheme()).isEqualTo("file");
-        assertThat(resources.get(0).getPath()).endsWith("walker/directory/file3");
+        Assertions.assertThat(resources).hasSize(1);
+        Assertions.assertThat(resources.get(0).getScheme()).isEqualTo("file");
+        Assertions.assertThat(resources.get(0).getPath()).endsWith("walker/directory/file3");
     }
 
     @Test
-    public void getResources_classpath() {
+    void getResources_classpath() {
         List<URI> resources = ResourceUtil.getInstance().getResources("META-INF/MANIFEST.MF");
-        assertThat(resources).hasSizeGreaterThan(20);
+        Assertions.assertThat(resources).hasSizeGreaterThan(20);
         // We can't test for specific number as it depends on the dependencies of the test run. We know it are *many*.
     }
 

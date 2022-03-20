@@ -17,6 +17,7 @@ package be.atbash.util.resource;
 
 import be.atbash.util.TestReflectionUtils;
 import be.atbash.util.resource.internal.ResourceWalker;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,86 +29,84 @@ import uk.org.lidalia.slf4jtest.TestLoggerFactory;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-public class ResourceScannerTest {
+class ResourceScannerTest {
 
     private TestLogger logger;
 
     @BeforeEach
-    public void setup() throws NoSuchFieldException {
+    void setup() throws NoSuchFieldException {
         TestReflectionUtils.resetOf(ResourceScanner.class, "instance");  // Reset singleton
-        System.setProperty("useExecutorService",""); // No executorService Active
+        System.setProperty("useExecutorService", ""); // No executorService Active
         // See TestExecutorServiceProvider
 
         logger = TestLoggerFactory.getTestLogger(ResourceWalker.class);
     }
 
     @AfterEach
-    public void reset() {
+    void reset() {
         TestLoggerFactory.clear();
     }
 
     @Test
-    public void getResources() {
+    void getResources() {
 
         Pattern pattern = Pattern.compile("walker/directory" + ".*");
         Set<String> resources = ResourceScanner.getInstance().getResources(pattern);
-        assertThat(resources).contains("walker/directory/file2.txt", "walker/directory/file3", "walker/directory/fileInJar");
+        Assertions.assertThat(resources).contains("walker/directory/file2.txt", "walker/directory/file3", "walker/directory/fileInJar");
 
-        assertThat(getLogMessage()).doesNotContain("[using executorService]");
+        Assertions.assertThat(getLogMessage()).doesNotContain("[using executorService]");
     }
 
     @Test
-    public void getResources_MultiThreaded() {
-        System.setProperty("useExecutorService","multi"); // Any value wil do
+    void getResources_MultiThreaded() {
+        System.setProperty("useExecutorService", "multi"); // Any value wil do
         Pattern pattern = Pattern.compile("walker/directory" + ".*");
         Set<String> resources = ResourceScanner.getInstance().getResources(pattern);
-        assertThat(resources).contains("walker/directory/file2.txt", "walker/directory/file3", "walker/directory/fileInJar");
-        assertThat(getLogMessage()).contains("[using executorService]");
+        Assertions.assertThat(resources).contains("walker/directory/file2.txt", "walker/directory/file3", "walker/directory/fileInJar");
+        Assertions.assertThat(getLogMessage()).contains("[using executorService]");
     }
 
     @Test
-    public void existsResource_Local() {
+    void existsResource_Local() {
         boolean found = ResourceScanner.getInstance().existsResource("walker/file1");
-        assertThat(found).isTrue();
+        Assertions.assertThat(found).isTrue();
     }
 
     @Test
-    public void existsResource_Jar() {
+    void existsResource_Jar() {
         boolean found = ResourceScanner.getInstance().existsResource("walker/fromJar.txt");
-        assertThat(found).isTrue();
+        Assertions.assertThat(found).isTrue();
     }
 
     @Test
-    public void existsResource_Local_NotFound() {
+    void existsResource_Local_NotFound() {
         boolean found = ResourceScanner.getInstance().existsResource("walker/file3");
-        assertThat(found).isFalse();
+        Assertions.assertThat(found).isFalse();
     }
 
     @Test
-    public void isUniqueResource_true() {
+    void isUniqueResource_true() {
 
         boolean unique = ResourceScanner.getInstance().isUniqueResource("walker/directory/file2.txt");
-        assertThat(unique).isTrue();
+        Assertions.assertThat(unique).isTrue();
     }
 
     @Test
-    public void isUniqueResource_false() {
+    void isUniqueResource_false() {
 
         boolean unique = ResourceScanner.getInstance().isUniqueResource("walker/directory/file3");
-        assertThat(unique).isFalse();
+        Assertions.assertThat(unique).isFalse();
     }
 
     @Test
-    public void isUniqueResource_nonExistent() {
+    void isUniqueResource_nonExistent() {
 
         boolean unique = ResourceScanner.getInstance().isUniqueResource("walker/file3");
-        assertThat(unique).isFalse();
+        Assertions.assertThat(unique).isFalse();
     }
 
     @Test
-    public void getResourcePaths() {
+    void getResourcePaths() {
         // Does not run from IDE but works fine from Maven
         Set<String> paths = ResourceScanner.getInstance().getResourcePaths("walker/directory/file3");
         int cnt = 0;
@@ -123,7 +122,7 @@ public class ResourceScannerTest {
                 }
             }
         }
-        assertThat(cnt).isEqualTo(2);
+        Assertions.assertThat(cnt).isEqualTo(2);
     }
 
     private String getLogMessage() {
@@ -133,7 +132,6 @@ public class ResourceScannerTest {
                 result = loggingEvent.getMessage();
             }
         }
-        System.out.println(result);
         return result;
     }
 

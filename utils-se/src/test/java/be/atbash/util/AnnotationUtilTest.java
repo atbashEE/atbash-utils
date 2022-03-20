@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2020 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,20 +17,19 @@ package be.atbash.util;
 
 import be.atbash.util.testclasses.Child;
 import be.atbash.util.testclasses.MyAnnotation;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
 
-
-public class AnnotationUtilTest {
+class AnnotationUtilTest {
 
     @Test
-    public void getAnnotation_available() {
-        assertThat(AnnotationUtil.getAnnotation(Child.class, MyAnnotation.class)).isNotNull();
+    void getAnnotation_available() {
+        Assertions.assertThat(AnnotationUtil.getAnnotation(Child.class, MyAnnotation.class)).isNotNull();
     }
 
     @Test
-    public void getAnnotation_notAvailable() {
-        assertThat(AnnotationUtil.getAnnotation(Child.class, PublicAPI.class)).isNull();
+    void getAnnotation_notAvailable() {
+        Assertions.assertThat(AnnotationUtil.getAnnotation(Child.class, PublicAPI.class)).isNull();
     }
 }

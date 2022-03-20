@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2020 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,142 +17,134 @@ package be.atbash.util;
 
 import be.atbash.util.testclasses.Bar;
 import be.atbash.util.testclasses.Child;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-public class TestReflectionUtilsTest {
+class TestReflectionUtilsTest {
 
     @Test
-    public void getValueOf_child() throws NoSuchFieldException {
+    void getValueOf_child() throws NoSuchFieldException {
 
         Child child = new Child();
 
         String childField = TestReflectionUtils.getValueOf(child, "childField");
-        assertThat(childField).isEqualTo("childValue");
+        Assertions.assertThat(childField).isEqualTo("childValue");
 
     }
 
     @Test
-    public void getValueOf_parent() throws NoSuchFieldException {
+    void getValueOf_parent() throws NoSuchFieldException {
         Child child = new Child();
 
         String parentField = TestReflectionUtils.getValueOf(child, "parentField");
-        assertThat(parentField).isEqualTo("parentValue");
+        Assertions.assertThat(parentField).isEqualTo("parentValue");
 
     }
 
     @Test
-    public void getValueOf_static_Child() throws NoSuchFieldException {
+    void getValueOf_static_Child() throws NoSuchFieldException {
         String staticChildField = TestReflectionUtils.getValueOf(Child.class, "staticChildField");
-        assertThat(staticChildField).isEqualTo("static childValue");
+        Assertions.assertThat(staticChildField).isEqualTo("static childValue");
 
     }
 
     @Test
-    public void getValueOf_unknown_field() {
-        Assertions.assertThrows(NoSuchFieldException.class, () -> {
+    void getValueOf_unknown_field() {
+        Assertions.assertThatThrownBy(() -> {
             Child child = new Child();
-
             TestReflectionUtils.getValueOf(child, "unknown");
-        });
+        }).isInstanceOf(NoSuchFieldException.class);
     }
 
     @Test
-    public void setFieldValue_child() throws NoSuchFieldException {
+    void setFieldValue_child() throws NoSuchFieldException {
         Child child = new Child();
 
         TestReflectionUtils.setFieldValue(child, "childField", "Octopus");
 
-        assertThat(child.getChildField()).isEqualTo("Octopus");
+        Assertions.assertThat(child.getChildField()).isEqualTo("Octopus");
 
     }
 
     @Test
-    public void setFieldValue_parent() throws NoSuchFieldException {
+    void setFieldValue_parent() throws NoSuchFieldException {
         Child child = new Child();
 
         TestReflectionUtils.setFieldValue(child, "parentField", "Octopus");
 
-        assertThat(child.getParentField()).isEqualTo("Octopus");
+        Assertions.assertThat(child.getParentField()).isEqualTo("Octopus");
     }
 
     @Test
-    public void setFieldValue_static_Child() throws NoSuchFieldException {
+    void setFieldValue_static_Child() throws NoSuchFieldException {
 
         TestReflectionUtils.setFieldValue(Child.class, "staticChildField", "Octopus");
 
-        assertThat(Child.getStaticChildField()).isEqualTo("Octopus");
+        Assertions.assertThat(Child.getStaticChildField()).isEqualTo("Octopus");
 
     }
 
     @Test
-    public void setFieldValue_unknown_field() {
-        Assertions.assertThrows(NoSuchFieldException.class, () -> {
+    void setFieldValue_unknown_field() {
+        Assertions.assertThatThrownBy(() -> {
             Child child = new Child();
-
             TestReflectionUtils.setFieldValue(child, "unknown", "Octopus");
-        });
+        }).isInstanceOf(NoSuchFieldException.class);
     }
 
     @Test
-    public void setFieldValue_Assignable() throws NoSuchFieldException {
+    void setFieldValue_Assignable() throws NoSuchFieldException {
 
         Child child = new Child();
         Bar bar = new Bar();
         TestReflectionUtils.setFieldValue(child, "fooValue", bar);
 
-        assertThat(child.getFooValue()).isInstanceOf(Bar.class);
+        Assertions.assertThat(child.getFooValue()).isInstanceOf(Bar.class);
 
     }
 
     @Test
-    public void setFieldValue_Assignable_failure() throws NoSuchFieldException {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+    void setFieldValue_Assignable_failure() {
+        Assertions.assertThatThrownBy(() -> {
             Child child = new Child();
-
             TestReflectionUtils.setFieldValue(child, "childField", 123L);
-        });
-
+        }).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
-    public void resetOf_child() throws NoSuchFieldException {
+    void resetOf_child() throws NoSuchFieldException {
         Child child = new Child();
 
         TestReflectionUtils.resetOf(child, "childField");
 
-        assertThat(child.getChildField()).isNull();
+        Assertions.assertThat(child.getChildField()).isNull();
 
     }
 
     @Test
-    public void resetOf_parent() throws NoSuchFieldException {
+    void resetOf_parent() throws NoSuchFieldException {
         Child child = new Child();
 
         TestReflectionUtils.resetOf(child, "parentField");
 
-        assertThat(child.getParentField()).isNull();
+        Assertions.assertThat(child.getParentField()).isNull();
 
     }
 
     @Test
-    public void resetOf_static_Child() throws NoSuchFieldException {
+    void resetOf_static_Child() throws NoSuchFieldException {
 
         TestReflectionUtils.resetOf(Child.class, "staticChildField");
 
-        assertThat(Child.getStaticChildField()).isNull();
+        Assertions.assertThat(Child.getStaticChildField()).isNull();
     }
 
     @Test
-    public void resetOf_unknown_field() throws NoSuchFieldException {
-        Assertions.assertThrows(NoSuchFieldException.class, () -> {
+    void resetOf_unknown_field() {
+        Assertions.assertThatThrownBy(() -> {
             Child child = new Child();
-
             TestReflectionUtils.resetOf(child, "unknown");
-        });
+        }).isInstanceOf(NoSuchFieldException.class);
     }
-
 
 }

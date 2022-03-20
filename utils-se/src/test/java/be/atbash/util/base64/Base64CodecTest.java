@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2020 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,83 +15,78 @@
  */
 package be.atbash.util.base64;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-/**
- *
- */
-
-public class Base64CodecTest {
+class Base64CodecTest {
 
 
     @Test
-    public void encodeToString_plain() {
+    void encodeToString_plain() {
 
         String actual = Base64.getUrlEncoder().withoutPadding().encodeToString("My Plain String".getBytes(StandardCharsets.UTF_8));
-        assertThat(actual).isEqualTo("TXkgUGxhaW4gU3RyaW5n");
+        Assertions.assertThat(actual).isEqualTo("TXkgUGxhaW4gU3RyaW5n");
     }
 
     @Test
-    public void encodeToString_multiLine() {
+    void encodeToString_multiLine() {
 
-        assertThat(Base64.getUrlEncoder().withoutPadding().encodeToString("My Plain String\nMy Plain String".getBytes(StandardCharsets.UTF_8))).isEqualTo("TXkgUGxhaW4gU3RyaW5nCk15IFBsYWluIFN0cmluZw");
+        Assertions.assertThat(Base64.getUrlEncoder().withoutPadding().encodeToString("My Plain String\nMy Plain String".getBytes(StandardCharsets.UTF_8))).isEqualTo("TXkgUGxhaW4gU3RyaW5nCk15IFBsYWluIFN0cmluZw");
     }
 
     @Test
-    public void EncodeToString_unicode() {
+    void EncodeToString_unicode() {
 
-        assertThat(Base64.getEncoder().encodeToString("小飼弾".getBytes(StandardCharsets.UTF_8))).isEqualTo("5bCP6aO85by+");
+        Assertions.assertThat(Base64.getEncoder().encodeToString("小飼弾".getBytes(StandardCharsets.UTF_8))).isEqualTo("5bCP6aO85by+");
     }
 
     @Test
-    public void encodeToString_unicode_URLSafe() {
+    void encodeToString_unicode_URLSafe() {
 
-        assertThat(Base64.getUrlEncoder().withoutPadding().encodeToString("小飼弾".getBytes(StandardCharsets.UTF_8))).isEqualTo("5bCP6aO85by-");
+        Assertions.assertThat(Base64.getUrlEncoder().withoutPadding().encodeToString("小飼弾".getBytes(StandardCharsets.UTF_8))).isEqualTo("5bCP6aO85by-");
     }
 
     @Test
-    public void encodeToString_cyrillic() {
+    void encodeToString_cyrillic() {
 
         String actual = Base64.getEncoder().encodeToString("зис из плэйн стринг".getBytes(StandardCharsets.UTF_8));
-        assertThat(actual).isEqualTo("0LfQuNGBINC40Lcg0L/Qu9GN0LnQvSDRgdGC0YDQuNC90LM=");
+        Assertions.assertThat(actual).isEqualTo("0LfQuNGBINC40Lcg0L/Qu9GN0LnQvSDRgdGC0YDQuNC90LM=");
     }
 
     @Test
-    public void encodeToString_cyrillic_URLSafe() {
+    void encodeToString_cyrillic_URLSafe() {
 
         String actual = Base64.getUrlEncoder().withoutPadding().encodeToString("зис из плэйн стринг".getBytes(StandardCharsets.UTF_8));
-        assertThat(actual).isEqualTo("0LfQuNGBINC40Lcg0L_Qu9GN0LnQvSDRgdGC0YDQuNC90LM");
+        Assertions.assertThat(actual).isEqualTo("0LfQuNGBINC40Lcg0L_Qu9GN0LnQvSDRgdGC0YDQuNC90LM");
     }
 
     @Test
-    public void decode_plain() {
+    void decode_plain() {
 
-        assertThat(new String(Base64.getDecoder().decode("TXkgUGxhaW4gU3RyaW5n"))).isEqualTo("My Plain String");
+        Assertions.assertThat(new String(Base64.getDecoder().decode("TXkgUGxhaW4gU3RyaW5n"))).isEqualTo("My Plain String");
     }
 
     @Test
-    public void decode_empty() {
+    void decode_empty() {
 
-        assertThat(Base64.getDecoder().decode("")).isEmpty();
+        Assertions.assertThat(Base64.getDecoder().decode("")).isEmpty();
     }
 
     @Test
-    public void decode_cyrillic() {
+    void decode_cyrillic() {
 
-        assertThat(
+        Assertions.assertThat(
                 new String(Base64.getDecoder().decode("5bCP6aO85by+"))).isEqualTo("小飼弾");
-        assertThat(new String(Base64.getUrlDecoder().decode("5bCP6aO85by-"))).isEqualTo("小飼弾");
+        Assertions.assertThat(new String(Base64.getUrlDecoder().decode("5bCP6aO85by-"))).isEqualTo("小飼弾");
     }
 
     @Test
-    public void decode_byteArray() {
+    void decode_byteArray() {
         byte[] decode = Base64.getDecoder().decode("VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wZWQgb3ZlciB0aGUgbGF6eSBkb2dzLg==".getBytes(StandardCharsets.UTF_8));
-        assertThat(new String(decode)).isEqualTo("The quick brown fox jumped over the lazy dogs.");
+        Assertions.assertThat(new String(decode)).isEqualTo("The quick brown fox jumped over the lazy dogs.");
     }
 
 }

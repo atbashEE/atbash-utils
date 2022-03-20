@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2020 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,42 +15,41 @@
  */
 package be.atbash.util.codec;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+class ByteSourceTest {
 
-/**
- *
- */
-
-public class ByteSourceTest {
+    @AfterEach
+    void tearDown() {
+        System.clearProperty("default.creator");
+    }
 
     @Test
-    public void default_Creator() {
+    void default_Creator() {
         System.setProperty("default.creator", "true");
 
-        assertThat(ByteSource.creator.isCompatible("Atbash")).isTrue();
-        assertThat(ByteSource.creator.bytes("Atbash").getBytes()).isEqualTo(new byte[]{65, 116, 98, 97, 115, 104});
+        Assertions.assertThat(ByteSource.creator.isCompatible("Atbash")).isTrue();
+        Assertions.assertThat(ByteSource.creator.bytes("Atbash").getBytes()).isEqualTo(new byte[]{65, 116, 98, 97, 115, 104});
 
     }
 
     @Test
-    public void unknown_type_with_default_creator() {
-
-        Assertions.assertThrows(CodecException.class, () -> {
+    void unknown_type_with_default_creator() {
+        Assertions.assertThatThrownBy(() -> {
             Base32Codec.decode("ORSXG8");
             System.setProperty("default.creator", "true");
             ByteSource.creator.bytes(123L);
-        });
+        }).isInstanceOf(CodecException.class);
     }
 
     @Test
-    public void extra_type_with_custom_creator() {
+    void extra_type_with_custom_creator() {
         System.setProperty("default.creator", "false");
 
-        assertThat(ByteSource.creator.isCompatible((byte) 123)).isTrue();
-        assertThat(ByteSource.creator.bytes((byte) 123).getBytes()).isEqualTo(new byte[]{123});
+        Assertions.assertThat(ByteSource.creator.isCompatible((byte) 123)).isTrue();
+        Assertions.assertThat(ByteSource.creator.bytes((byte) 123).getBytes()).isEqualTo(new byte[]{123});
 
     }
 

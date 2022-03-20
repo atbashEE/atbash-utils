@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2020 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,41 +15,36 @@
  */
 package be.atbash.util.codec;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.nio.charset.StandardCharsets;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-/**
- *
- */
-
-public class HexTest {
+class HexTest {
 
     @Test
-    public void encodeToString()  {
-        assertThat(Hex.encodeToString("Hello World".getBytes(StandardCharsets.UTF_8))).isEqualTo("48656C6C6F20576F726C64");
+    void encodeToString() {
+        Assertions.assertThat(Hex.encodeToString("Hello World".getBytes(StandardCharsets.UTF_8))).isEqualTo("48656C6C6F20576F726C64");
     }
 
     @Test
-    public void decodeToString() {
-        assertThat(new String(Hex.decode("48656C6C6F20576F726C64"))).isEqualTo("Hello World");
+    void decodeToString() {
+        Assertions.assertThat(new String(Hex.decode("48656C6C6F20576F726C64"))).isEqualTo("Hello World");
     }
 
     @Test
-    public void isHexEncoded() {
-        assertThat(Hex.isHexEncoded("48656C6C6F20576F726C64")).isTrue();
+    void isHexEncoded() {
+        Assertions.assertThat(Hex.isHexEncoded("48656C6C6F20576F726C64")).isTrue();
     }
 
     @Test
-    public void isHexEncoded_oddNumber() {
-        assertThat(Hex.isHexEncoded("48656C6C6F20576F726C6")).isFalse(); // last digit removed
+    void isHexEncoded_oddNumber() {
+        Assertions.assertThat(Hex.isHexEncoded("48656C6C6F20576F726C6")).isFalse(); // last digit removed
     }
 
     @Test
-    public void isHexEncoded_wrongCharacter() {
-        assertThat(Hex.isHexEncoded("48656C6C6F20576F726C6X")).isFalse(); // Wrong character
+    void isHexEncoded_wrongCharacter() {
+        Assertions.assertThat(Hex.isHexEncoded("48656C6C6F20576F726C6X")).isFalse(); // Wrong character
     }
 
 

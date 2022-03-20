@@ -15,237 +15,232 @@
  */
 package be.atbash.util;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-/**
- *
- */
-
-public class StringUtilsTest {
+class StringUtilsTest {
 
     @Test
-    public void countOccurrences() {
+    void countOccurrences() {
 
-        assertThat(StringUtils.countOccurrences("abcabc", 'a')).isEqualTo(2);
+        Assertions.assertThat(StringUtils.countOccurrences("abcabc", 'a')).isEqualTo(2);
 
     }
 
     @Test
-    public void countOccurrences_notFound() {
-        assertThat(StringUtils.countOccurrences("abcabc", 'd')).isEqualTo(0);
+    void countOccurrences_notFound() {
+        Assertions.assertThat(StringUtils.countOccurrences("abcabc", 'd')).isEqualTo(0);
 
     }
 
     @Test
-    public void CountOccurrences_empty() {
-        assertThat(StringUtils.countOccurrences("", 'd')).isEqualTo(0);
+    void CountOccurrences_empty() {
+        Assertions.assertThat(StringUtils.countOccurrences("", 'd')).isEqualTo(0);
 
     }
 
     @Test
-    public void countOccurrences_null() {
-        assertThat(StringUtils.countOccurrences(null, 'd')).isEqualTo(0);
+    void countOccurrences_null() {
+        Assertions.assertThat(StringUtils.countOccurrences(null, 'd')).isEqualTo(0);
 
     }
 
     @Test
-    public void hasLength_null() {
-        assertThat(StringUtils.hasLength(null)).isFalse();
+    void hasLength_null() {
+        Assertions.assertThat(StringUtils.hasLength(null)).isFalse();
     }
 
     @Test
-    public void hasLength_empty() {
-        assertThat(StringUtils.hasLength("")).isFalse();
+    void hasLength_empty() {
+        Assertions.assertThat(StringUtils.hasLength("")).isFalse();
     }
 
     @Test
-    public void hasLength_spaces() {
-        assertThat(StringUtils.hasLength(" ")).isTrue();
+    void hasLength_spaces() {
+        Assertions.assertThat(StringUtils.hasLength(" ")).isTrue();
     }
 
     @Test
-    public void hasLength_value() {
-        assertThat(StringUtils.hasLength("A")).isTrue();
+    void hasLength_value() {
+        Assertions.assertThat(StringUtils.hasLength("A")).isTrue();
     }
 
     @Test
-    public void hasText_null() {
-        assertThat(StringUtils.hasText(null)).isFalse();
+    void hasText_null() {
+        Assertions.assertThat(StringUtils.hasText(null)).isFalse();
     }
 
     @Test
-    public void hasText_empty() {
-        assertThat(StringUtils.hasText("")).isFalse();
+    void hasText_empty() {
+        Assertions.assertThat(StringUtils.hasText("")).isFalse();
     }
 
     @Test
-    public void hasText_spaces() {
-        assertThat(StringUtils.hasText(" ")).isFalse();
+    void hasText_spaces() {
+        Assertions.assertThat(StringUtils.hasText(" ")).isFalse();
     }
 
     @Test
-    public void hasText_whiteSpace() {
+    void hasText_whiteSpace() {
         char[] data = new char[]{Character.SPACE_SEPARATOR, Character.LINE_SEPARATOR, '\n'};
 
-        assertThat(StringUtils.hasText(new String(data))).isFalse();
+        Assertions.assertThat(StringUtils.hasText(new String(data))).isFalse();
     }
 
     @Test
-    public void hasText_text() {
-        assertThat(StringUtils.hasText(" a ")).isTrue();
+    void hasText_text() {
+        Assertions.assertThat(StringUtils.hasText(" a ")).isTrue();
     }
 
     @Test
-    public void isEmpty_null() {
-        assertThat(StringUtils.isEmpty((String) null)).isTrue();
+    void isEmpty_null() {
+        Assertions.assertThat(StringUtils.isEmpty((String) null)).isTrue();
     }
 
     @Test
-    public void isEmpty_empty() {
-        assertThat(StringUtils.isEmpty("")).isTrue();
+    void isEmpty_empty() {
+        Assertions.assertThat(StringUtils.isEmpty("")).isTrue();
     }
 
     @Test
-    public void isEmpty_spaces() {
-        assertThat(StringUtils.isEmpty(" ")).isTrue();
+    void isEmpty_spaces() {
+        Assertions.assertThat(StringUtils.isEmpty(" ")).isTrue();
     }
 
     @Test
-    public void isEmpty_whiteSpace() {
+    void isEmpty_whiteSpace() {
         char[] data = new char[]{Character.SPACE_SEPARATOR, Character.LINE_SEPARATOR, '\n'};
 
-        assertThat(StringUtils.isEmpty(new String(data))).isTrue();
+        Assertions.assertThat(StringUtils.isEmpty(new String(data))).isTrue();
     }
 
     @Test
-    public void isEmpty_text() {
-        assertThat(StringUtils.isEmpty(" a ")).isFalse();
+    void isEmpty_text() {
+        Assertions.assertThat(StringUtils.isEmpty(" a ")).isFalse();
     }
 
     @Test
-    public void isEmpty_nullCharArray() {
-        assertThat(StringUtils.isEmpty((char[]) null)).isTrue();
+    void isEmpty_nullCharArray() {
+        Assertions.assertThat(StringUtils.isEmpty((char[]) null)).isTrue();
     }
 
     @Test
-    public void isEmpty_emptyCharArray() {
+    void isEmpty_emptyCharArray() {
 
-        assertThat(StringUtils.isEmpty(new char[]{})).isTrue();
+        Assertions.assertThat(StringUtils.isEmpty(new char[]{})).isTrue();
     }
 
     @Test
-    public void isEmpty_spacesCharArray() {
+    void isEmpty_spacesCharArray() {
         char[] data = new char[]{' '};
 
-        assertThat(StringUtils.isEmpty(data)).isTrue();
+        Assertions.assertThat(StringUtils.isEmpty(data)).isTrue();
     }
 
     @Test
-    public void isEmpty_textCharArray() {
-        assertThat(StringUtils.isEmpty(" a ".toCharArray())).isFalse();
+    void isEmpty_textCharArray() {
+        Assertions.assertThat(StringUtils.isEmpty(" a ".toCharArray())).isFalse();
     }
 
     @Test
-    public void startsWithIgnoreCase() {
-        assertThat(StringUtils.startsWithIgnoreCase("Atbash", "At")).isTrue();
+    void startsWithIgnoreCase() {
+        Assertions.assertThat(StringUtils.startsWithIgnoreCase("Atbash", "At")).isTrue();
     }
 
     @Test
-    public void startsWithIgnoreCase_differentCase() {
-        assertThat(StringUtils.startsWithIgnoreCase("Atbash", "at")).isTrue();
+    void startsWithIgnoreCase_differentCase() {
+        Assertions.assertThat(StringUtils.startsWithIgnoreCase("Atbash", "at")).isTrue();
     }
 
     @Test
-    public void startsWithIgnoreCase_OtherValue() {
-        assertThat(StringUtils.startsWithIgnoreCase("Atbash", "bash")).isFalse();
+    void startsWithIgnoreCase_OtherValue() {
+        Assertions.assertThat(StringUtils.startsWithIgnoreCase("Atbash", "bash")).isFalse();
     }
 
     @Test
-    public void clean_null() {
-        assertThat(StringUtils.clean(null)).isNull();
+    void clean_null() {
+        Assertions.assertThat(StringUtils.clean(null)).isNull();
     }
 
     @Test
-    public void clean_empty() {
-        assertThat(StringUtils.clean("")).isNull();
+    void clean_empty() {
+        Assertions.assertThat(StringUtils.clean("")).isNull();
     }
 
     @Test
-    public void clean_whitespace() {
-        assertThat(StringUtils.clean("  ")).isNull();
+    void clean_whitespace() {
+        Assertions.assertThat(StringUtils.clean("  ")).isNull();
     }
 
     @Test
-    public void clean_trimmed() {
-        assertThat(StringUtils.clean(" Atbash ")).isEqualTo("Atbash");
+    void clean_trimmed() {
+        Assertions.assertThat(StringUtils.clean(" Atbash ")).isEqualTo("Atbash");
     }
 
     @Test
-    public void clean_regular() {
-        assertThat(StringUtils.clean("Atbash")).isEqualTo("Atbash");
+    void clean_regular() {
+        Assertions.assertThat(StringUtils.clean("Atbash")).isEqualTo("Atbash");
     }
 
     @Test
-    public void toDelimitedString_defaultSeparator() {
-        assertThat(StringUtils.toDelimitedString(",", "Atbash", "rocks")).isEqualTo("Atbash,rocks");
+    void toDelimitedString_defaultSeparator() {
+        Assertions.assertThat(StringUtils.toDelimitedString(",", "Atbash", "rocks")).isEqualTo("Atbash,rocks");
     }
 
     @Test
-    public void _toDelimitedString_null() {
-        assertThat(StringUtils.toDelimitedString(null)).isEmpty();
+    void _toDelimitedString_null() {
+        Assertions.assertThat(StringUtils.toDelimitedString(null)).isEmpty();
     }
 
     @Test
-    public void toDelimitedString() {
-        assertThat(StringUtils.toDelimitedString(" ", "Atbash", "rocks")).isEqualTo("Atbash rocks");
+    void toDelimitedString() {
+        Assertions.assertThat(StringUtils.toDelimitedString(" ", "Atbash", "rocks")).isEqualTo("Atbash rocks");
     }
 
     @Test
-    public void toDelimitedString_List() {
+    void toDelimitedString_List() {
         List<String> data = new ArrayList<>();
         data.add("Atbash");
         data.add("rocks");
-        assertThat(StringUtils.toDelimitedString(" ", data)).isEqualTo("Atbash rocks");
+        Assertions.assertThat(StringUtils.toDelimitedString(" ", data)).isEqualTo("Atbash rocks");
 
     }
 
     @Test
-    public void toDelimitedString_Iterator() {
+    void toDelimitedString_Iterator() {
         List<String> data = new ArrayList<>();
         data.add("Atbash");
         data.add("rocks");
-        assertThat(StringUtils.toDelimitedString(" ", data.iterator())).isEqualTo("Atbash rocks");
+        Assertions.assertThat(StringUtils.toDelimitedString(" ", data.iterator())).isEqualTo("Atbash rocks");
 
     }
 
     @Test
-    public void tokenizeToStringArray() {
+    void tokenizeToStringArray() {
 
         String[] data = StringUtils.tokenizeToStringArray("Atbash  , , rocks", ",");
-        assertThat(data).containsExactly("Atbash", "rocks");
+        Assertions.assertThat(data).containsExactly("Atbash", "rocks");
 
     }
 
     @Test
-    public void tokenizeToStringArray_empty() {
-        assertThat(StringUtils.tokenizeToStringArray("", ",")).isEmpty();
+    void tokenizeToStringArray_empty() {
+        Assertions.assertThat(StringUtils.tokenizeToStringArray("", ",")).isEmpty();
     }
 
     @Test
-    public void tokenizeToStringArray_null() {
-        assertThat(StringUtils.tokenizeToStringArray(null, ",")).isNull();
+    void tokenizeToStringArray_null() {
+        Assertions.assertThat(StringUtils.tokenizeToStringArray(null, ",")).isNull();
     }
 
     @Test
-    public void split() {
+    void split() {
         String[] data = StringUtils.split("Atbash  , , rocks");
 
-        assertThat(data).containsExactly("Atbash", "", "rocks");
+        Assertions.assertThat(data).containsExactly("Atbash", "", "rocks");
     }
 
 }

@@ -15,106 +15,101 @@
  */
 package be.atbash.util;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-/**
- *
- */
-
-public class CollectionUtilsTest {
+class CollectionUtilsTest {
 
     @Test
-    public void asSet() {
+    void asSet() {
         Set<String> data = CollectionUtils.asSet("Value1", "Value2");
 
-        assertThat(data).hasSize(2)
+        Assertions.assertThat(data).hasSize(2)
                 .containsExactly("Value1", "Value2");
     }
 
     @Test
-    public void isEmpty_emptyCollection() {
-        assertThat(CollectionUtils.isEmpty(new ArrayList())).isTrue();
+    void isEmpty_emptyCollection() {
+        Assertions.assertThat(CollectionUtils.isEmpty(new ArrayList<>())).isTrue();
     }
 
     @Test
-    public void isEmpty_emptyCollectionSet() {
-        assertThat(CollectionUtils.isEmpty(new HashSet())).isTrue();
+    void isEmpty_emptyCollectionSet() {
+        Assertions.assertThat(CollectionUtils.isEmpty(new HashSet<>())).isTrue();
     }
 
     @Test
-    public void isEmpty_nullCollection() {
-        assertThat(CollectionUtils.isEmpty((Collection) null)).isTrue();
+    void isEmpty_nullCollection() {
+        Assertions.assertThat(CollectionUtils.isEmpty((Collection) null)).isTrue();
     }
 
     @Test
-    public void isEmpty_NotEmptyCollection() {
+    void isEmpty_NotEmptyCollection() {
         List<String> data = new ArrayList<>();
         data.add("Atbash");
-        assertThat(CollectionUtils.isEmpty(data)).isFalse();
+        Assertions.assertThat(CollectionUtils.isEmpty(data)).isFalse();
     }
 
     @Test
-    public void isEmpty_emptyMap() {
-        assertThat(CollectionUtils.isEmpty(new HashMap())).isTrue();
+    void isEmpty_emptyMap() {
+        Assertions.assertThat(CollectionUtils.isEmpty(new HashMap<>())).isTrue();
     }
 
     @Test
-    public void isEmpty_nullMap() {
-        assertThat(CollectionUtils.isEmpty((Map) null)).isTrue();
+    void isEmpty_nullMap() {
+        Assertions.assertThat(CollectionUtils.isEmpty((Map) null)).isTrue();
     }
 
     @Test
-    public void isEmpty_NotEmptyMap() {
+    void isEmpty_NotEmptyMap() {
         Map<String, String> data = new HashMap<>();
         data.put("key", "value");
-        assertThat(CollectionUtils.isEmpty(data)).isFalse();
+        Assertions.assertThat(CollectionUtils.isEmpty(data)).isFalse();
     }
 
     @Test
-    public void size_emptyCollection() {
-        assertThat(CollectionUtils.size(new ArrayList())).isEqualTo(0);
+    void size_emptyCollection() {
+        Assertions.assertThat(CollectionUtils.size(new ArrayList<>())).isEqualTo(0);
     }
 
     @Test
-    public void size_nullCollection() {
-        assertThat(CollectionUtils.size((Collection) null)).isEqualTo(0);
+    void size_nullCollection() {
+        Assertions.assertThat(CollectionUtils.size((Collection) null)).isEqualTo(0);
     }
 
     @Test
-    public void size_NotEmptyCollection() {
+    void size_NotEmptyCollection() {
         List<String> data = new ArrayList<>();
         data.add("Atbash");
-        assertThat(CollectionUtils.size(data)).isEqualTo(1);
+        Assertions.assertThat(CollectionUtils.size(data)).isEqualTo(1);
     }
 
     @Test
-    public void size_emptyMap() {
-        assertThat(CollectionUtils.size(new HashMap())).isEqualTo(0);
+    void size_emptyMap() {
+        Assertions.assertThat(CollectionUtils.size(new HashMap<>())).isEqualTo(0);
     }
 
     @Test
-    public void size_nullMap() {
-        assertThat(CollectionUtils.size((Map) null)).isEqualTo(0);
+    void size_nullMap() {
+        Assertions.assertThat(CollectionUtils.size((Map) null)).isEqualTo(0);
     }
 
     @Test
-    public void size_NotEmptyMap() {
+    void size_NotEmptyMap() {
         Map<String, String> data = new HashMap<>();
         data.put("key", "value");
-        assertThat(CollectionUtils.size(data)).isEqualTo(1);
+        Assertions.assertThat(CollectionUtils.size(data)).isEqualTo(1);
     }
 
     @Test
-    public void asList() {
+    void asList() {
 
         List<String> data = CollectionUtils.asList("Value1", "Value2");
 
-        assertThat(data).hasSize(2);
-        assertThat(data.iterator().next()).isEqualTo("Value1");
+        Assertions.assertThat(data).hasSize(2);
+        Assertions.assertThat(data.iterator().next()).isEqualTo("Value1");
 
     }
 

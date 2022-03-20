@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2020 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,39 +16,34 @@
 package be.atbash.util.reflection;
 
 import be.atbash.util.reflection.testclasses.Foo;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-/**
- *
- */
-
-public class NoConstructorFoundExceptionTest {
+class NoConstructorFoundExceptionTest {
 
     @Test
-    public void hasText_empty() {
+    void hasText_empty() {
         NoConstructorFoundException exception = new NoConstructorFoundException(Foo.class, new Class[0]);
-        assertThat(exception.getMessage()).isEqualTo("No constructor or more then one found at the class be.atbash.util.reflection.testclasses.Foo having the parameter(s) ()");
+        Assertions.assertThat(exception.getMessage()).isEqualTo("No constructor or more then one found at the class be.atbash.util.reflection.testclasses.Foo having the parameter(s) ()");
     }
 
     @Test
-    public void hasText_SingleArgument() {
+    void hasText_SingleArgument() {
         NoConstructorFoundException exception = new NoConstructorFoundException(Foo.class, new Class[]{String.class});
-        assertThat(exception.getMessage()).isEqualTo("No constructor or more then one found at the class be.atbash.util.reflection.testclasses.Foo having the parameter(s) (java.lang.String)");
+        Assertions.assertThat(exception.getMessage()).isEqualTo("No constructor or more then one found at the class be.atbash.util.reflection.testclasses.Foo having the parameter(s) (java.lang.String)");
     }
 
     @Test
-    public void hasText_multipleArgument() {
+    void hasText_multipleArgument() {
         NoConstructorFoundException exception = new NoConstructorFoundException(Foo.class, new Class[]{Integer.class, String.class});
-        assertThat(exception.getMessage()).isEqualTo("No constructor or more then one found at the class be.atbash.util.reflection.testclasses.Foo having the parameter(s) (java.lang.Integer, java.lang.String)");
+        Assertions.assertThat(exception.getMessage()).isEqualTo("No constructor or more then one found at the class be.atbash.util.reflection.testclasses.Foo having the parameter(s) (java.lang.Integer, java.lang.String)");
     }
 
     @Test
-    public void hasText_nullArgument() {
+    void hasText_nullArgument() {
 
         NoConstructorFoundException exception = new NoConstructorFoundException(Foo.class, new Class[]{String.class, null, String.class});
-        assertThat(exception.getMessage()).isEqualTo("No constructor or more then one found at the class be.atbash.util.reflection.testclasses.Foo having the parameter(s) (java.lang.String, null, java.lang.String)");
+        Assertions.assertThat(exception.getMessage()).isEqualTo("No constructor or more then one found at the class be.atbash.util.reflection.testclasses.Foo having the parameter(s) (java.lang.String, null, java.lang.String)");
     }
 
 }
