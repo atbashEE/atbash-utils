@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2020 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -137,8 +137,8 @@ public final class CDIUtils {
         if (!iterator.hasNext()) {
             throw new UnsatisfiedResolutionException(String.format("No bean with name '%s' found.", beanName));
         }
-        Bean bean = iterator.next();
-        CreationalContext ctx = beanManager.createCreationalContext(bean);
+        Bean<?> bean = iterator.next();
+        CreationalContext<?> ctx = beanManager.createCreationalContext(bean);
         Object o = beanManager.getReference(bean, Object.class, ctx);
         if (targetClass.isAssignableFrom(o.getClass())) {
             return (T) o;
@@ -148,7 +148,7 @@ public final class CDIUtils {
     }
 
     /**
-     * Fire an event and notify observers. A short hand for writing <code>CDI.current().getBeanManager().fireEvent</code>.
+     * Fire an event and notify observers. A shorthand for writing <code>CDI.current().getBeanManager().fireEvent</code>.
      *
      * @param event      the event object
      * @param qualifiers the event qualifiers
@@ -180,22 +180,12 @@ public final class CDIUtils {
                 try {
                     result = (T) method.invoke(bean);
                     OPTIONAL_BEAN.put(targetClass, result);
-                } catch (IllegalAccessException e) {
+                } catch (IllegalAccessException | InvocationTargetException e) {
                     LOGGER.error("Exception occured during invocation of producer method", e);
-                } catch (InvocationTargetException e) {
-                    LOGGER.error("Exception occured during invocation of producer method", e);
-                    // TODO The original code ran in full container and thus we had EJB access in this method
-                    // The idea is to thrown the original Octopus UnauthorizedException when Producer methods call fails
-                    // due to authorization issues.
-                    /*
-                    if (e.getTargetException() instanceof EJBException) {
-                        EJBException ejbException = (EJBException) e.getTargetException();
-                        if (ejbException.getCause() instanceof OctopusUnauthorizedException) {
-                            throw (OctopusUnauthorizedException) ejbException.getCause();
-                        }
-                    }
-                    */
                 }
+                // TODO The original code ran in full container and thus we had EJB access in this method
+                // The idea is to thrown the original Octopus UnauthorizedException when Producer methods call fails
+                // due to authorization issues.
             }
         }
         return result;
