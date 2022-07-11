@@ -15,7 +15,7 @@ Add the following artfact to your maven project file for using the programmatic 
     <dependency>
         <groupId>be.atbash.jakarta.utils</groupId>
         <artifactId>utils-jsf</artifactId>
-        <version>1.0.0</version>
+        <version>1.1.0</version>
     </dependency>
 
 

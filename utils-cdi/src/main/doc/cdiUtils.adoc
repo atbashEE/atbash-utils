@@ -1,8 +1,19 @@
 = CDI utils
 Rudy De Busscher <rdebusscher@gmail.com>
-v1.0.0, 02/01/2021
+v1.1.0, ??/??/2022
 
 == Release notes
+
+=== 1.1.0
+
+* `CDICheck` class is available in 'utils-se' artifact but checks on the javax namespace.  However, this class should be part of utils-cdi artifact and in this Jakarta version checks on the correct package.
+* Compiled with JDK 11 since it is intended to be used with Jakarta EE 9.1.
+
+Older versions should be avoided as they might give issues with Jakarta namespace (like CDICheck of utils-se which checks on javax namespace)
+
+=== 1.0.1
+
+* Updated a dependency to a Snapshot artifact
 
 === 1.0.0
 
@@ -15,7 +26,7 @@ Add the following artifact to your maven project file for using the programmatic
     <dependency>
         <groupId>be.atbash.jakarta.utils</groupId>
         <artifactId>utils-cdi</artifactId>
-        <version>1.0.0</version>
+        <version>1.1.0</version>
     </dependency>
 
 When you want to use the fake CDI provider for testing purposes, you should add the following artifact.
@@ -23,7 +34,7 @@ When you want to use the fake CDI provider for testing purposes, you should add 
     <dependency>
         <groupId>be.atbash.jakarta.utils</groupId>
         <artifactId>utils-cdi</artifactId>
-        <version>1.0.0</version>
+        <version>1.1.0</version>
         <classifier>tests</classifier>
         <scope>test</scope>
     </dependency>
