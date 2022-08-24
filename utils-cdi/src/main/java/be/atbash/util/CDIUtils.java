@@ -73,7 +73,7 @@ public final class CDIUtils {
      * @param qualifiers the additional required qualifiers.
      * @param <T>        Generic Type argument
      * @return CDI instance matching the class type and qualifiers (if specified).
-     * @throws javax.enterprise.inject.AmbiguousResolutionException When more then 1 bean is found in the match
+     * @throws jakarta.enterprise.inject.AmbiguousResolutionException When more than 1 bean is found in the match
      * @throws UnsatisfiedResolutionException                       When no bean is found in the match.
      */
     public static <T> T retrieveInstance(Class<T> classType, Annotation... qualifiers) {
@@ -95,7 +95,7 @@ public final class CDIUtils {
      * @param qualifiers the additional required qualifiers.
      * @param <T>        Generic Type argument
      * @return CDI instance matching the class type and qualifiers (if specified) or null when no bean found.
-     * @throws javax.enterprise.inject.AmbiguousResolutionException When more then 1 bean is found in the match
+     * @throws jakarta.enterprise.inject.AmbiguousResolutionException When more then 1 bean is found in the match
      */
     public static <T> T retrieveOptionalInstance(Class<T> classType, Annotation... qualifiers) {
         Instance<T> instance = CDI.current().select(classType, qualifiers);

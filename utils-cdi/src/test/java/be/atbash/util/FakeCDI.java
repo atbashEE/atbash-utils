@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2020 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,18 +15,19 @@
  */
 package be.atbash.util;
 
-import java.lang.annotation.Annotation;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import jakarta.enterprise.inject.Instance;
 import jakarta.enterprise.inject.spi.BeanManager;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.enterprise.util.AnnotationLiteral;
 import jakarta.enterprise.util.TypeLiteral;
 
+import java.lang.annotation.Annotation;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 /**
- * This is actually is the Fake CDI system. Partial implementation, needs to be extended.
+ * This actually is the Fake CDI system. Partial implementation, needs to be extended.
  */
 public class FakeCDI extends CDI<Object> {
 
@@ -72,7 +73,7 @@ public class FakeCDI extends CDI<Object> {
     @Override
     public <U> Instance<U> select(TypeLiteral<U> subtype, Annotation... qualifiers) {
         // TODO
-        throw new UnsupportedOperationException("Not implemented be.atbash.ee.jsf.jerry.util.cdi.FakeCDI.select(javax.enterprise.util.TypeLiteral<U>, java.lang.annotation.Annotation...)");
+        throw new UnsupportedOperationException("Not implemented be.atbash.util.FakeCDI.select(javax.enterprise.util.TypeLiteral<U>, java.lang.annotation.Annotation...)");
     }
 
     @Override

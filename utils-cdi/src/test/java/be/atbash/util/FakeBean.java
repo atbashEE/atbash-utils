@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2020 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import java.util.Set;
  */
 public class FakeBean<T> implements Bean<T> {
 
-    private Object realBean;
+    private final Object realBean;
 
     FakeBean(Object realBean) {
         this.realBean = realBean;
@@ -106,13 +106,9 @@ public class FakeBean<T> implements Bean<T> {
             return false;
         }
 
-        FakeBean fakeBean = (FakeBean) o;
+        FakeBean<?> fakeBean = (FakeBean<?>) o;
 
-        if (!realBean.equals(fakeBean.realBean)) {
-            return false;
-        }
-
-        return true;
+        return realBean.equals(fakeBean.realBean);
     }
 
     @Override

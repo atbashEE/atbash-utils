@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2020 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,21 +21,18 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Required to wrap the instances we have for a certain class type within an {@link Instance} of CDI.
  */
 public class FakeInstance<T> implements Instance<T> {
 
-    private List<T> beans;
+    private final List<T> beans;
 
     FakeInstance(List<T> beans) {
 
-        if (beans == null) {
-            this.beans = new ArrayList<>();
-        } else {
-            this.beans = beans;
-        }
+        this.beans = Objects.requireNonNullElseGet(beans, ArrayList::new);
     }
 
     @Override

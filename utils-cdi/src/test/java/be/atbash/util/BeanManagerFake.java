@@ -75,7 +75,7 @@ public class BeanManagerFake {
         registeredBeans.put(beanName, instance);
     }
 
-    public void registerBean(AnnotationLiteral beanName, Object instance) {
+    public void registerBean(AnnotationLiteral<?> beanName, Object instance) {
         registeredLiterals.put(beanName, new ArrayList<>(Collections.singletonList(instance)));
     }
 
