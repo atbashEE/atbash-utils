@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2020 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,18 +16,12 @@
 package be.atbash.util;
 
 import be.atbash.util.exception.AtbashIllegalActionException;
-import be.atbash.util.literal.AnyLiteral;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import jakarta.enterprise.inject.Any;
 import jakarta.enterprise.inject.spi.Bean;
 import jakarta.enterprise.inject.spi.BeanManager;
 import jakarta.enterprise.util.AnnotationLiteral;
+
+import java.util.*;
 
 import static org.mockito.Mockito.*;
 
@@ -41,13 +35,13 @@ public class BeanManagerFake {
     private BeanManager beanManagerMock;
 
     // beans attached to a Class.
-    private Map<Class<?>, List<Object>> registeredObjects;
+    private final Map<Class<?>, List<Object>> registeredObjects;
 
     // beans attached to instances of AnnotationLiteral
-    private Map<AnnotationLiteral<?>, List<Object>> registeredLiterals;
+    private final Map<AnnotationLiteral<?>, List<Object>> registeredLiterals;
 
     // Named beans
-    private Map<String, Object> registeredBeans;
+    private final Map<String, Object> registeredBeans;
 
     public BeanManagerFake() {
         this(mock(BeanManager.class));
@@ -91,7 +85,7 @@ public class BeanManagerFake {
             for (Object obj : entry.getValue()) {
                 beans.add(new FakeBean<>(obj));
             }
-            doReturn(beans).when(beanManagerMock).getBeans(entry.getKey(), new AnyLiteral());
+            doReturn(beans).when(beanManagerMock).getBeans(entry.getKey(), new Any.Literal());
 
             for (Bean<?> bean : beans) {
 
