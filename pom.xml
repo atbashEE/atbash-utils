@@ -209,11 +209,22 @@
             </plugin>
 
             <plugin>
-                <groupId>de.qaware.maven</groupId>
-                <artifactId>go-offline-maven-plugin</artifactId>
-                <version>1.2.5</version>
-                <configuration>
-                </configuration>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>enforce</id>
+                        <configuration>
+                            <rules>
+                                <dependencyConvergence/>
+                            </rules>
+                        </configuration>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
