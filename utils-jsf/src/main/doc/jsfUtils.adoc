@@ -1,8 +1,13 @@
+:doctype: book
 = JSF utils
 Rudy De Busscher <rdebusscher@gmail.com>
-v1.0.0, 02/01/2021
+v1.1.0, 24/08/2022
 
 == Release notes
+
+=== 1.1.0
+
+* Compiled with JDK 11 since it is intended to be used with Jakarta EE 9.1.
 
 === 1.0.0
 
@@ -10,7 +15,7 @@ v1.0.0, 02/01/2021
 
 == Setup
 
-Add the following artfact to your maven project file for using the programmatic CDI utilities.
+Add the following artifact to your maven project file for using the programmatic CDI utilities.
 
     <dependency>
         <groupId>be.atbash.jakarta.utils</groupId>

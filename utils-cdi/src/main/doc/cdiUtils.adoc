@@ -1,6 +1,7 @@
+:doctype: book
 = CDI utils
 Rudy De Busscher <rdebusscher@gmail.com>
-v1.1.0, ??/??/2022
+v1.1.0, 24/08/2022
 
 == Release notes
 
@@ -13,7 +14,7 @@ Older versions should be avoided as they might give issues with Jakarta namespac
 
 === 1.0.1
 
-* Updated a dependency to a Snapshot artifact
+* Updated a dependency to a final version. (was snapshot in 1.0.0)
 
 === 1.0.0
 
