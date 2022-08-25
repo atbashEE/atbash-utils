@@ -33,9 +33,9 @@
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <assertj.version>3.12.0</assertj.version>
-        <asciidoctor.maven.plugin.version>1.5.7.1</asciidoctor.maven.plugin.version>
-        <asciidoctorj.pdf.version>1.5.0-alpha.16</asciidoctorj.pdf.version>
+        <assertj.version>3.23.1</assertj.version>
+        <asciidoctor.maven.plugin.version>2.2.1</asciidoctor.maven.plugin.version>
+        <asciidoctorj.pdf.version>1.6.2</asciidoctorj.pdf.version>
         <documentation.skip>false</documentation.skip>
 
     </properties>
@@ -80,14 +80,14 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.25</version>
+            <version>1.7.36</version>
         </dependency>
 
         <!-- testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.3.1</version>
+            <version>5.9.0</version>
             <scope>test</scope>
         </dependency>
 
@@ -124,20 +124,13 @@
                         </goals>
                         <configuration>
                             <backend>pdf</backend>
-                            <!-- Since 1.5.0-alpha.9 PDF back-end can use 'rouge' as well as 'coderay'
-                            for source highlighting -->
-                            <!-- Due to a known issue on windows, it is recommended to use 'coderay' until an new version of 'rouge' is released.
-                                    see discussions: https://github.com/asciidoctor/asciidoctor-maven-examples/pull/58
-                                                     https://github.com/asciidoctor/asciidoctorj-pdf/issues/3
-                                                     https://github.com/jneen/rouge/issues/661
-                            -->
-                            <sourceHighlighter>coderay</sourceHighlighter>
                             <attributes>
                                 <icons>font</icons>
                                 <pagenums/>
                                 <toc/>
                                 <idprefix/>
                                 <idseparator>-</idseparator>
+                                <source-highlighter>rouge</source-highlighter>
                             </attributes>
                         </configuration>
                     </execution>
@@ -264,6 +257,7 @@
                         <artifactId>maven-javadoc-plugin</artifactId>
                         <version>2.10.3</version>
                         <configuration>
+                            <!-- we need to keep version 1.8 for JavaDoc due to (unnamed) modules and same packages in multiple artifacts -->
                             <javadocVersion>1.8</javadocVersion>
                             <notimestamp>true</notimestamp>
                             <!--splitindex>true</splitindex-->
