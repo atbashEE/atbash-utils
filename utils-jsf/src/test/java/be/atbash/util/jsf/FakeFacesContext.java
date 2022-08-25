@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2020 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ public class FakeFacesContext extends FacesContext {
 
     private ExternalContext externalContext;
     private Application application;
-    private Map<String, List<FacesMessage>> messages = new HashMap<>();
+    private final Map<String, List<FacesMessage>> messages = new HashMap<>();
     private ResponseStream responseStream;
     private ResponseWriter responseWriter;
 
