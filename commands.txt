@@ -26,4 +26,4 @@ mvn license:format
 
 # Setting versions
 
-mvn versions:set -DnewVersion=1.1.0 -DgenerateBackupPoms=false
+mvn versions:set -DnewVersion=1.2.0-SNAPSHOT -DgenerateBackupPoms=false
