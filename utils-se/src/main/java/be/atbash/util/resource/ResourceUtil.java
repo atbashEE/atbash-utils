@@ -49,7 +49,7 @@ public class ResourceUtil {
 
     private static ResourceUtil INSTANCE;
 
-    private List<ResourceReader> readers;
+    private final List<ResourceReader> readers;
 
     private ResourceUtil() {
         readers = new ArrayList<>();
@@ -148,7 +148,7 @@ public class ResourceUtil {
      * {@link FileInputStream FileInputStream}.
      *
      * @param path the String path representing the resource to obtain.
-     * @return the InputStraem for the specified resource.
+     * @return the InputStream for the specified resource.
      * @throws IOException if there is a problem acquiring the resource at the specified path.
      */
     public InputStream getStream(String path) throws IOException {
@@ -165,7 +165,7 @@ public class ResourceUtil {
      *
      * @param path    the String path representing the resource to obtain.
      * @param context Optional value defining the context (like servletContext) from which resource must be read
-     * @return the InputStraem for the specified resource.
+     * @return the InputStream for the specified resource.
      * @throws IOException if there is a problem acquiring the resource at the specified path.
      */
     public InputStream getStream(String path, Object context) throws IOException {
@@ -184,6 +184,39 @@ public class ResourceUtil {
         return result;
 
     }
+
+    /**
+     * Returns the content of the resource represented by the specified path. Underlying, it uses
+     * {@code getStream} to access the resource.
+     *
+     * @param path the String path representing the resource to obtain.
+     * @return the content of the resource or null when resource could not be handled (unknown type)
+     * @throws IOException if there is a problem acquiring the resource at the specified path.
+     */
+    public String getContent(String path) throws IOException {
+        return getContent(path, null);
+    }
+
+    /**
+     * Returns the content of the resource represented by the specified path. Underlying, it uses
+     * {@code getStream} to access the resource.
+     *
+     * @param path    the String path representing the resource to obtain.
+     * @param context Optional value defining the context (like servletContext) from which resource must be read
+     * @return the content of the resource or null when resource could not be handled (unknown type)
+     * @throws IOException if there is a problem acquiring the resource at the specified path.
+     */
+    public String getContent(String path, Object context) throws IOException {
+        InputStream stream = getStream(path, context);
+        if (stream == null) {
+            return null;
+        }
+        Scanner s = new Scanner(stream).useDelimiter("\\A");
+        String result = s.hasNext() ? s.next() : "";
+        stream.close();
+        return result;
+    }
+
 
     public List<URI> getResources(String resourcePath) {
         List<URI> result = new ArrayList<>();

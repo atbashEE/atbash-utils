@@ -1,8 +1,13 @@
 = Java SE utils
 Rudy De Busscher <rdebusscher@gmail.com>
-v1.1.0, 20/03/2022
+v1.2.0, ??/??/2022
 
 == Release notes
+
+=== 1.2.0
+
+* Support for JAR URL paths within `ResourceUtil`.
+* Added method `ResourceUtil.getContent`.
 
 === 1.1.0
 
@@ -214,9 +219,16 @@ Determines if the resource exists and can be read.
 InputStream resourceUtil.getStream(java.lang.String);
 ----
 
-Return the _InputStream_ for the resource. The method is also allowed to return null when it not able to open.
+Return the _InputStream_ for the resource. The method is also allowed to return null when it is not able to open the resource.
 
-For the above methods, there exists also an overloaded variant which takes a _Object_ as parameter. This is the context to which the resource location is constrained. It is not used by the default implementations, but a custom implementations can use it for retrieving resources from the ServletContext for example.
+(since v1.2.0)
+----
+String resourceUtil.getContent(java.lang.String);
+----
+
+Returns the content of the resource.
+
+For the above methods, there exists also an overloaded variant which takes an _Object_ as parameter. This is the context to which the resource location is constrained. It is not used by the default implementations, but a custom implementations can use it for retrieving resources from the ServletContext for example.
 
 The Resource API can be accessed from the singleton **ResourceUtil** retrieved by _ResourceUtil.getInstance()_.  When you also add the Atbash CDI utils, you can also inject an instance.
 
@@ -225,7 +237,7 @@ The Resource API can be accessed from the singleton **ResourceUtil** retrieved b
 By default, the following implementations are supported
 
 - ClassPath resources, with prefix _classpath:_.
-- URL resources, with prefix _http:_.
+- URL resources, with prefix _http:_ or _jar:_.
 - File resources, can be explicitly stated by using _file:_ but not needed.
 
 Other, custom, implementations can be created by implementing the **be.atbash.util.resource.ResourceReader** interface.  The class must be registered for loading with the ServiceLoader mechanism (use file /META-INF/services/be.atbash.util.resource.ResourceReader file)

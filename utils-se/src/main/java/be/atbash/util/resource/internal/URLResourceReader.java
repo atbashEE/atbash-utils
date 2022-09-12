@@ -40,12 +40,16 @@ public class URLResourceReader implements ResourceReader {
 
     static final String HTTP = "http:";
     static final String HTTPS = "https:";
+    static final String JAR = "jar:";
 
 
     @Override
     public boolean canRead(String resourcePath, Object context) {
         String lowerCasePath = resourcePath.toLowerCase(Locale.ENGLISH);
-        return resourcePath.startsWith(URL_PREFIX) || lowerCasePath.startsWith(HTTP) || lowerCasePath.startsWith(HTTPS);
+        return resourcePath.startsWith(URL_PREFIX)
+                || lowerCasePath.startsWith(HTTP)
+                || lowerCasePath.startsWith(HTTPS)
+                || lowerCasePath.startsWith(JAR);
     }
 
     @Override
@@ -96,7 +100,7 @@ public class URLResourceReader implements ResourceReader {
 
     private static String stripPrefix(String resourcePath) {
         String lowerCasePath = resourcePath.toLowerCase(Locale.ENGLISH);
-        if (lowerCasePath.startsWith(HTTP) || lowerCasePath.startsWith(HTTPS)) {
+        if (lowerCasePath.startsWith(HTTP) || lowerCasePath.startsWith(HTTPS) || lowerCasePath.startsWith(JAR)) {
             return resourcePath;
         }
         return resourcePath.substring(resourcePath.indexOf(':') + 1);

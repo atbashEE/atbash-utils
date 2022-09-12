@@ -24,6 +24,7 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 class ResourceUtilTest {
 
@@ -43,7 +44,7 @@ class ResourceUtilTest {
     }
 
     private String convertStreamToString(InputStream is) {
-        java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+        Scanner s = new Scanner(is).useDelimiter("\\A");
         return s.hasNext() ? s.next() : "";
     }
 
@@ -94,4 +95,9 @@ class ResourceUtilTest {
         // We can't test for specific number as it depends on the dependencies of the test run. We know it are *many*.
     }
 
+    @Test
+    void getContent() throws IOException {
+        String content = ResourceUtil.getInstance().getContent("classpath:walker/directory/file3");
+        Assertions.assertThat(content).isEqualTo("Content of file3");
+    }
 }
