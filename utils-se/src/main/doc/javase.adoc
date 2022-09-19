@@ -8,6 +8,7 @@ v1.2.0, ??/??/2022
 
 * Support for JAR URL paths within `ResourceUtil`.
 * Added method `ResourceUtil.getContent`.
+* `ObjectUtils.requiresNot` and `ObjectUtils.requiresNotBlank` verification methods.
 
 === 1.1.0
 
@@ -485,6 +486,34 @@ be.atbash.util.reflection.CDICheck.withinContainer
 ----
 
 This methods return true or false depending on the context and library can select code path accordingly (like retrieving beans through CDI or ServiceLoader)
+
+=== Object Utils (Since 1.2.0)
+
+The `ObjectUtil` class contains a few methods to test some preconditions on an instance. Some examples
+
+----
+Pojo data = new Pojo();
+//...
+ObjectUtil.requireNot(data, p -> p.getId() == null, "id should not be null");
+----
+
+The above snippet will throw an `IllegalArgumentException` when the id property of the _Pojo_ instance is null. The mzthod also can handle null as object as it check first if the first parameter is not null.
+
+The following statement checks if the String is not blank:
+
+----
+String data = ...;
+
+ObjectUtil.requireNot(data, s -> s.trim().isEmpty(), "String value should not be blank");
+----
+
+A more convenient method for this case is already provided.
+
+----
+String data = ...;
+
+ObjectUtil.requireNotBlank(data, "String value should not be blank");
+----
 
 === TestReflectionUtil
 
