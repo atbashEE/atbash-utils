@@ -13,26 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package be.atbash.util.testclasses;
+package be.atbash.util.reflection.testclasses;
 
-public class Pojo {
+import java.util.Date;
 
-    private Long id;
-    private String name;
+public class FieldAccess {
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return "Getter:" + name;
-    }
-
-    public void setName(String name) {
-        this.name = "Setter:" + name;
-    }
+    public String value;
+    public Long number;
+    public boolean flag;
+    public Date timeStamp;
 }

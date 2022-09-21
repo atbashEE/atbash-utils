@@ -13,26 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package be.atbash.util.testclasses;
+package be.atbash.util.exception;
 
-public class Pojo {
+/**
+ * Base for all exception within Accessors-smart library.
+ */
+public class AccessorException extends AtbashException {
 
-    private Long id;
-    private String name;
-
-    public Long getId() {
-        return id;
+    public AccessorException(String message) {
+        super(message);
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return "Getter:" + name;
-    }
-
-    public void setName(String name) {
-        this.name = "Setter:" + name;
-    }
 }

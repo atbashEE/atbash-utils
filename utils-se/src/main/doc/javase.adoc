@@ -9,6 +9,7 @@ v1.2.0, ??/??/2022
 * Support for JAR URL paths within `ResourceUtil`.
 * Added method `ResourceUtil.getContent`.
 * `ObjectUtils.requiresNot` and `ObjectUtils.requiresNotBlank` verification methods.
+* `FastPropertyMemberAccessor` utility to access fields through getters and setters based on property name and `LambdaMetafactory` instead of Java Reflection with setAccessible.
 
 === 1.1.0
 
@@ -514,6 +515,31 @@ String data = ...;
 
 ObjectUtil.requireNotBlank(data, "String value should not be blank");
 ----
+
+=== FastPropertyMemberAccessor
+
+The `FastPropertyMemberAccessor` utility class is an alternative for reading and writing properties of a Java instance using Java Reflection.
+
+When using Java reflection, a call to `Field.setAccessible` is required to be able to access private properties. This kind of functionality is blocked by more recent versions of Java.
+
+When there are getter and setter methods available within the class, a very efficient way to use them to access the privae property is possible through the `MethodHandles` and `LambdaMetafactory` classes of the JVM. This is considered a safe alternative for Java Reflection.
+
+The following snippet shows how you can read and write a property using this utility method:
+
+----
+     FastPropertyMemberAccessor memberAccessor = new FastPropertyMemberAccessor(Pojo.class, "name");
+
+     String data = memberAccessor.get(pojo);
+     memberAccessor.set(pojo, "JUnit");
+----
+
+With the `get()` and `set()` method, we access the property. Make sure that the type you assign the result of the `get()` or set the property value with are compatible to the type of the property itself. Otherwise you will receive a ClassCastException.
+
+It is also recommended to check if there is a setter defined by calling the method `memberAccessor.supportSet()`` This will return false when no setter was found in the class and thus calling `set()` will fail.
+
+When the property has public access, there is no need for using the setter and getter and is also supported.
+
+When we try to use a non-existing property in the class, a `FieldNotFoundException` is thrown.
 
 === TestReflectionUtil
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2018 Rudy De Busscher (https://www.atbash.be)
+ * Copyright 2014-2022 Rudy De Busscher (https://www.atbash.be)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -489,4 +489,15 @@ public final class StringUtils {
         return count;
     }
 
+    /**
+     * Put the first character of the parameter with a capital (uppercase). Throws an exception when
+     * null or blank value is provided.
+     *
+     * @param propertyName value to change first character.
+     * @return parameter with first letter as uppercase.
+     */
+    public static String withInitialCapital(String propertyName) {
+        ObjectUtil.requireNotBlank(propertyName);
+        return propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1);
+    }
 }
