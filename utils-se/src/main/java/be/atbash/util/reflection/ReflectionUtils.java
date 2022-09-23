@@ -28,6 +28,8 @@ import java.util.stream.Collectors;
 public final class ReflectionUtils {
 
     private static final String PROPERTY_ACCESSOR_PREFIX_GET = "get";
+
+    private static final String PROPERTY_ACCESSOR_PREFIX_RECORD = "";
     private static final String PROPERTY_ACCESSOR_PREFIX_IS = "is";
     private static final String PROPERTY_MUTATOR_PREFIX = "set";
 
@@ -57,6 +59,15 @@ public final class ReflectionUtils {
         } catch (NoSuchMethodException e) {
             // intentionally empty
         }
+
+        try {
+            // Try property name for use with Java 14 records.
+            return containingClass.getMethod(propertyName);
+        } catch (NoSuchMethodException e) {
+            // intentionally empty
+        }
+
+
         String isserName = PROPERTY_ACCESSOR_PREFIX_IS + propertyNameWithCapital;
         try {
             Method method = containingClass.getMethod(isserName);

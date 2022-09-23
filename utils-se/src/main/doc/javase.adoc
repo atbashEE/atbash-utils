@@ -541,6 +541,8 @@ When the property has public access, there is no need for using the setter and g
 
 When we try to use a non-existing property in the class, a `FieldNotFoundException` is thrown.
 
+A Java Record type is also supported, but only for reading the value of a property.
+
 === TestReflectionUtil
 
 Utility class for unit tests to help with injection and setting values of instances used during the test.
