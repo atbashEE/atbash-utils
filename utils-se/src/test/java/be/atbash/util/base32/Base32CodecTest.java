@@ -31,7 +31,7 @@ class Base32CodecTest {
     @Test
     void decode() {
         byte[] value = Base32Codec.decode("ORSXG5A");
-        Assertions.assertThat("test").isEqualTo(new String(value));
+        Assertions.assertThat(new String(value)).isEqualTo("test");
 
     }
 

@@ -63,7 +63,7 @@ public class Base32Codec {
 
     protected byte[] decodeInternal(String encoded) {
         // Remove whitespace and separators
-        encoded = encoded.trim().replaceAll(SEPARATOR, "").replaceAll(" ", "");
+        encoded = encoded.trim().replace(SEPARATOR, "").replace(" ", "");
 
         // Remove padding. Note: the padding is used as hint to determine how many
         // bits to decode from the last incomplete chunk (which is commented out

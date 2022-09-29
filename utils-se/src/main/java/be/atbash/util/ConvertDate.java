@@ -224,7 +224,7 @@ public final class ConvertDate {
     }
 
     private static Date getMMDDYYYY(StringTokenizer st, String s1) {
-        GregorianCalendar cal = new GregorianCalendar(2000, 0, 0, 0, 0, 0);
+        GregorianCalendar cal = new GregorianCalendar(2000, Calendar.JANUARY, 0, 0, 0, 0);
         Integer month = monthsTable.get(s1);
         if (month == null) {
             throw new ConvertException("can not parse " + s1 + " as month");
@@ -258,7 +258,7 @@ public final class ConvertDate {
     }
 
     private static Date getDDMMYYYY(StringTokenizer st, String s1) {
-        GregorianCalendar cal = new GregorianCalendar(2000, 0, 0, 0, 0, 0);
+        GregorianCalendar cal = new GregorianCalendar(2000, Calendar.JANUARY, 0, 0, 0, 0);
         int day = Integer.parseInt(s1);
         cal.set(Calendar.DAY_OF_MONTH, day);
         if (!st.hasMoreTokens()) {
@@ -336,13 +336,9 @@ public final class ConvertDate {
         return cal.getTime();
     }
 
-    /**
+    /*
      * Handle some Date Keyword like PST UTC am pm ...
      *
-     * @param st
-     * @param s1
-     * @param cal
-     * @return
      */
     private static String trySkip(StringTokenizer st, String s1, Calendar cal) {
         while (true) {

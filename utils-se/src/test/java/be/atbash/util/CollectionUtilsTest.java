@@ -71,7 +71,7 @@ class CollectionUtilsTest {
 
     @Test
     void size_emptyCollection() {
-        Assertions.assertThat(CollectionUtils.size(new ArrayList<>())).isEqualTo(0);
+        Assertions.assertThat(CollectionUtils.size(new ArrayList<>())).isZero();
     }
 
     @Test
@@ -88,12 +88,12 @@ class CollectionUtilsTest {
 
     @Test
     void size_emptyMap() {
-        Assertions.assertThat(CollectionUtils.size(new HashMap<>())).isEqualTo(0);
+        Assertions.assertThat(CollectionUtils.size(new HashMap<>())).isZero();
     }
 
     @Test
     void size_nullMap() {
-        Assertions.assertThat(CollectionUtils.size((Map) null)).isEqualTo(0);
+        Assertions.assertThat(CollectionUtils.size((Map) null)).isZero();
     }
 
     @Test

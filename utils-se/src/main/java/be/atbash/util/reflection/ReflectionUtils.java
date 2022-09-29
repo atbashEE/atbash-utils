@@ -29,7 +29,6 @@ public final class ReflectionUtils {
 
     private static final String PROPERTY_ACCESSOR_PREFIX_GET = "get";
 
-    private static final String PROPERTY_ACCESSOR_PREFIX_RECORD = "";
     private static final String PROPERTY_ACCESSOR_PREFIX_IS = "is";
     private static final String PROPERTY_MUTATOR_PREFIX = "set";
 

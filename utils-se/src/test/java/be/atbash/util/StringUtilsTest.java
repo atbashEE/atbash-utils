@@ -32,19 +32,19 @@ class StringUtilsTest {
 
     @Test
     void countOccurrences_notFound() {
-        Assertions.assertThat(StringUtils.countOccurrences("abcabc", 'd')).isEqualTo(0);
+        Assertions.assertThat(StringUtils.countOccurrences("abcabc", 'd')).isZero();
 
     }
 
     @Test
     void CountOccurrences_empty() {
-        Assertions.assertThat(StringUtils.countOccurrences("", 'd')).isEqualTo(0);
+        Assertions.assertThat(StringUtils.countOccurrences("", 'd')).isZero();
 
     }
 
     @Test
     void countOccurrences_null() {
-        Assertions.assertThat(StringUtils.countOccurrences(null, 'd')).isEqualTo(0);
+        Assertions.assertThat(StringUtils.countOccurrences(null, 'd')).isZero();
 
     }
 

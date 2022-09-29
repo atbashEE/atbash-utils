@@ -19,10 +19,10 @@ import java.util.StringJoiner;
 
 public class ConvertDateArgument {
 
-    private boolean errorExpected;
+    private final boolean errorExpected;
     private Class<? extends Throwable> errorClass;
     private String message;
-    private String testValue;
+    private final String testValue;
     private int year;
     private int month;
     private int day;

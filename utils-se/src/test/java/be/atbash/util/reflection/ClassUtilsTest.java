@@ -46,7 +46,7 @@ class ClassUtilsTest {
     }
 
     @Test
-    public void getConstructor_SubTypeMatchArgument() {
+    void getConstructor_SubTypeMatchArgument() {
         Assertions.assertThat(ClassUtils.getConstructor(Foo.class, Integer.class, null)).isNotNull();
     }
 

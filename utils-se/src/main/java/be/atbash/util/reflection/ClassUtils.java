@@ -226,7 +226,7 @@ public final class ClassUtils {
             throw new IllegalArgumentException(msg);
         }
         try {
-            return (T) clazz.newInstance();
+            return (T) clazz.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             throw new InstantiationException("Unable to instantiate class [" + clazz.getName() + "]", e);
         }

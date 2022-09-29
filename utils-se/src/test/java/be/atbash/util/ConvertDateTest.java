@@ -35,9 +35,8 @@ class ConvertDateTest {
     @ParameterizedTest()
     @ArgumentsSource(ConvertDateArgumentProvider.class)
     void convertToDate(ConvertDateArgument argument) {
-        LocalDateTime result = null;
         try {
-            result = convertToLocalDateTime(ConvertDate.convertToDate(argument.getTestValue()));
+            LocalDateTime result = convertToLocalDateTime(ConvertDate.convertToDate(argument.getTestValue()));
             Assertions.assertThat(argument.isErrorExpected()).isFalse();
             testResult(result, argument);
         } catch (Throwable e) {

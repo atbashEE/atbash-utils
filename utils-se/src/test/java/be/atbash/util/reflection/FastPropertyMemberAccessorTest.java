@@ -166,7 +166,7 @@ class FastPropertyMemberAccessorTest {
         FastPropertyMemberAccessor memberAccessor = new FastPropertyMemberAccessor(PropertyAccess.class, "value");
         Assertions.assertThat(memberAccessor.getName()).isEqualTo("value");
         Assertions.assertThat(memberAccessor.getType()).isEqualTo(String.class);
-        Assertions.assertThat(memberAccessor.toString()).isEqualTo("Bean property 'value' on class be.atbash.util.reflection.testclasses.PropertyAccess");
+        Assertions.assertThat(memberAccessor).hasToString("Bean property 'value' on class be.atbash.util.reflection.testclasses.PropertyAccess");
     }
 
     @Test
@@ -292,7 +292,7 @@ class FastPropertyMemberAccessorTest {
         FastPropertyMemberAccessor memberAccessor = new FastPropertyMemberAccessor(FieldAccess.class, "value");
         Assertions.assertThat(memberAccessor.getName()).isEqualTo("value");
         Assertions.assertThat(memberAccessor.getType()).isEqualTo(String.class);
-        Assertions.assertThat(memberAccessor.toString()).isEqualTo("Bean property 'value' on class be.atbash.util.reflection.testclasses.FieldAccess");
+        Assertions.assertThat(memberAccessor).hasToString("Bean property 'value' on class be.atbash.util.reflection.testclasses.FieldAccess");
     }
 
     @Test
