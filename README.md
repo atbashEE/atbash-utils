@@ -14,6 +14,8 @@ Utility classes for Java SE, CDI, CDI-test, ...
 
 For Java 7 support, you can use version 0.9.3.2.
 
+Release of version 1.2.0 contains only _utils SE_ module.  The code repository will be split up soon since _utils SE_ change rate is much higher than the CDI and JSF one and no need to release them all the time without any real changes.
+
 ## utils SE
 
 * String Utils
