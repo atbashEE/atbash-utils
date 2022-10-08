@@ -5,6 +5,8 @@ utils-se : [![Maven Central](https://maven-badges.herokuapp.com/maven-central/be
 utils-cdi : [![Maven Central](https://maven-badges.herokuapp.com/maven-central/be.atbash.utils/utils-cdi/badge.svg)](https://maven-badges.herokuapp.com/maven-central/be.atbash.utils/utils-cdi)  
 utils-jsf : [![Maven Central](https://maven-badges.herokuapp.com/maven-central/be.atbash.utils/utils-jsf/badge.svg)](https://maven-badges.herokuapp.com/maven-central/be.atbash.utils/utils-jsf)
 
+> **NOTE** : Repository is archived and split up into the following repositories https://github.com/atbashEE/atbash-utils-se, https://github.com/atbashEE/atbash-utils-cdi, and https://github.com/atbashEE/atbash-utils-jsf
+
 # atbash-utils
 Utility classes for Java SE, CDI, CDI-test, ...
 
